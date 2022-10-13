@@ -18,7 +18,7 @@ The application’s main goal on the staff’s end is to minimize the paperwork 
 The main objective of our project is to create a new and improved website for Bilkent Engineering Faculty’s Erasmus/Exchange program. React will be used for the frontend part of the project and Django will be used as the backend part of the project. The database system has not been decided.
 
 Student related features:
-  Access the list of available partner universities of his department.
+ "*"Access the list of available partner universities of his department.
   Check frequently asked questions page specific to their departments.
   Create a partner university preference list from listed universities.
   Receive suggestions regarding the best fit partner university according to the student’s erasmus score.
