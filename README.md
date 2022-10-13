@@ -18,7 +18,7 @@ The application’s main goal on the staff’s end is to minimize the paperwork 
 
 The main objective of our project is to create a new and improved website for Bilkent Engineering Faculty’s Erasmus/Exchange program. React will be used for the frontend part of the project and Django will be used as the backend part of the project. The database system has not been decided.
 
-Student related features:
+*Student* related features:
 - Access the list of available partner universities of his department.
 - Check frequently asked questions page specific to their departments.
 - Create a partner university preference list from listed universities.
@@ -34,7 +34,7 @@ Student related features:
 - View all students’ applications and each application’s status.
 - Check frequently asked questions page specific to their departments.
 
-Exchange Coordinator (extends staff) related features:
+*Exchange Coordinator* (extends staff) related features:
 - Evaluate and approve/reject the applications through the app.
 - Modify frequently asked questions page specific to their departments.
 - Automatically match the students with the partner universities.
@@ -43,9 +43,9 @@ Exchange Coordinator (extends staff) related features:
 - Sign the documents virtually.
 - Check a student’s transcript (and possibly course projects) at the exchange application’s last stage.
 
-Course Coordinator (extends staff) related features:
+*Course Coordinator* (extends staff) related features:
 - Approve or decline the proposed courses through the application.
 - Update the existing course-list if there is a new entry.
 
-Chair (extends staff) related features:
+*Chair* (extends staff) related features:
 - Approve/reject and upload/modify documents and requests.
