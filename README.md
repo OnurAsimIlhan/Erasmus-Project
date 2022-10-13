@@ -7,7 +7,7 @@ Cengizhan Terzioğlu - 22003014\
 Emirkan Derköken - 22002693\
 Göktuğ Kuşcu - 22002867\
 Murat Güney Kemal - 22002692\
-Onur Asım İlhan - 21903375\
+Onur Asım İlhan - 21903375
 
 **Erasmus/Bilateral Exchange Application**
 
