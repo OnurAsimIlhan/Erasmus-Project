@@ -30,7 +30,8 @@ The main objective of our project is to create a new and improved website for Bi
 - Select and send the proposed courses and their syllabuses through the app.
 - Cancel the erasmus application (Keep track of cancellation deadline),
 - Upload his transcript (and possibly course projects) after the exchange program is over.
-- Staff related features
+
+*Staff* related features
 - View all students’ applications and each application’s status.
 - Check frequently asked questions page specific to their departments.
 
