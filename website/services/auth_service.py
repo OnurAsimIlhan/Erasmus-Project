@@ -35,14 +35,3 @@ class AuthService():
             return True
         else:
             return False
-
-
-    # @app.route("/how_to_use_authorization")
-    # @login_required
-    # def how_to_use_authorization():
-    #     if auth_service.is_authorized(user=current_user, required_role="student"):
-    #          ...
-    #          ...
-    #    else:
-    #         logout_user()
-    #        return redirect(url_for("your_are_not_authorized_page"))  
