@@ -5,11 +5,11 @@
   <title>Homepage</title>
 </head>
 <body>
-    <h1 align="center">Pending Proposals</h1>
+  <h1 align="center">Pending Proposals</h1>
 	<ul class="list-group list-group-flush" id="applications">
         {% for course in user.courses %}
         <li class="list-group-item">
-          {{ course_id course_name equivalent_bilkent_course}}
+          {{course_id}}
           <button type="button" class="open" onClick="">
           </button>
         </li>

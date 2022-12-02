@@ -31,7 +31,7 @@ def create_app():
     # --------------------- Call the Views and connect them with the Services ---------------------
     from .controllers import Login, CourseCoordinatorController
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
-    app.add_url_rule("/cchome/", view_func=CourseCoordinatorController.as_view("cchome",auth_service=auth_service))
+    app.add_url_rule("/cchome/", view_func=CourseCoordinatorController.as_view("cchome", auth_service=auth_service))
     
     # ---------------------------------------------------------------------------------------------
     

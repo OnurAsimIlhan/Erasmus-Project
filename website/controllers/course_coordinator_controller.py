@@ -10,7 +10,7 @@ class CourseCoordinatorController(MethodView):
 
     @login_required
     def get(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="course_coordinator"):
+        if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
             return render_template("course_coordinator_homepage.html", user = current_user)           
         else:
             logout_user() 

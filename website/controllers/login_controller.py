@@ -29,7 +29,8 @@ class Login(MethodView):
                 return redirect(url_for("erasmus_coordinator_homepage"))
             elif role[0].role == "Course Coordinator":
                 login_user(user)
-                return redirect(url_for("course_coordinator_homepage"))
+                print("detected course coordinator")
+                return redirect("http://127.0.0.1:5000/cchome/")
             elif role[0].role == "International Office":
                 login_user(user)
                 return redirect(url_for("international_office_homepage"))
