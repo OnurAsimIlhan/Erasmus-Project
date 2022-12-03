@@ -5,16 +5,18 @@
   <title>Homepage</title>
 </head>
 <body>
-  <h1 align="center">Pending Proposals</h1>
-	<ul class="list-group list-group-flush" id="applications">
-        {% for course in user.courses %}
-        <li class="list-group-item">
-          {{course.course_id ,  course.course_name}}
-          <button type="button" class="open" onClick="">
-          Evaluate Course Proposal
-          </button>
-        </li>
-        {% endfor %}
-      </ul>
+    <h1 align="center">Pending Proposals</h1>
+	    <ul class="list-group list-group-flush" id="applications">
+            {% for course in user.courses %}
+            <li class="list-group-item">
+            {{course.course_id , course.course_name}} 
+            <form action="" method="POST" >
+                <button type="submit" class="open" name="evaluate" value="{{ course.course_id }}">
+                    Evaluate Course Proposal
+                </button>
+            </form>
+            </li>
+            {% endfor %}
+        </ul>
 </body>
 </html>
