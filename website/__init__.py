@@ -60,7 +60,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(bilkent_id):
         return User.query.get(int(bilkent_id))
-
     # ---------------------------------------------------------------------------------------------
 
     return app
