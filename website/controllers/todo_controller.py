@@ -1,29 +1,29 @@
-from flask import render_template, redirect, url_for, request, send_file, views
+from flask import render_template, redirect, url_for, request
 from flask_login import login_required, current_user, logout_user
 from flask.views import MethodView
 
 
-class CourseCoordinatorController(MethodView):
-    def __init__(self, auth_service):
+class TodoController(MethodView):
+    def __init__(self, auth_service, todo_service):
         self.auth_service = auth_service
+        self.todo_service = todo_service
    
-
     @login_required
     def get(self):
         if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
-            return render_template("course_coordinator_homepage.html", user = current_user)           
+            return render_template("todo_page.html", user = current_user)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))  
-    
+
+
     @login_required
     def post(self):
         if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
-            if "download" in request.form:
-                # burası servis olacak galiba 
-                course_id = request.form.get('download')
-                # pathi standart yapmak lazım
-                return send_file("C:\\Users\\Murat\\Documents\\GitHub\\Erasmus-Project\\Syllabus\\"+ course_id+".pdf", as_attachment=True)
+            if "add_task" in request.form:
+                newtask = request.form.get('todo_input')
+                self.todo_service.postTask(bilkent_id = current_user.bilkent_id, task = newtask)
+                return redirect(url_for("todo_page", user = current_user))   
             if "home" in request.form:
                 return redirect(url_for("course_coordinator_homepage", user = current_user)) 
             if "todo" in request.form:
@@ -31,10 +31,11 @@ class CourseCoordinatorController(MethodView):
             if "logout" in request.form:
                 logout_user() 
                 return redirect(url_for("login"))
-
+            if "delete" in request.form:   
+                task_id = request.form.get('delete')
+                self.todo_service.deleteTask(task_id)
+                return redirect(url_for("todo_page", user = current_user))
         else:
             logout_user() 
-            return redirect(url_for("your_are_not_authorized_page"))  
-             
-            
-        
+            return redirect(url_for("your_are_not_authorized_page")) 
+    

@@ -8,6 +8,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(50), nullable=False)
     role = db.relationship("Role", backref="user")
     courses = db.relationship("Course")     # course coordinator için 
+    todo = db.relationship("Todo")  # course coordinator için 
     
     def get_id(self):
         return self.bilkent_id

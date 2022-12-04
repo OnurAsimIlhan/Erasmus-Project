@@ -17,21 +17,23 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
     
     # -------------------- Call the Models and create the tables or the database ------------------
-    from .models import User, Role, University, Course
+    from .models import User, Role, University, Course, Todo
     with app.app_context():
         db.create_all()
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Services and connect them with the Models --------------------
-    from .services import AuthService
+    from .services import AuthService, TodoService
     auth_service = AuthService(User, Role) 
+    todo_service = TodoService(User, Todo)
     
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Views and connect them with the Services ---------------------
-    from .controllers import Login, CourseCoordinatorController
+    from .controllers import Login, CourseCoordinatorController, TodoController
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
-    app.add_url_rule("/cchome/", view_func=CourseCoordinatorController.as_view("cchome", auth_service=auth_service))
+    app.add_url_rule("/cchome/", view_func=CourseCoordinatorController.as_view("course_coordinator_homepage", auth_service=auth_service))
+    app.add_url_rule("/todo/", view_func=TodoController.as_view("todo_page", auth_service=auth_service, todo_service = todo_service))
     
     # ---------------------------------------------------------------------------------------------
     
