@@ -1,2 +1,3 @@
 from .auth_service import AuthService
 from .todo_service import TodoService
+from .course_coordinator_service import CourseCoordinatorService
