@@ -1,1 +1,3 @@
 from .auth_service import AuthService
+from .university_service import UniversityService
+from .applications_service import ApplicationsService

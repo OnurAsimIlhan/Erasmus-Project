@@ -10,7 +10,7 @@ class AuthService():
         if (user == None) or (password != user.password):
             return False, False 
         else:
-            role = self.role_table.query.filter_by(user_id=bilkent_id).all()
+            role = self.role_table.query.filter_by(bilkent_id=bilkent_id).all()
             return user, role
 
     def is_authorized(self, user, required_role: str):
@@ -28,21 +28,10 @@ class AuthService():
                     return redirect(url_for("your_are_not_authorized_page"))  
         """
         
-        user_role = self.role_table.query.filter_by(user_id=user.bilkent_id).all()
+        user_role = self.role_table.query.filter_by(bilkent_id=user.bilkent_id).all()
         user_role = [role.role for role in user_role]
         
         if required_role in user_role:
             return True
         else:
             return False
-
-
-    # @app.route("/how_to_use_authorization")
-    # @login_required
-    # def how_to_use_authorization():
-    #     if auth_service.is_authorized(user=current_user, required_role="student"):
-    #          ...
-    #          ...
-    #    else:
-    #         logout_user()
-    #        return redirect(url_for("your_are_not_authorized_page"))  
