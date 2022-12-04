@@ -17,20 +17,42 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
     
     # -------------------- Call the Models and create the tables or the database ------------------
-    from .models import User, Role
+    from .models import User, Role, University,faq_table
     with app.app_context():
         db.create_all()
+       
+        
+        
+        
+
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Services and connect them with the Models --------------------
     from .services import AuthService
-    auth_service = AuthService(User, Role) 
+    auth_service = AuthService(User, Role)
+    from .services import UserService
+    user_service = UserService(User)
+    from .services import UniversityService
+    university_service = UniversityService(University)
+    from .services import FaqService
+    faq_service = FaqService(faq_table)
     
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Views and connect them with the Services ---------------------
+    
+
     from .controllers import Login
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
+
+    from .controllers import Main
+    app.add_url_rule("/main/", view_func=Main.as_view("main", university_service=university_service))
+
+    from .controllers import FAQ
+    app.add_url_rule("/faq/", view_func=FAQ.as_view("faq", faq_service=faq_service))
+
+    from .controllers import Contacts
+    app.add_url_rule("/contacts/", view_func=Contacts.as_view("contacts", user_service=user_service))
     
     # ---------------------------------------------------------------------------------------------
     
