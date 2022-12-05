@@ -23,14 +23,16 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Services and connect them with the Models --------------------
-    from .services import AuthService
+    from .services import AuthService, AdministratorService
     auth_service = AuthService(User, Role) 
+    administrator_service = AdministratorService(User)
     
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Views and connect them with the Services ---------------------
-    from .controllers import Login
+    from .controllers import Login, AdministratorController
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
+    app.add_url_rule("/admin_home", view_func=AdministratorController.as_view("admin_home", auth_service=auth_service, administrator_service=administrator_service))
     
     # ---------------------------------------------------------------------------------------------
     
