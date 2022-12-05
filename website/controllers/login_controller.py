@@ -42,4 +42,3 @@ class Login(MethodView):
             
             # Flash Messages needs to be added here
             return render_template("login_page.html", boolean=True)
-
