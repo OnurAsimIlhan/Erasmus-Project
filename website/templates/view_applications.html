@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+</head>
+<body>
+  <h1 align="center">Applications</h1>
+	<ul class="list-group list-group-flush" id="applications">
+        {% for form in user.form %}
+        <li class="list-group-item">
+          {{form.formID, form.approvalStatus, form.studentID}}
+          <button>
+            View Application
+          </button>
+            <button>
+            Message
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+</body>
+</html>

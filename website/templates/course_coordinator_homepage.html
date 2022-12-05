@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
+</head>
+<body>
+    <h1 align="center">Pending Proposals</h1>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-nav">
+            <form action="" method="POST" >
+                <button type="submit" class="open" name="home" value="{{ user.bilkent_id }}">
+                    Home
+                </button>
+            </form>
+            <form action="" method="POST" >
+                <button type="submit" class="open" name="todo" value="{{ user.bilkent_id }}">
+                    Todo List
+                </button>
+            </form>
+            <form action="" method="POST" >
+                <button type="submit" class="open" name="logout" value="">
+                    Logout
+                </button>
+            </form>
+        </div>
+      </nav>    
+    <ul class="list-group list-group-flush" id="applications">
+            {% for course in user.courses %}
+            <li class="list-group-item">
+            {{course.course_id , course.course_name}} 
+            <form action="" method="POST" >
+                <button type="submit" class="open" name="download" value="{{ course.course_id }}">
+                    Download Syllabus
+                </button>
+            </form>
+            </li>
+            {% endfor %}
+        </ul>
+</body>
+</html>

@@ -18,7 +18,7 @@ class Login(MethodView):
             user, role = self.auth_service.authenticate(bilkent_id=bilkent_id, password=password)
             
             if role == False:
-                return redirect(url_for("login"))
+                return redirect(url_for("login_page"))
             elif len(role) > 1:
                 return redirect(url_for("select_role"))
             elif role[0].role == "student":
@@ -29,10 +29,10 @@ class Login(MethodView):
                 return redirect(url_for("erasmus_coordinator_homepage"))
             elif role[0].role == "Course Coordinator":
                 login_user(user)
-                return redirect(url_for("course_coordinator_homepage"))
+                return redirect(url_for("course_coordinator_homepage"))  
             elif role[0].role == "International Office":
                 login_user(user)
-                return redirect(url_for("international_office_homepage"))
+                return redirect(url_for("view_applications"))
             elif role[0].role == "Administrator":
                 login_user(user)
                 return redirect(url_for("administrator_homepage"))

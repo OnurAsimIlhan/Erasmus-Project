@@ -6,7 +6,10 @@ class User(db.Model, UserMixin):
     
     bilkent_id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(50), nullable=False)
-    role = db.relationship("Role", backref="user")     
+    role = db.relationship("Role", backref="user")
+    courses = db.relationship("Course")     # course coordinator için 
+    todo = db.relationship("Todo")  # course coordinator için
+    form = db.relationship("Form")
     
     def get_id(self):
         return self.bilkent_id
