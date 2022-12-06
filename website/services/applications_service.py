@@ -1,7 +1,5 @@
 from website import db
-from website.models import Application
-
-class ApplicationService():
+class ApplicationsService():
     def __init__(self, user_table, application_table):
         self.user_table = user_table
         self.application_table = application_table

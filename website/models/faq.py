@@ -5,5 +5,6 @@ class Faq(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     department = db.Column(db.String(5), nullable=False)
-    info = db.Column(db.String(50), nullable=False)
-    #date = db.Column(db.DateTime)
+    question = db.Column(db.String(100), nullable=False, primary_key=True)
+    answer = db.Column(db.String(100), nullable=False)
+    #date

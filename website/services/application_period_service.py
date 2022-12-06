@@ -1,5 +1,4 @@
 from website import db
-from website.models import ApplicationPeriod
 
 class ApplicationPeriodService():
     def __init__(self, user_table, application_period_table):

@@ -80,13 +80,12 @@
         </thead>
         <tbody>
           {% if application_period_id != None %}
-          {% for application in application_service.getApplicationsByApplicationPeriodId(
+          {% for application in applications_service.getApplicationsByApplicationPeriodId(
             application_period_id) 
           %}
           <tr>
             <td>{{application.id}}</td>
             <td>{{application.student_id}}</td>
-            <td>{{application.status}}</td>
             <td>Some link to application</td>
           </tr>
           {% endfor %}

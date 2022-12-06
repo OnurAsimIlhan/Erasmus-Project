@@ -6,4 +6,4 @@ class ApplicationPeriod(db.Model):
     department = db.Column(db.String(5), nullable=False)
     title = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(50), nullable=False)
-    applications = db.relationship("Application")
+    applications = db.relationship("Applications")

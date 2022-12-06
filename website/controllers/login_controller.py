@@ -2,13 +2,12 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_user
 from flask.views import MethodView
 
-
 class Login(MethodView):
     def __init__(self, auth_service):
         self.auth_service = auth_service
 
     def get(self):
-        return render_template("login_page.html", boolean=True)
+        return render_template("login_page.html")
     
     def post(self):
         try:
@@ -21,20 +20,17 @@ class Login(MethodView):
                 return redirect(url_for("login"))
             elif len(role) > 1:
                 return redirect(url_for("select_role"))
-            elif role[0].role == "student":
-                login_user(user, remember=True)
-                return redirect(url_for("student_homepage"))
+            
+            login_user(user, remember=False)
+            if role[0].role == "student":
+                return redirect(url_for("student_home"))
             elif role[0].role == "Erasmus Coordinator":
-                login_user(user)
                 return redirect(url_for("erasmus_coordinator_homepage"))
             elif role[0].role == "Course Coordinator":
-                login_user(user)
                 return redirect(url_for("course_coordinator_homepage"))
             elif role[0].role == "International Office":
-                login_user(user)
                 return redirect(url_for("international_office_homepage"))
             elif role[0].role == "Administrator":
-                login_user(user)
                 return redirect(url_for("administrator_homepage"))
             
         except:
@@ -42,3 +38,4 @@ class Login(MethodView):
             
             # Flash Messages needs to be added here
             return render_template("login_page.html", boolean=True)
+

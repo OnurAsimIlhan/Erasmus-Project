@@ -1,5 +1,4 @@
 from website import db
-from website.models import Todo
 class TodoService():
     def __init__(self, user_table, todo_table):
         self.user_table = user_table
