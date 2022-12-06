@@ -33,11 +33,13 @@ def create_app():
         FaqService,
         ApplicationsService,
         ApplicationPeriodService,
+        CourseCoordinatorService,
     )
 
     auth_service = AuthService(User, Role)
     user_service = UserService(User)
     todo_service = TodoService(User, Todo)
+    course_coordinator_service = CourseCoordinatorService(User, Course)
     university_service = UniversityService(University)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
@@ -123,7 +125,9 @@ def create_app():
     app.add_url_rule(
         "/cchome/",
         view_func=CourseCoordinatorController.as_view(
-            "course_coordinator_homepage", auth_service=auth_service
+            "course_coordinator_homepage",
+            auth_service=auth_service,
+            course_coordinator_service=course_coordinator_service,
         ),
     )
     app.add_url_rule(
@@ -132,6 +136,7 @@ def create_app():
             "todo_page", auth_service=auth_service, todo_service=todo_service
         ),
     )
+
     app.add_url_rule(
         "/faq/update/department=<department>",
         view_func=FaqFormController.as_view(
@@ -152,7 +157,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(bilkent_id):
         return User.query.get(int(bilkent_id))
-
     # ---------------------------------------------------------------------------------------------
 
     return app

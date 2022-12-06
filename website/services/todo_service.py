@@ -12,7 +12,7 @@ class TodoService():
 
     def postTask(self, bilkent_id : int, task : str):
         if len(task) > 0:
-            task = Todo(task = task, user_id = bilkent_id)
+            task = self.todo_table(task = task, user_id = bilkent_id)
             db.session.add(task)
             db.session.commit()
         
