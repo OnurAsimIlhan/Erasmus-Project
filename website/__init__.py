@@ -18,7 +18,7 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
 
     # -------------------- Call the Models and create the tables or the database ------------------
-    from .models import User, Role, University, faq_table, Applications
+    from .models import User, Role, University, Course, Todo, Applications, ApplicationPeriod, Faq
 
     with app.app_context():
         db.create_all()
@@ -28,16 +28,20 @@ def create_app():
     from .services import (
         AuthService,
         UserService,
+        TodoService,
         UniversityService,
         FaqService,
         ApplicationsService,
+        ApplicationPeriodService,
     )
 
     auth_service = AuthService(User, Role)
     user_service = UserService(User)
+    todo_service = TodoService(User, Todo)
     university_service = UniversityService(University)
-    faq_service = FaqService(faq_table)
-    applications_service = ApplicationsService(application_table=Applications)
+    applications_service = ApplicationsService(user_table=User, application_table=Applications)
+    application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
+    faq_service = FaqService(user_table=User, faq_table=Faq)
 
     # ---------------------------------------------------------------------------------------------
 
@@ -51,6 +55,11 @@ def create_app():
         StudentApplication,
         LearningAggrementController,
         PreApprovalController,
+        ErasmusCoordinatorHome,
+        ErasmusCoordinatorApplications,
+        CourseCoordinatorController,
+        TodoController,
+        FaqFormController,
     )
 
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
@@ -91,6 +100,47 @@ def create_app():
             course_service="",
         ),
     )
+    app.add_url_rule(
+        "/ec/home",
+        view_func=ErasmusCoordinatorHome.as_view(
+            "erasmus_coordinator_homepage",
+            auth_service=auth_service,
+            user_service=user_service,
+            application_period_service=application_period_service,
+        ),
+    )
+    app.add_url_rule(
+        "/ec/applications/",
+        view_func=ErasmusCoordinatorApplications.as_view(
+            "erasmus_coordinator_applications",
+            application_period_id=None,
+            auth_service=auth_service,
+            user_service=user_service,
+            applications_service=applications_service,
+            application_period_service=application_period_service,
+        ),
+    )
+    app.add_url_rule(
+        "/cchome/",
+        view_func=CourseCoordinatorController.as_view(
+            "course_coordinator_homepage", auth_service=auth_service
+        ),
+    )
+    app.add_url_rule(
+        "/todo/",
+        view_func=TodoController.as_view(
+            "todo_page", auth_service=auth_service, todo_service=todo_service
+        ),
+    )
+    app.add_url_rule(
+        "/faq/update/department=<department>",
+        view_func=FaqFormController.as_view(
+            "faq_form",
+            auth_service=auth_service,
+            user_service=user_service,
+            faq_service=faq_service,
+        ),
+    )
 
     # ---------------------------------------------------------------------------------------------
 
@@ -102,6 +152,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(bilkent_id):
         return User.query.get(int(bilkent_id))
+
     # ---------------------------------------------------------------------------------------------
 
     return app

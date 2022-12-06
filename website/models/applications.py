@@ -22,3 +22,5 @@ class Applications(db.Model):
     application_form = db.Column(db.String(100), nullable=True)
     pre_approval_form = db.Column(db.String(100), nullable=True)
     learning_agreement_form = db.Column(db.String(100), nullable=True)
+    
+    application_period_id = db.Column(db.Integer, db.ForeignKey("application_period.id"))
