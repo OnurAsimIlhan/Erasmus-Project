@@ -2,16 +2,16 @@ from flask import render_template, redirect, url_for, request, send_file, views
 from flask_login import login_required, current_user, logout_user
 from flask.views import MethodView
 
-class AdministratorController(MethodView):
+class ViewApplicationsController(MethodView):
     decorators = [login_required]
 
-    def __init__(self, auth_service, administrator_service):
+    def __init__(self, auth_service, view_applications_service):
         self.auth_service = auth_service
-        self.administrator_service = administrator_service
+        self.view_applications_service = view_applications_service
 
     def get(self):
         if self.auth_service.is_authorized(user = current_user, required_role = "Administrator"):
-            return render_template("administrator_homepage.html", user = current_user)
+            return render_template("view_applications.html", user = current_user)
         else:
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
