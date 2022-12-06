@@ -34,6 +34,9 @@ def create_app():
         ApplicationsService,
         ApplicationPeriodService,
         CourseCoordinatorService,
+        AdministratorService,
+        ViewApplicationsService,
+        FinalFormsService,
     )
 
     auth_service = AuthService(User, Role)
@@ -44,6 +47,9 @@ def create_app():
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
     faq_service = FaqService(user_table=User, faq_table=Faq)
+    administrator_service = AdministratorService(User)
+    view_applications_service = ViewApplicationsService(User)
+    final_forms_service = FinalFormsService(User)
 
     # ---------------------------------------------------------------------------------------------
 
@@ -62,7 +68,10 @@ def create_app():
         CourseCoordinatorController,
         TodoController,
         FaqFormController,
-        InternationalOffice
+        InternationalOffice,
+        AdministratorController,
+        ViewApplicationsController,
+        FinalFormsController
     )
 
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
@@ -147,8 +156,32 @@ def create_app():
             faq_service=faq_service,
         ),
     )
-    app.add_url_rule("/intoff/", view_func=InternationalOffice.as_view("view_applications", auth_service=auth_service))
-
+    app.add_url_rule(
+        "/intoff/",
+        view_func=InternationalOffice.as_view("view_applications", auth_service=auth_service),
+    )
+    app.add_url_rule(
+        "/administrator_homepage",
+        view_func=AdministratorController.as_view(
+            "administrator_homepage",
+            auth_service=auth_service,
+            administrator_service=administrator_service,
+        ),
+    )
+    app.add_url_rule(
+        "/administrator_view_applications",
+        view_func=ViewApplicationsController.as_view(
+            "administrator_view_applications",
+            auth_service=auth_service,
+            view_applications_service=view_applications_service,
+        ),
+    )
+    app.add_url_rule(
+        "/final_forms",
+        view_func=FinalFormsController.as_view(
+            "final_forms", auth_service=auth_service, final_forms_service=final_forms_service
+        ),
+    )
     # ---------------------------------------------------------------------------------------------
 
     # ------------------------------------- Login Manager -----------------------------------------
@@ -159,6 +192,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(bilkent_id):
         return User.query.get(int(bilkent_id))
+
     # ---------------------------------------------------------------------------------------------
 
     return app

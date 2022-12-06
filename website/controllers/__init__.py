@@ -14,3 +14,6 @@ from .student_application_controller import StudentApplication
 from .student_la_controller import LearningAggrementController  
 from .student_preapproval_controller import PreApprovalController 
 from .international_office_controller import InternationalOffice
+from .administrator_controller import AdministratorController
+from .view_applications_controller import ViewApplicationsController
+from .final_forms_controller import FinalFormsController

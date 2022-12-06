@@ -6,3 +6,6 @@ from .faq_service import FaqService
 from .application_period_service import ApplicationPeriodService
 from .user_service import UserService
 from .university_service import UniversityService
+from .administrator_service import AdministratorService
+from .view_applications_service import ViewApplicationsService
+from .final_forms_service import FinalFormsService
