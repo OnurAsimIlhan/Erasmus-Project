@@ -62,6 +62,7 @@ def create_app():
         CourseCoordinatorController,
         TodoController,
         FaqFormController,
+        InternationalOffice
     )
 
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
@@ -146,6 +147,7 @@ def create_app():
             faq_service=faq_service,
         ),
     )
+    app.add_url_rule("/intoff/", view_func=InternationalOffice.as_view("view_applications", auth_service=auth_service))
 
     # ---------------------------------------------------------------------------------------------
 
