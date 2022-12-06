@@ -7,9 +7,9 @@
 <body>
   <h1 align="center">Applications</h1>
 	<ul class="list-group list-group-flush" id="applications">
-        {% for form in user.form %}
+        {% for form in user.applications %}
         <li class="list-group-item">
-          {{form.formID, form.approvalStatus, form.studentID}}
+          {{form.application_id, form.application_status, form.ranking}}
           <button>
             View Application
           </button>

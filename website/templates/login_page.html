@@ -6,7 +6,10 @@
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
   <link rel="stylesheet" href={{ url_for('static', filename='login_page.css') }}>
 </head>
+{% extends 'main_page.html ' %}
+{% block content %}
 <body>
+
 	<div class="login-form">
 		<form method="POST">
 			<h1>Login</h1>
@@ -28,3 +31,4 @@
 	</div>
 </body>
 </html>
+{% endblock %}  
