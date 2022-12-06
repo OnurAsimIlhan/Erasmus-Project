@@ -35,10 +35,11 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
     
     # --------------------- Call the Views and connect them with the Services ---------------------
-    from .controllers import Login, ErasmusCoordinatorHome, ErasmusCoordinatorViewApplications, CourseCoordinatorController, TodoController, StudentApplicationDetails, FaqFormController
+    from .controllers import Login, ErasmusCoordinatorHome, ErasmusCoordinatorApplications, CourseCoordinatorController, TodoController, StudentApplicationDetails, FaqFormController
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
     app.add_url_rule("/ec/home", view_func=ErasmusCoordinatorHome.as_view("erasmus_coordinator_homepage", auth_service=auth_service, user_service=user_service, application_period_service=application_period_service))
-    app.add_url_rule("/ec/applications/", view_func=ErasmusCoordinatorViewApplications.as_view("erasmus_coordinator_applications", auth_service=auth_service, application_service=application_service))
+    app.add_url_rule("/ec/applications/", view_func=ErasmusCoordinatorApplications.as_view("erasmus_coordinator_applications", application_period_id=None, auth_service=auth_service, user_service=user_service, application_service=application_service, application_period_service=application_period_service))
+    #app.add_url_rule("/ec/applications/application_period=<application_period>", view_func=ErasmusCoordinatorViewApplications.as_view("erasmus_coordinator_applications_with_pperiod", auth_service=auth_service, user_service=user_service, application_service=application_service, application_period_service=application_period_service))
     app.add_url_rule("/cchome/", view_func=CourseCoordinatorController.as_view("course_coordinator_homepage", auth_service=auth_service))
     app.add_url_rule("/todo/", view_func=TodoController.as_view("todo_page", auth_service=auth_service, todo_service = todo_service))
     app.add_url_rule("/student/application_details", view_func=StudentApplicationDetails.as_view("application_details", auth_service=auth_service))

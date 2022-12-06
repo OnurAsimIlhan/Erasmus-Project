@@ -22,5 +22,4 @@ class ErasmusCoordinatorHome(MethodView):
     def post(self):
         if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
             if "update_faq" in request.form:
-                print("GOTO FAQ")
                 return redirect(url_for("faq_form", user=current_user))

@@ -19,81 +19,78 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbar"
-      >
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
+          <form method="POST">
           <a class="nav-item nav-link" href="/ec/home">Home</a>
+          </form>
           <a class="nav-item nav-link" href="/">Upload Final Form</a>
-          <a class="nav-item nav-link" href="/">Update FAQ</a>
+          <a class="nav-item nav-link" href="/faq/update/department={{user_service.getUserById(user.bilkent_id).department}}">Update FAQ</a>
           <a class="nav-item nav-link" href="/ec/applications">View Student Applications</a>
-          <a class="nav-item nav-link" href="/ec/view_appliations">Open Application Period</a>
+          <a class="nav-item nav-link" href="/ec/form_application">Open Application Period</a>
           <a class="nav-item nav-link" href="/logout">Logout</a>
         </div>
       </div>
     </nav>
-    <h2> Student List </h2>
+    <h2> Application Periods </h2>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Title</th>
+            <th scope="col">Department</th>
             <th scope="col">Status</th>
             <th scope="col">Selected</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>2022-2023 erasmus CS</td>
-            <td>Mobilization</td>
-            <td>
-              <input 
-                type="radio" 
-                style="width: 15px; height: 15px;" 
-                id="inviteEvent"
-                name="inviteEvent"
-                checked>
-            </td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>2022-2023 bilateral exchange CS</td>
-            <td>Post Approval</td>
-            <td>
-              <input 
-                type="radio" 
-                style="width: 15px; height: 15px;" 
-                id="inviteEvent"
-                name="inviteEvent"
-                checked>
-            </td>
-          </tr>
+          <form method="POST">
+            {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
+              user_service.getUserById(user.bilkent_id).department) 
+            %}
+            <tr>
+              <td>{{application_period.title}}</td>
+              <td>{{application_period.department}}</td>
+              <td>{{application_period.status}}</td>
+              <td>
+                <input 
+                  type="radio" 
+                  style="width: 15px; height: 15px;"
+                  name="application_period_id"
+                  value={{application_period.id}}
+                >
+              </td>
+            </tr>
+            {% endfor %}
+            <button name="application_period_get" value="True" class="btn btn-primary">Select Period</button>
+          </form>
         </tbody>
       </table>
-      <h2> User List </h2>
+      <h2> Application List </h2>
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Student ID</th>
             <th scope="col">Application Status</th>
-            <th scope="col" ></th>
+            <th scope="col">Check Details</th>
           </tr>
         </thead>
         <tbody>
+          {% if application_period_id != None %}
+          {% for application in application_service.getApplicationsByApplicationPeriodId(
+            application_period_id) 
+          %}
           <tr>
-            <td>ID</td>
-            <td>name</td>
-            <td>waiting for post-approval</td>
-            <td><a href="/student/application_details">Check Application</a></td>
+            <td>{{application.id}}</td>
+            <td>{{application.student_id}}</td>
+            <td>{{application.status}}</td>
+            <td>Some link to application</td>
           </tr>
+          {% endfor %}
+          {% endif %}
         </tbody>
       </table>
     

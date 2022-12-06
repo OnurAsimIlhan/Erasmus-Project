@@ -1,6 +1,6 @@
 from .login_controller import Login 
 from .erasmus_coordinator_home import ErasmusCoordinatorHome
-from .erasmus_coordinator_view_applications import ErasmusCoordinatorViewApplications
+from .erasmus_coordinator_applications import ErasmusCoordinatorApplications
 from .todo_controller import TodoController
 from .course_coordinator_controller import CourseCoordinatorController
 from .student_application_details import StudentApplicationDetails
