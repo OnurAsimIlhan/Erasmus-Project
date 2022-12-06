@@ -29,7 +29,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
 
-      <h1 class="logo"><a href="index.html">OnePage</a></h1>
+      <h1 class="logo"><a href="index.html">Erasmus Bilkent</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -68,7 +68,7 @@
         <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
           <div class="icon-box">
             <div class="icon"><i class="ri-palette-line"></i></div>
-            <h4 class="title"><a href=""> Course Selection </a></h4>
+            <h4 class="title"><a href="{{ url_for('student_preapproval') }}"> Course Selection </a></h4>
             <p class="description"> - List Pre-Approved Courses </p>
             <p class="description"> - Request Approval for a new Course </p>
             <p class="description"> - Make Your Choice </p>
@@ -79,7 +79,7 @@
         <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="400">
           <div class="icon-box">
             <div class="icon"><i class="ri-command-line"></i></div>
-            <h4 class="title"><a href=""> Learning Agreement </a></h4>
+            <h4 class="title"><a href="{{ url_for('student_learning_agreement') }}"> Learning Agreement </a></h4>
             <p class="description"> - Download & Upload Your Learning Agreement Form </p>
           </div>
         </div>

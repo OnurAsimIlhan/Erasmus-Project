@@ -18,3 +18,7 @@ class Applications(db.Model):
     application_status = db.Column(db.String(50), nullable=False)
     ranking = db.Column(db.Integer, nullable=True)
     erasmus_points = db.Column(db.Integer, nullable=True)
+    
+    application_form = db.Column(db.String(100), nullable=True)
+    pre_approval_form = db.Column(db.String(100), nullable=True)
+    learning_agreement_form = db.Column(db.String(100), nullable=True)

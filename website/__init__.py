@@ -29,12 +29,12 @@ def create_app():
 
     auth_service = AuthService(user_table=User, role_table=Role)
     university_service = UniversityService(university_table="")
-    application_service = ApplicationsService(application_table=Applications)
+    applications_service = ApplicationsService(application_table=Applications)
 
     # ---------------------------------------------------------------------------------------------
 
     # --------------------- Call the Views and connect them with the Services ---------------------
-    from .controllers import Login, StudentHome, StudentApplication
+    from .controllers import Login, StudentHome, StudentApplication, PreApprovalController, LearningAggrementController
 
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
     app.add_url_rule(
@@ -46,7 +46,24 @@ def create_app():
             "student_application",
             auth_service=auth_service,
             university_service=university_service,
-            application_service=application_service,
+            applications_service=applications_service,
+        ),
+    )
+    app.add_url_rule(
+        "/student_learning_agreement/",
+        view_func=LearningAggrementController.as_view(
+            "student_learning_agreement",
+            auth_service=auth_service,
+            applications_service=applications_service,
+        ),
+    )
+    app.add_url_rule(
+        "/student_preapproval/",
+        view_func=PreApprovalController.as_view(
+            "student_preapproval",
+            auth_service=auth_service,
+            applications_service=applications_service,
+            course_service = ""
         ),
     )
 
