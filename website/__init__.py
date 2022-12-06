@@ -35,7 +35,7 @@ def create_app():
     from .controllers import Login, AdministratorController, ViewApplicationsController, FinalFormsController
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
     app.add_url_rule("/administrator_homepage", view_func=AdministratorController.as_view("administrator_homepage", auth_service=auth_service, administrator_service=administrator_service))
-    app.add_url_rule("/view_applications", view_func=ViewApplicationsController.as_view("view_applications", auth_service = auth_service, view_applications_service = view_applications_service))
+    app.add_url_rule("/administrator_view_applications", view_func=ViewApplicationsController.as_view("administrator_view_applications", auth_service = auth_service, view_applications_service = view_applications_service))
     app.add_url_rule("/final_forms", view_func=FinalFormsController.as_view("final_forms", auth_service = auth_service, final_forms_service = final_forms_service))
 
     # ---------------------------------------------------------------------------------------------

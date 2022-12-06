@@ -11,7 +11,7 @@ class ViewApplicationsController(MethodView):
 
     def get(self):
         if self.auth_service.is_authorized(user = current_user, required_role = "Administrator"):
-            return render_template("view_applications.html", user = current_user)
+            return render_template("administrator_view_applications.html", user = current_user)
         else:
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
