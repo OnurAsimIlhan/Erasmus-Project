@@ -18,25 +18,50 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
 
     # -------------------- Call the Models and create the tables or the database ------------------
-    from .models import User, Role, Applications
+    from .models import User, Role, University, faq_table, Applications
 
     with app.app_context():
         db.create_all()
     # ---------------------------------------------------------------------------------------------
 
     # --------------------- Call the Services and connect them with the Models --------------------
-    from .services import AuthService, UniversityService, ApplicationsService
+    from .services import (
+        AuthService,
+        UserService,
+        UniversityService,
+        FaqService,
+        ApplicationsService,
+    )
 
-    auth_service = AuthService(user_table=User, role_table=Role)
-    university_service = UniversityService(university_table="")
+    auth_service = AuthService(User, Role)
+    user_service = UserService(User)
+    university_service = UniversityService(University)
+    faq_service = FaqService(faq_table)
     applications_service = ApplicationsService(application_table=Applications)
 
     # ---------------------------------------------------------------------------------------------
 
     # --------------------- Call the Views and connect them with the Services ---------------------
-    from .controllers import Login, StudentHome, StudentApplication, PreApprovalController, LearningAggrementController
+    from .controllers import (
+        Login,
+        Main,
+        Contacts,
+        FAQ,
+        StudentHome,
+        StudentApplication,
+        LearningAggrementController,
+        PreApprovalController,
+    )
 
     app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
+    app.add_url_rule(
+        "/main/", view_func=Main.as_view("main", university_service=university_service)
+    )
+    app.add_url_rule("/faq/", view_func=FAQ.as_view("faq", faq_service=faq_service))
+    app.add_url_rule(
+        "/contacts/", view_func=Contacts.as_view("contacts", user_service=user_service)
+    )
+
     app.add_url_rule(
         "/student_home/", view_func=StudentHome.as_view("student_home", auth_service=auth_service)
     )
@@ -63,7 +88,7 @@ def create_app():
             "student_preapproval",
             auth_service=auth_service,
             applications_service=applications_service,
-            course_service = ""
+            course_service="",
         ),
     )
 
