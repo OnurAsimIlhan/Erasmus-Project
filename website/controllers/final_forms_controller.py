@@ -18,14 +18,6 @@ class FinalFormsController(MethodView):
 
     def post(self):
         if self.auth_service.is_authorized(user = current_user, required_role = "Administrator"):
-            if "home" in request.form:
-                return redirect(url_for("administrator_homepage", user = current_user))
-            if "todo" in request.form:
-                return redirect(url_for("todo_page", user = current_user))
-            if "applications" in request.form:
-                return redirect(url_for("view_applications", user = current_user))
-            if "finalforms" in request.form:
-                return redirect(url_for("final_forms", user = current_user))
             if "logout" in request.form:
                 logout_user()
                 return redirect(url_for("login"))
