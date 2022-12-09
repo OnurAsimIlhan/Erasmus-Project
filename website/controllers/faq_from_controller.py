@@ -6,15 +6,16 @@ from website.dtos.faqUpdateRequest import FaqUpdateRequest
 from website.services.faq_service import FaqService
 from website.services.user_service import UserService
 
-class FaqFormController(MethodView):
-    def __init__(self, auth_service,  user_service, faq_service):
-        self.auth_service = auth_service
+from website.services import AuthorizeService
+class FaqFormController(MethodView, AuthorizeService):
+    def __init__(self, role: str,  user_service, faq_service):
+        AuthorizeService.__init__(self, role=role)
         self.faq_service = faq_service
         self.user_service = user_service
 
     @login_required
     def get(self, department):
-        if self.auth_service.is_authorized(user=current_user, required_role="Erasmus Coordinator"):
+        if AuthorizeService.is_authorized(self):
             return render_template("faq_form.html", user = current_user, faq_service = self.faq_service, user_service=self.user_service)        
         else:
             logout_user() 
@@ -24,7 +25,7 @@ class FaqFormController(MethodView):
         erasmus_coordinator_home.html'DE KULLANIMI MEVCUT
     """
     def post(self, department):
-        if self.auth_service.is_authorized(user=current_user, required_role="Erasmus Coordinator"):
+        if AuthorizeService.is_authorized(self):
             if "update_faq" in request.form:
                 info = request.form.get('update_faq_info')
                 user_department = request.view_args["department"]

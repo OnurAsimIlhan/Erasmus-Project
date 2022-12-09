@@ -1,4 +1,5 @@
-from .auth_service import AuthService
+from .authenticate_service import AuthenticateService
+from .authorize_service import AuthorizeService
 from .todo_service import TodoService
 from .course_coordinator_service import CourseCoordinatorService
 from .applications_service import ApplicationsService

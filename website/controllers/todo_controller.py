@@ -2,15 +2,15 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_required, current_user, logout_user
 from flask.views import MethodView
 
-
-class TodoController(MethodView):
-    def __init__(self, auth_service, todo_service):
-        self.auth_service = auth_service
+from website.services import AuthorizeService
+class TodoController(MethodView, AuthorizeService):
+    def __init__(self, role: str, todo_service):
+        AuthorizeService.__init__(self, role=role)
         self.todo_service = todo_service
    
     @login_required
     def get(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
+        if AuthorizeService.is_authorized(self):
             return render_template("todo_page.html", user = current_user)        
         else:
             logout_user() 
@@ -19,7 +19,7 @@ class TodoController(MethodView):
 
     @login_required
     def post(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
+        if AuthorizeService.is_authorized(self):
             if "add_task" in request.form:
                 newtask = request.form.get('todo_input')
                 self.todo_service.postTask(bilkent_id = current_user.bilkent_id, task = newtask)

@@ -2,16 +2,16 @@ from flask import render_template, redirect, url_for, request, send_file, views
 from flask_login import login_required, current_user, logout_user
 from flask.views import MethodView
 
-
-class CourseCoordinatorController(MethodView):
-    def __init__(self, auth_service, course_coordinator_service):
-        self.auth_service = auth_service
+from website.services import AuthorizeService
+class CourseCoordinatorController(MethodView, AuthorizeService):
+    def __init__(self, role: str, course_coordinator_service):
+        AuthorizeService.__init__(self, role=role)
         self.course_coordinator_service = course_coordinator_service
    
 
     @login_required
     def get(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
+        if AuthorizeService.is_authorized(self):
             return render_template("course_coordinator_homepage.html", user = current_user)           
         else:
             logout_user() 
@@ -19,7 +19,7 @@ class CourseCoordinatorController(MethodView):
     
     @login_required
     def post(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
+        if AuthorizeService.is_authorized(self):
             if "download" in request.form:
                 course_id = request.form.get('download')
                 syllabusPath = self.course_coordinator_service.sendSyllabus(course_id)

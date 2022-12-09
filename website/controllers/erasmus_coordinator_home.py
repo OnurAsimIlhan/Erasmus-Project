@@ -4,22 +4,26 @@ from flask.views import MethodView
 from website.services.application_period_service import ApplicationPeriodService
 from website.services.faq_service import FaqService
 
-class ErasmusCoordinatorHome(MethodView):
-    def __init__(self, auth_service, application_period_service, user_service):
-        self.auth_service = auth_service
+from website.services import AuthorizeService
+class ErasmusCoordinatorHome(MethodView, AuthorizeService):
+    def __init__(self, role: str, application_period_service, user_service):
+        AuthorizeService.__init__(self, role=role)
         self.application_period_service = application_period_service
         self.user_service = user_service
 
     
     @login_required
     def get(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Erasmus Coordinator"):
+        if AuthorizeService.is_authorized(self):
             return render_template("erasmus_coordinator_home.html", user = current_user, application_period_service = self.application_period_service, user_service=self.user_service)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
     
     def post(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Course Coordinator"):
+        if AuthorizeService.is_authorized(self):
             if "update_faq" in request.form:
                 return redirect(url_for("faq_form", user=current_user))
+        else:
+            logout_user() 
+            return redirect(url_for("your_are_not_authorized_page"))

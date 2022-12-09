@@ -10,9 +10,9 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(50), nullable=True)
     
     role = db.relationship("Role", backref="user")
-    courses = db.relationship("Course", backref="user")     # course coordinator için 
-    todo = db.relationship("Todo", backref="user")  # course coordinator için 
-    applications = db.relationship("Applications", backref="user")     
+    courses = db.relationship("Course", backref="user")                 # Course Coordinator 
+    todo = db.relationship("Todo", backref="user")                      # Course Coordinator  
+    applications = db.relationship("Applications", backref="user")      # Student    
 
     def get_id(self):
         return self.bilkent_id

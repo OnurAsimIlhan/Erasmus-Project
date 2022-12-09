@@ -2,10 +2,10 @@ from flask import flash, render_template, request, redirect, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
 
-
-class ErasmusCoordinatorApplications(MethodView):
-    def __init__(self, auth_service, user_service, applications_service, application_period_service, application_period_id):
-        self.auth_service = auth_service
+from website.services import AuthorizeService
+class ErasmusCoordinatorApplications(MethodView, AuthorizeService):
+    def __init__(self, role: str, user_service, applications_service, application_period_service, application_period_id):
+        AuthorizeService.__init__(self, role=role)
         self.applications_service = applications_service
         self.user_service = user_service
         self.application_period_service = application_period_service
@@ -17,7 +17,7 @@ class ErasmusCoordinatorApplications(MethodView):
         Normalinde application_period bir "optional parameter" olmalı ama onun için flaska ayrı requirement gerekiyo
         şimdilik böyle olsun iş yapıyor
         """
-        if self.auth_service.is_authorized(user=current_user, required_role="Erasmus Coordinator"):
+        if AuthorizeService.is_authorized(self):
             return render_template("erasmus_coordinator_applications.html", application_period_id=self.application_period_id, user = current_user, user_service=self.user_service, applications_service=self.applications_service, application_period_service=self.application_period_service)   
         else:
             logout_user() 
@@ -25,7 +25,7 @@ class ErasmusCoordinatorApplications(MethodView):
         
 
     def post(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="Erasmus Coordinator"): 
+        if AuthorizeService.is_authorized(self): 
             if "application_period_get" in request.form:
                 app_period_id = request.form.get("application_period_id")
                 self.applications_service.getApplicationsByApplicationPeriodId(app_period_id)

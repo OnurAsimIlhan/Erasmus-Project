@@ -26,7 +26,7 @@ def create_app():
 
     # --------------------- Call the Services and connect them with the Models --------------------
     from .services import (
-        AuthService,
+        AuthenticateService,
         UserService,
         TodoService,
         UniversityService,
@@ -39,7 +39,7 @@ def create_app():
         FinalFormsService,
     )
 
-    auth_service = AuthService(User, Role)
+    authenticate_service = AuthenticateService(User, Role)
     user_service = UserService(User)
     todo_service = TodoService(User, Todo)
     course_coordinator_service = CourseCoordinatorService(User, Course)
@@ -74,7 +74,7 @@ def create_app():
         FinalFormsController
     )
 
-    app.add_url_rule("/login/", view_func=Login.as_view("login", auth_service=auth_service))
+    app.add_url_rule("/login/", view_func=Login.as_view("login", authenticate_service=authenticate_service))
     app.add_url_rule(
         "/main/", view_func=Main.as_view("main", university_service=university_service)
     )
@@ -84,13 +84,13 @@ def create_app():
     )
 
     app.add_url_rule(
-        "/student_home/", view_func=StudentHome.as_view("student_home", auth_service=auth_service)
+        "/student_home/", view_func=StudentHome.as_view("student_home", role="Student")
     )
     app.add_url_rule(
         "/student_application/",
         view_func=StudentApplication.as_view(
             "student_application",
-            auth_service=auth_service,
+            role="Student",
             university_service=university_service,
             applications_service=applications_service,
         ),
@@ -99,7 +99,7 @@ def create_app():
         "/student_learning_agreement/",
         view_func=LearningAggrementController.as_view(
             "student_learning_agreement",
-            auth_service=auth_service,
+            role="Student",
             applications_service=applications_service,
         ),
     )
@@ -107,7 +107,7 @@ def create_app():
         "/student_preapproval/",
         view_func=PreApprovalController.as_view(
             "student_preapproval",
-            auth_service=auth_service,
+            role="Student",
             applications_service=applications_service,
             course_service="",
         ),
@@ -116,7 +116,7 @@ def create_app():
         "/ec/home",
         view_func=ErasmusCoordinatorHome.as_view(
             "erasmus_coordinator_homepage",
-            auth_service=auth_service,
+            role="Erasmus Coordinator",
             user_service=user_service,
             application_period_service=application_period_service,
         ),
@@ -126,7 +126,7 @@ def create_app():
         view_func=ErasmusCoordinatorApplications.as_view(
             "erasmus_coordinator_applications",
             application_period_id=None,
-            auth_service=auth_service,
+            role="Erasmus Coordinator",
             user_service=user_service,
             applications_service=applications_service,
             application_period_service=application_period_service,
@@ -136,14 +136,14 @@ def create_app():
         "/cchome/",
         view_func=CourseCoordinatorController.as_view(
             "course_coordinator_homepage",
-            auth_service=auth_service,
+            role="Course Coordinator",
             course_coordinator_service=course_coordinator_service,
         ),
     )
     app.add_url_rule(
         "/todo/",
         view_func=TodoController.as_view(
-            "todo_page", auth_service=auth_service, todo_service=todo_service
+            "todo_page", role="Course Coordinator", todo_service=todo_service
         ),
     )
 
@@ -151,20 +151,20 @@ def create_app():
         "/faq/update/department=<department>",
         view_func=FaqFormController.as_view(
             "faq_form",
-            auth_service=auth_service,
+            role="Erasmus Coordinator",
             user_service=user_service,
             faq_service=faq_service,
         ),
     )
     app.add_url_rule(
         "/intoff/",
-        view_func=InternationalOffice.as_view("view_applications", auth_service=auth_service),
+        view_func=InternationalOffice.as_view("view_applications", role="International Office"),
     )
     app.add_url_rule(
         "/administrator_homepage",
         view_func=AdministratorController.as_view(
             "administrator_homepage",
-            auth_service=auth_service,
+            role="Administrator",
             administrator_service=administrator_service,
         ),
     )
@@ -172,14 +172,14 @@ def create_app():
         "/administrator_view_applications",
         view_func=ViewApplicationsController.as_view(
             "administrator_view_applications",
-            auth_service=auth_service,
+            role="Administrator",
             view_applications_service=view_applications_service,
         ),
     )
     app.add_url_rule(
         "/final_forms",
         view_func=FinalFormsController.as_view(
-            "final_forms", auth_service=auth_service, final_forms_service=final_forms_service
+            "final_forms", role="Administrator", final_forms_service=final_forms_service
         ),
     )
     # ---------------------------------------------------------------------------------------------
@@ -192,7 +192,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(bilkent_id):
         return User.query.get(int(bilkent_id))
-
     # ---------------------------------------------------------------------------------------------
 
     return app

@@ -2,14 +2,15 @@ from flask_login import login_required, current_user, logout_user
 from flask import render_template, request, redirect, url_for
 from flask.views import MethodView
 
-class StudentHome(MethodView):
+from website.services import AuthorizeService
+class StudentHome(MethodView, AuthorizeService):
     decorators = [login_required]
     
-    def __init__(self, auth_service):
-        self.auth_service = auth_service
+    def __init__(self, role: str):
+        AuthorizeService.__init__(self, role=role)
     
     def get(self):
-        if self.auth_service.is_authorized(user=current_user, required_role="student") == False:
+        if AuthorizeService.is_authorized(self) == False:
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
         

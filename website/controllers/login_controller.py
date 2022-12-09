@@ -3,8 +3,8 @@ from flask_login import login_user
 from flask.views import MethodView
 
 class Login(MethodView):
-    def __init__(self, auth_service):
-        self.auth_service = auth_service
+    def __init__(self, authenticate_service):
+        self.authenticate_service = authenticate_service
 
     def get(self):
         return render_template("login_page.html")
@@ -14,7 +14,7 @@ class Login(MethodView):
             bilkent_id = int(request.form.get("bilkent_id"))
             password = str(request.form.get("password"))
             
-            user, role = self.auth_service.authenticate(bilkent_id=bilkent_id, password=password)
+            user, role = self.authenticate_service.authenticate(bilkent_id=bilkent_id, password=password)
             
             if role == False:
                 return redirect(url_for("login_page"))
@@ -22,7 +22,7 @@ class Login(MethodView):
                 return redirect(url_for("select_role"))
             
             login_user(user, remember=False)
-            if role[0].role == "student":
+            if role[0].role == "Student":
                 return redirect(url_for("student_home"))
             elif role[0].role == "Erasmus Coordinator":
                 return redirect(url_for("erasmus_coordinator_homepage"))
