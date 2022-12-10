@@ -17,19 +17,19 @@ class Login(MethodView):
             user, role = self.authenticate_service.authenticate(bilkent_id=bilkent_id, password=password)
             
             if role == False:
-                return redirect(url_for("login_page"))
-            elif len(role) > 1:
-                return redirect(url_for("select_role"))
+                return redirect(url_for("login"))
             
             login_user(user, remember=False)
-            if role[0].role == "Student":
+            if len(role) > 1:
+                return redirect(url_for("select_role"))
+            elif role[0].role == "Student":
                 return redirect(url_for("student_home"))
             elif role[0].role == "Erasmus Coordinator":
                 return redirect(url_for("erasmus_coordinator_homepage"))
             elif role[0].role == "Course Coordinator":  
                 return redirect(url_for("course_coordinator_homepage"))
             elif role[0].role == "International Office":
-                return redirect(url_for("view_applications"))
+                return redirect(url_for("intoff_homepage"))
             elif role[0].role == "Administrator":
                 return redirect(url_for("administrator_homepage"))
             
