@@ -28,6 +28,3 @@ class RoleSelection(MethodView):
             
         return render_template("role_selection_page.html", roles_n_homepages=roles_n_homepages)
         
-    def post(self):
-        pass
-        

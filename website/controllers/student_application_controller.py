@@ -16,7 +16,7 @@ class StudentApplication(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
         
-        return render_template("student_application_page.html", name="Emirkan")
+        return render_template("student_application_page.html")
     
     def post(self):
         if AuthorizeService.is_authorized(self) == False:
