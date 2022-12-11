@@ -4,10 +4,11 @@ from flask.views import MethodView
 
 from website.services import AuthorizeService
 class ErasmusCoordinatorApplications(MethodView, AuthorizeService):
-    def __init__(self, role: str, user_service, application_period_service, application_period_id):
+    def __init__(self, role: str, user_service, application_period_service, applications_service, application_period_id):
         AuthorizeService.__init__(self, role=role)
         self.user_service = user_service
         self.application_period_service = application_period_service
+        self.applications_service = applications_service
         self.application_period_id = application_period_id
 
     @login_required

@@ -9,7 +9,6 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
     decorators = [login_required]
 
     def __init__(self, role: str, application_period_service, user_service):
-        print("HEREs")
         AuthorizeService.__init__(self, role=role)
         self.application_period_service = application_period_service
         self.user_service = user_service

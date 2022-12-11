@@ -9,16 +9,15 @@ from website.services.user_service import UserService
 
 from website.services import AuthorizeService
 class FaqFormController(MethodView):
-    
+    decorators = [login_required]
 
-    def __init__(self, role: str, user_service, faq_service: FaqService):
+    def __init__(self, role: str, user_service, faq_service):
         AuthorizeService.__init__(self, role=role)
         self.faq_service = faq_service
         self.user_service = user_service
 
     def get(self, department):
         if AuthorizeService.is_authorized(self):
-            print("aaa")
             return render_template("faq_form.html", user = current_user, faq_service = self.faq_service, user_service=self.user_service)        
         else:
             logout_user() 
@@ -29,7 +28,6 @@ class FaqFormController(MethodView):
             
             if "faq_update" in request.form:
                 faq_id = str(request.form.get('faq_update'))
-                print(request.form.get('faq_update'))
                 question = request.form.get('faq_update_question'+faq_id)
                 answer = request.form.get('faq_update_answer'+faq_id)
                 user_department = request.view_args["department"]

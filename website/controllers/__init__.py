@@ -18,3 +18,4 @@ from .international_office_controller import InternationalOffice
 from .administrator_controller import AdministratorController
 from .view_applications_controller import ViewApplicationsController
 from .final_forms_controller import FinalFormsController
+from .application_period_create_form import ApplicationPeriodCreateForm

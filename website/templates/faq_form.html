@@ -24,7 +24,7 @@
 				</form>
 				<a class="nav-item nav-link" href="/">Upload Final Form</a>
 				<a class="nav-item nav-link"
-					href="/faq/update/department={{user_service.getUserById(user.bilkent_id).department}}">Update FAQ</a>
+					href="/faq/update/department={{user.department}}">Update FAQ</a>
 				<a class="nav-item nav-link" href="/ec/applications">View Student Applications</a>
 				<a class="nav-item nav-link" href="/ec/form_application">Open Application Period</a>
 				<a class="nav-item nav-link" href="/logout">Logout</a>
@@ -53,7 +53,7 @@
 		</thead>
 		<tbody>
 			<form method="POST">
-				{% for faq in faq_service.getFaqByDepartment(user_service.getUserById(user.bilkent_id).department) 
+				{% for faq in faq_service.getFaqByDepartment(user.department) 
 				%}
 				<tr>
 					<td>
