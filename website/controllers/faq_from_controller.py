@@ -1,38 +1,58 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
+from website.dtos.faqCreateRequest import FaqCreateRequest
 from website.dtos.faqUpdateRequest import FaqUpdateRequest
 
 from website.services.faq_service import FaqService
 from website.services.user_service import UserService
 
 from website.services import AuthorizeService
-class FaqFormController(MethodView, AuthorizeService):
-    def __init__(self, role: str,  user_service, faq_service):
+class FaqFormController(MethodView):
+    
+
+    def __init__(self, role: str, user_service, faq_service: FaqService):
         AuthorizeService.__init__(self, role=role)
         self.faq_service = faq_service
         self.user_service = user_service
 
-    @login_required
     def get(self, department):
         if AuthorizeService.is_authorized(self):
+            print("aaa")
             return render_template("faq_form.html", user = current_user, faq_service = self.faq_service, user_service=self.user_service)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
-    """
-        ÖNEMLİ: ÖRNEK SERVİS KULLANIMI: RENDER TEMPLATE'E GEREKEN SERVİSLERİ VER. 
-        erasmus_coordinator_home.html'DE KULLANIMI MEVCUT
-    """
+            
     def post(self, department):
         if AuthorizeService.is_authorized(self):
-            if "update_faq" in request.form:
-                info = request.form.get('update_faq_info')
+            
+            if "faq_update" in request.form:
+                faq_id = str(request.form.get('faq_update'))
+                print(request.form.get('faq_update'))
+                question = request.form.get('faq_update_question'+faq_id)
+                answer = request.form.get('faq_update_answer'+faq_id)
+                user_department = request.view_args["department"]
+
+                if user_department != None:
+                    faq_update_request = FaqUpdateRequest(department=user_department, question=question, answer=answer)
+                    self.faq_service.updateFaq(int(faq_id), faq_update_request)
+                    return redirect(url_for("faq_form", user=current_user, department=department))
+                else:
+                    return redirect(url_for("your_are_not_authorized_page"))
+            
+            elif "faq_delete" in request.form:
+                self.faq_service.deleteFaq(id=request.form.get('faq_delete'))
+                return redirect(url_for("faq_form", user=current_user, department=department))
+            
+            elif "faq_create" in request.form:
+                question = request.form.get('faq_create_question')
+                answer = request.form.get('faq_create_answer')
                 user_department = request.view_args["department"]
                 if user_department != None:
-                    faq_update_request = FaqUpdateRequest(department=user_department, info=info)
-                    self.faq_service.updateFaq(user_department, faq_update_request=faq_update_request)
-                    return redirect(url_for("erasmus_coordinator_homepage"))
-                else:
-                    logout_user() 
-                    return redirect(url_for("your_are_not_authorized_page"))
+                    faq_update_request = FaqCreateRequest(department=user_department, question=question, answer=answer)
+                    self.faq_service.addFaq(user_department, faq_update_request)
+                return redirect(url_for("faq_form", user=current_user, department=department))
+            
+            else:
+                return redirect(url_for("your_are_not_authorized_page"))

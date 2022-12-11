@@ -84,9 +84,10 @@
             application_period_id) 
           %}
           <tr>
-            <td>{{application.id}}</td>
+            <td>{{application.application_id}}</td>
             <td>{{application.student_id}}</td>
-            <td>Some link to application</td>
+            <td>{{application.application_status}}</td>
+            <td>Application details</td>
           </tr>
           {% endfor %}
           {% endif %}
