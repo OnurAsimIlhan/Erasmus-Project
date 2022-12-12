@@ -5,4 +5,4 @@ class ApplicationPeriodCreateRequest:
         self.department = department
         self.title = title
         self.type = type
-        self.deadline = datetime.datetime.utcnow()
+        self.deadline = None

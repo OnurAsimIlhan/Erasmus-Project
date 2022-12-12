@@ -26,7 +26,7 @@
         <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
         <a class="nav-item nav-link" href="/ec/applications/">View Student Applications</a>
         <a class="nav-item nav-link" href="/ec/application_period/create/department={{user.department}}">Open Application Period</a>
-        <a class="nav-item nav-link" href="/logout">Logout</a>
+        <a class="nav-item nav-link" href="/login">Logout</a>
       </div>
     </div>
   </nav>
@@ -45,7 +45,6 @@
         <div class="card-body">
           <div class="card-body">
             <p class="card-text" style="text-align: left;"> Title: {{ application_period.title }}</p>
-            <p class="card-text" style="text-align: left;"> Status: {{ application_period.status }}</p>
             <p class="card-text" style="text-align: left;"> Department: {{ application_period.department }}</p>
 
           </div>
@@ -65,7 +64,14 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="dashboard" (click)="onDelete(userEvent.id)">Terminate Period</a>
+              <form method="POST">
+                <button 
+                class="btn btn-info"
+                name="complete_application_period"
+                value="{{application_period.id}}">
+                  Terminate Period
+                </button>
+              </form>
             </li>
           </ul>
         </div>

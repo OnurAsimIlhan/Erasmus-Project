@@ -1,9 +1,17 @@
 <form method="POST">
     <div class="input-field">
+        title
         <input id="application_period_create_title" name="application_period_create_title">
     </div>
     <div class="input-field">
-        <input id="application_period_create_type" name="application_period_create_type">
+        status
+        <select 
+        id="application_period_create_type" 
+        name="application_period_create_type">
+            {% for type in application_period_service.TYPE_LIST %}
+                <option value={{type}}>{{type}}</option>
+            {% endfor %}
+        </select>
     </div>
     <button name="application_period_create" class="btn btn-info">Add</button>
 </form>

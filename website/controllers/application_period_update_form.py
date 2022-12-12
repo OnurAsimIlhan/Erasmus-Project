@@ -30,9 +30,13 @@ class ApplicationPeriodUpdateForm(MethodView):
             if "application_period_create" in request.form:
                 title = request.form.get('application_period_update_title')
                 status = request.form.get('application_period_update_status')
+                print(status)
                 deadline = request.form.get('application_period_update_deadline')
-                print(deadline)
-                deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M")
+                if deadline.__len__() > 0:
+                    deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M")
+                else:
+                    deadline = None
+                
                 id = request.view_args["application_period_id"]
                 ap_request = ApplicationPeriodUpdateRequest(title=title,status=status,deadline=deadline)
                 self.application_period_service.updateApplicationPeriod(id, ap_request)

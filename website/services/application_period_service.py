@@ -6,6 +6,19 @@ class ApplicationPeriodService():
     def __init__(self, user_table, application_period_table):
         self.user_table = user_table
         self.application_period_table = application_period_table
+        self.STATUS_LIST = [
+            "Initialized", 
+            "Application", 
+            "Placement", 
+            "Preapproval", 
+            "Mobilization", 
+            "Course-Transfer", 
+            "Completed"
+        ]
+        self.TYPE_LIST = {
+            "Erasmus",
+            "Exchange"
+        }
     
     def getApplicationPeriodById(self, id: int):
         app = self.application_period_table.query.filter_by(id = id).first()
@@ -19,7 +32,7 @@ class ApplicationPeriodService():
         application_period=self.application_period_table(
             department=application_period_create_request.department,
             deadline=application_period_create_request.deadline,
-            status="Initial",
+            status=self.STATUS_LIST[0],
             type=application_period_create_request.type,
             title=application_period_create_request.title
         )
@@ -35,7 +48,10 @@ class ApplicationPeriodService():
         else:
             application_period.title=application_period_create_request.title
             application_period.status=application_period_create_request.status
-            application_period.deadline=application_period_create_request.deadline
+            print(application_period_create_request.status)
+            if application_period_create_request.deadline != None:
+                application_period.deadline=application_period_create_request.deadline
+            
             db.session.commit()
             return application_period
     
@@ -43,5 +59,13 @@ class ApplicationPeriodService():
         application_period = self.application_period_table.query.filter_by(id = id).first()
         db.session.delete(application_period)
         db.session.commit()
+    
+    def terminateApplicationPeriod(self, id):
+        application_period = self.application_period_table.query.filter_by(id = id).first()
+        if application_period != None:
+            application_period.status = self.STATUS_LIST[-1]
+            db.session.commit()
+        
+        return application_period
 
         

@@ -28,6 +28,11 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
         if AuthorizeService.is_authorized(self):
             if "update_faq" in request.form:
                 return redirect(url_for("faq_form", user=current_user))
+            elif "complete_application_period" in request.form:
+                application_period_id = int(request.form.get('complete_application_period'))
+                self.application_period_service.terminateApplicationPeriod(application_period_id)
+                return redirect(url_for("erasmus_coordinator_homepage"))
+                
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

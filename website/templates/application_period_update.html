@@ -3,13 +3,20 @@
         <input 
         id="application_period_update_title" 
         name="application_period_update_title"
-        placeholder= {{application_period_service.getApplicationPeriodById(application_period_id).title}}>
+        value= {{application_period_service.getApplicationPeriodById(application_period_id).title}}>
     </div>
     <div class="input-field">
-        <input 
+        <select 
         id="application_period_update_status" 
-        name="application_period_update_status"
-        placeholder={{application_period_service.getApplicationPeriodById(application_period_id).status}}>
+        name="application_period_update_status">
+            {% for status in application_period_service.STATUS_LIST %}
+            {% if status != application_period_service.getApplicationPeriodById(application_period_id).status %}
+                <option value={{status}}>{{status}}</option>
+            {% else %}
+                <option value={{status}} selected>{{status}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
     </div>
     <div class="input-field">
         <input 
