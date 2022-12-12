@@ -6,6 +6,7 @@ from .course_coordinator_service import CourseCoordinatorService
 from .applications_service import ApplicationsService
 from .faq_service import FaqService
 from .application_period_service import ApplicationPeriodService
+from .pdf_service import PDFService
 from .user_service import UserService
 from .university_service import UniversityService
 from .administrator_service import AdministratorService

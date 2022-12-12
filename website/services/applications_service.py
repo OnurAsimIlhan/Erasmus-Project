@@ -16,3 +16,26 @@ class ApplicationsService():
     def getApplicationsByApplicationPeriodId(self, id: int):
         applications = self.application_table.query.filter_by(application_period_id = id).all()
         return applications
+    
+    def insertUniversitySelections(self, student_id: int, selected_universities: list):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        
+        applicant.selected_university_1 = selected_universities[0] 
+        applicant.selected_university_2 = selected_universities[1]
+        applicant.selected_university_3 = selected_universities[2]
+        applicant.selected_university_4 = selected_universities[3]
+        applicant.selected_university_5 = selected_universities[4]
+        
+        db.session.commit()
+    
+    def getUniversitySelections(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        
+        selections = []
+        selections.append(applicant.selected_university_1)
+        selections.append(applicant.selected_university_2)
+        selections.append(applicant.selected_university_3)
+        selections.append(applicant.selected_university_4)
+        selections.append(applicant.selected_university_5)
+        
+        return selections

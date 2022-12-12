@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<a>Student Application Controller -> Done</a> 
+<form action="/student_application/" method="POST">
+    <label for="lang">University 1</label>
+    <select name="university1" id="lang">
+        <option value=None> None </option>
+        {% for university in universities %}
+            <option value={{university.name}}> {{university.name}} </option> 
+        {% endfor %}
+    </select>
+    <br>
+    <label for="lang">University 2</label>
+    <select name="university2" id="lang">
+        <option value=None> None </option>
+        {% for university in universities %}
+            <option value={{university.name}}> {{university.name}} </option> 
+        {% endfor %}
+    </select>
+    <br>
+    <label for="lang">University 3</label>
+    <select name="university3" id="lang">
+        <option value=None> None </option>
+        {% for university in universities %}
+            <option value={{university.name}}> {{university.name}} </option> 
+        {% endfor %}
+    </select>
+    <br>
+    <label for="lang">University 4</label>
+    <select name="university4" id="lang">
+        <option value=None> None </option>
+        {% for university in universities %}
+            <option value={{university.name}}> {{university.name}} </option> 
+        {% endfor %}
+    </select>
+    <br>
+    <label for="lang">University 5</label>
+    <select name="university5" id="lang">
+        <option value=None> None </option>
+        {% for university in universities %}
+            <option value={{university.name}}> {{university.name}} </option> 
+        {% endfor %}
+    </select>
+    <br>
+    <input type="submit" value="Submit" />
+</form>
+
+<h1> Universities </h1>
+{% for university in universities %}
+    <a>{{university.name}}, {{university.country}}</a> <br>
+{% endfor %}
+
+<h1> Your Current Selections </h1>
+{% for selection in current_selections %}
+    <a>Selection 1: {{selection}}</a> <br>
+{% endfor %}
+
+
+<h1> Upload Application Form </h1>
+<div class="center">
+    <form method="POST" action="/student_application/" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button>Upload Signed Application Form</button>
+    </form>
+</div>
 <br>
-<a>Applications Service -> Done</a>
-<br>
-<a>University Service -> Done</a>
-<br>
-<a>Applications Table -> Done</a>
-<br>
-<a>University Table -> Done</a>
