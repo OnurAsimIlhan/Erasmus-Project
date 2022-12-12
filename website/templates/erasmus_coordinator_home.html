@@ -11,7 +11,7 @@
 
   {% block nav_content %}
 
-  <!-- LINKS ON ALL href's-->
+  <!--Link all pages to related pages-->
   <li class="nav-item">
     <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">Home</a>
   </li>
@@ -37,7 +37,7 @@
   {% block content %}
 
   <div class="row justify-content-around" style="margin:10px">
-    <div class="col-8"
+    <div class="col-8" 
       style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
       <div style="padding:10px">
         <h2>Ongoing Application Periods</h2>
@@ -56,7 +56,7 @@
             {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
             user_service.getUserById(user.bilkent_id).department)
             %}
-            <!--For Loop -->
+            <!--Check if it is working -->
             <tr>
               <th scope="row">1</th>
               <td>{{user.bilkent_id}}</td>
