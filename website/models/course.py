@@ -5,7 +5,7 @@ class Course(db.Model):
     
     course_id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(50), nullable=False)
-    equivalent_bilkent_course = db.Column(db.Integer, nullable=False)
+    equivalent_bilkent_course = db.Column(db.String(50), nullable=False)
     course_credit = db.Column(db.Integer, nullable=False)
     department = db.Column(db.String(50), nullable=False)
     syllabus = db.Column(db.String(50))
