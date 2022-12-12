@@ -17,7 +17,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark " style=" background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
     <a class="navbar-brand" href="/main">
-      <img src="/static/logo.png" width="50" height="50" class="d-inline-block"  style="border-radius:50px" alt="">
+      <img src="/static/logo.png" width="50" height="50" class="d-inline-block"  style="border-radius:50px; " alt="">
       BILKENT ERASMUS
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,14 +29,15 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         {% block nav_content %}
-        <li class="nav-item">
-          <a class="nav-item nav-link " style="padding-top:15px ; " id="login" href="/login">Login</a>
-        </li>
+        
         <li class="nav-item">
           <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">FAQ</a>
         </li>
         <li class="nav-item">
           <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/contacts">Contacts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link " style="padding-top:15px ; " id="login" href="/login">Login</a>
         </li>
         {% endblock %}
       </ul>
@@ -52,9 +53,9 @@
 
 
   {% block content %}
-  <p>home page</p>
-  <div class="d-flex justify-content-between" style="margin-left:50px; margin-right:60px;">
-    <img src="/static/pic1.png" alt="Recuit" width="300" height="400">
+  
+  <div class="d-flex justify-content-between" style="margin-top:20px;margin-left:20px; margin-right:60px;">
+    <img src="/static/pic1.png" alt="Recuit" width="300" height="400" style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">
     <div style="margin-left:100px;">
       <h1 style="text-align:right">Bilkent Erasmus</h1>
       <p style="text-align:right; line-height: 170%; width: 529px; height: 155px;">Bilkent Computer Engineering
@@ -65,32 +66,9 @@
 
   </div>
 
-  <style>
-    .scrolling-wrapper {
-      overflow-x: scroll;
-      overflow-y: hidden;
-      white-space: nowrap;
-    }
-
-    .card {
-      display: inline-block;
-    }
-
-    .box {
-
-
-      background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);
-      box-shadow: 0px 4px 4px rgba(109, 147, 219, 0.8);
-      backdrop-filter: blur(5px);
-      /* Note: backdrop-filter has minimal browser support */
-
-      border-radius: 20px;
-
-
-    }
-  </style>
-  <div class=box style="margin-left:10px; margin-right:50px; margin-top:10px">
-    <div>
+  
+  <div style="margin-top:30px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+    <div style="padding:10px">
       <h1 style="color:white">Partner Instutions</h1>
       <p style="width:1000px; color:white">The exchange partners of the Bilkent CS Department include some of the best computer
         science/engineering departments in the world. All of our exchange partners are among the most established
@@ -98,22 +76,33 @@
         according the Times Higher Education Supplement. The following is a list of our Erasmus partners:
       </p>
     </div>
-    <div class="scrolling-wrapper">
-      {% for row in university_list %}
-      <div class="card">
-        <h2>{{row.name}}</h2>
-        <h3>{{row.university_id}}</h3>
+    <div  style="padding:10px; overflow-x: scroll;">
+     
+      <div style="margin-right:10px; display: inline-block;">
+        <img src="/static/pic1.png" alt="Recuit" width="300" height="200" style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));"/>
+        <h2>1321312</h2>
       </div>
-      {% endfor %}
-
+      
+      <div style="margin-right:10px; display: inline-block;">
+        <img src="/static/pic1.png" alt="Recuit" width="300" height="200" style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));"/>
+        <h2>1321312</h2>
+      </div>
+      
     </div>
-
-
-
   </div>
 
+  <div style="margin-top:50px; margin-bottom:100px">
+    <div style="width:600px; height:200px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
 
+    </div>
+  </div>
 
+  <div style="margin-top:50px; margin-bottom:100px">
+    <div style="width:600px; height:200px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+
+    </div>
+  </div>
+  
 
 
   {% endblock %}
