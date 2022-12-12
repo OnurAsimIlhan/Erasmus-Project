@@ -13,7 +13,11 @@
     {% block nav_content %}
     <!--Link Logout Service Here -->
     <li class="nav-item">
-        <a class="nav-item nav-link " style="padding-top:15px ; " id="logout" href="/main">Logout</a>
+        <form action="" method="POST">
+            <button type="logout" class="logoutButton" style="padding-top:15px" name="logout" value="">
+                Logout
+            </button>
+        </form>
     </li>
   
     {% endblock %}
@@ -30,61 +34,67 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Student ID</th>
-                            <th scope="col">Proposition</th>
-                            <th scope="col">View</th>
+                            <th scope="col">Syllabus</th>
+                            <th scope="col">Course Website</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Reject</th>
                             <th scope="col">Message</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <!--For Loop -->
+                        {% set i = namespace(value=1) %}
+                        {% for course in user.courses %}
+                        {% if course.approval_status != "Approved" %}
+                        {% if course.approval_status != "Rejected" %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                        </tr>
+                            <th scope="row">{{i.value}}</th>
 
+                            <td>{{course.proposing_student}}</td> 
+
+                            <td><form action="" method="POST">
+                                <button type="submit" class="open" name="Download" value="{{ course.course_id }}">
+                                    Download Syllabus
+                                </button>
+                            </form></td>
+                            <td><a href="{{course.web_page}}" target="_blank" rel="noreferrer noopener">Course Website</a></td>
+                            <td><form action="" method="POST">
+                                <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
+                                    Approve
+                                </button>
+                            </form></td>
+                            <td><form action="" method="POST">
+                                <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
+                                    Reject
+                                </button>
+                            </form></td>
+                            <td><form action="" method="POST">
+                                <button type="submit" class="open" name="Message" value="{{ course.proposing_student }}">
+                                    Message
+                                </button>
+                            </form></td>
+                        </tr>
+                        {% set i.value = i.value + 1 %}
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-
+        <style>
+            .logoutButton {
+                background:none;
+                border:none;
+                margin:0;
+                padding:0;
+            }
+        </style>
         <div class="col-3">
             {% include 'calendar.html' %}
-
-
         </div>
     </div>
-
-    <ul class="list-group list-group-flush" id="applications">
-        {% for course in user.courses %}
-        {% if course.approval_status != "Approved" %}
-        {% if course.approval_status != "Rejected" %}
-        <li class="list-group-item">
-            {{course.course_id , course.course_name , course.web_page }}
-            <form action="" method="POST">
-                <button type="submit" class="open" name="download" value="{{ course.course_id }}">
-                    Download Syllabus
-                </button>
-            </form>
-            <form action="" method="POST">
-                <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
-                    Approve
-                </button>
-            </form>
-            <form action="" method="POST">
-                <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
-                    Reject
-                </button>
-            </form>
-        </li>
-        {% endif %}
-        {% endif %}
-        {% endfor %}
-    </ul>
     {% endblock %}
 </body>
-
 </html>
