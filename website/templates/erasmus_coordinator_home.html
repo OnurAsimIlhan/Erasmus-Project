@@ -41,26 +41,35 @@
         {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
             user_service.getUserById(user.bilkent_id).department) 
         %}
+        {% if application_period.status != "Completed" %}
         <div class="card-body">
           <div class="card-body">
-            <p class="card-text" style="text-align: left;"> {{ application_period.title }}</p>
-            <p class="card-text" style="text-align: right;"> Department: {{ application_period.department }}</p>
+            <p class="card-text" style="text-align: left;"> Title: {{ application_period.title }}</p>
+            <p class="card-text" style="text-align: left;"> Status: {{ application_period.status }}</p>
+            <p class="card-text" style="text-align: left;"> Department: {{ application_period.department }}</p>
+
           </div>
           <div class="card-footer text">
             <span style="float: left;">Status: {{ application_period.status }}</span>
-            <span style="float: right;">Due: </span>
+            <span style="float: right;">Due: {{application_period.deadline}}</span>
           </div>
         </div>
         <div class="card-body">
           <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
-              <a class="nav-link" href="eventDetails" (click)="onEventDetails(userEvent.id)">Modify Application</a>
+              <a 
+                class="nav-link" 
+                href="/ec/application_period/update/application_period_id={{application_period.id}}"
+                >
+                Modify Application
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="dashboard" (click)="onDelete(userEvent.id)">Terminate Period</a>
             </li>
           </ul>
         </div>
+        {% endif %}
         {% endfor %}
 
       </div>

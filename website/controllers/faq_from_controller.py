@@ -18,7 +18,11 @@ class FaqFormController(MethodView):
 
     def get(self, department):
         if AuthorizeService.is_authorized(self):
-            return render_template("faq_form.html", user = current_user, faq_service = self.faq_service, user_service=self.user_service)        
+            return render_template(
+                "faq_form.html", 
+                user = current_user, 
+                faq_service = self.faq_service, 
+                user_service=self.user_service)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

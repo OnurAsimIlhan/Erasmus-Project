@@ -13,12 +13,13 @@ class ErasmusCoordinatorApplications(MethodView, AuthorizeService):
 
     @login_required
     def get(self):
-        """
-        Normalinde application_period bir "optional parameter" olmalı ama onun için flaska ayrı requirement gerekiyo
-        şimdilik böyle olsun iş yapıyor
-        """
         if AuthorizeService.is_authorized(self):
-            return render_template("erasmus_coordinator_applications.html", application_period_id=self.application_period_id, user = current_user, user_service=self.user_service, applications_service=self.applications_service, application_period_service=self.application_period_service)   
+            return render_template(
+                "erasmus_coordinator_applications.html", 
+                application_period_id=self.application_period_id, 
+                user = current_user, user_service=self.user_service, 
+                applications_service=self.applications_service, 
+                application_period_service=self.application_period_service)   
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
