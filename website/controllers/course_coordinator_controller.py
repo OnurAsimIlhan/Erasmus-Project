@@ -15,13 +15,13 @@ class CourseCoordinatorController(MethodView, AuthorizeService):
             return render_template("course_coordinator_homepage.html", user = current_user)           
         else:
             logout_user() 
-            return redirect(url_for("your_are_not_authorized_page"))  
+            return redirect(url_for("main"))  # not authorized page eklenince değiştirilecek
     
     @login_required
     def post(self):
         if AuthorizeService.is_authorized(self):
-            if "download" in request.form:
-                course_id = request.form.get('download')
+            if "Download" in request.form:
+                course_id = request.form.get('Download')
                 syllabusPath = self.course_coordinator_service.sendSyllabus(course_id)
                 return send_file(syllabusPath, as_attachment=True)
             if "Approve" in request.form:
@@ -32,17 +32,16 @@ class CourseCoordinatorController(MethodView, AuthorizeService):
                 course_id = request.form.get('Reject')
                 self.course_coordinator_service.rejectCourse(course_id)
                 return redirect(url_for("course_coordinator_homepage", user = current_user)) 
-            if "home" in request.form:
-                return redirect(url_for("course_coordinator_homepage", user = current_user)) 
-            if "todo" in request.form:
-                return redirect(url_for("todo_page", user = current_user))
+            if "Message" in request.form:
+                student_id = request.form.get('Message')
+                return redirect(url_for("course_coordinator_homepage", user = current_user)) # message homepage ver service eklenecek
             if "logout" in request.form:
                 logout_user() 
-                return redirect(url_for("login"))
+                return redirect(url_for("main")) 
 
         else:
             logout_user() 
-            return redirect(url_for("your_are_not_authorized_page"))  
+            return redirect(url_for("main"))  # not authorized page eklenince değiştirilecek
              
             
         

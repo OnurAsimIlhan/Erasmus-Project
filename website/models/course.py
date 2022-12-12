@@ -4,7 +4,6 @@ class Course(db.Model):
     """ Course Table for Authorization. One to Many Relationship with the University Table """
     
     course_id = db.Column(db.Integer, primary_key=True)
-    
     course_name = db.Column(db.String(50), nullable=False)
     equivalent_bilkent_course = db.Column(db.Integer, nullable=False)
     course_credit = db.Column(db.Integer, nullable=False)
@@ -15,6 +14,7 @@ class Course(db.Model):
     
     university_id = db.Column(db.Integer, db.ForeignKey("university.university_id"))
     course_coordinator = db.Column(db.Integer, db.ForeignKey("user.bilkent_id"))
+    proposing_student = db.Column(db.Integer)
     
     def get_id(self):
         return self.course_id
