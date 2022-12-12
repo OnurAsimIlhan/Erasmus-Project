@@ -1,55 +1,88 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Homepage</title>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
 </head>
+
 <body>
+    {% extends 'main_page.html' %}
     <h1 align="center">Pending Proposals</h1>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="navbar-nav">
-            <form action="" method="POST" >
-                <button type="submit" class="open" name="home" value="{{ user.bilkent_id }}">
-                    Home
-                </button>
-            </form>
-            <form action="" method="POST" >
-                <button type="submit" class="open" name="todo" value="{{ user.bilkent_id }}">
-                    Todo List
-                </button>
-            </form>
-            <form action="" method="POST" >
-                <button type="submit" class="open" name="logout" value="">
-                    Logout
-                </button>
-            </form>
+
+    {% block nav_content %}
+    <!--Link Logout Service Here -->
+    <a class="nav-item nav-link" style="padding-top:15px" id="login" href="/main">Logout</a>
+
+    {% endblock %}
+
+    {% block content %}
+
+    <div class="row justify-content-around" style="margin:10px">
+        <div class="col-8"
+            style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
+            <div style="padding:10px">
+                <h1 style="color:#33BBCF">Last Proposals</h1>
+                <table class="table table-light table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Student ID</th>
+                            <th scope="col">Proposition</th>
+                            <th scope="col">View</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!--For Loop -->
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </nav>    
+
+        <div class="col-3">
+            {% include 'calendar.html' %}
+
+
+        </div>
+    </div>
+
     <ul class="list-group list-group-flush" id="applications">
-            {% for course in user.courses %}
-            {% if course.approval_status != "Approved" %}
-            {% if course.approval_status != "Rejected" %}
-            <li class="list-group-item">
-            {{course.course_id , course.course_name , course.web_page }} 
-            <form action="" method="POST" >
+        {% for course in user.courses %}
+        {% if course.approval_status != "Approved" %}
+        {% if course.approval_status != "Rejected" %}
+        <li class="list-group-item">
+            {{course.course_id , course.course_name , course.web_page }}
+            <form action="" method="POST">
                 <button type="submit" class="open" name="download" value="{{ course.course_id }}">
                     Download Syllabus
                 </button>
             </form>
-            <form action="" method="POST" >
+            <form action="" method="POST">
                 <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
                     Approve
                 </button>
             </form>
-            <form action="" method="POST" >
+            <form action="" method="POST">
                 <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
                     Reject
                 </button>
             </form>
-            </li>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-        </ul>
+        </li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% endblock %}
 </body>
+
 </html>
