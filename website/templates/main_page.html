@@ -11,30 +11,44 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark" style=" background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+  
     
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark " style=" background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+    <a class="navbar-brand" href="/main">
+      <img src="/static/logo.png" width="50" height="50" class="d-inline-block"  style="border-radius:50px" alt="">
+      BILKENT ERASMUS
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+  
     
-      <div class="navbar-nav"> 
-        
-          <a class="navbar-brand" href="main_page.html">
-            <img src="/static/logo.png" width="50" height="50" class="d-inline-block"  style="border-radius:50px" alt="">
-            BILKENT ERASMUS
-          </a>
-        
-          
+  
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
         {% block nav_content %}
-      
-        
-        <a class="nav-item nav-link " style="padding-top:15px ; " id="login" href="/login">Login</a>
-        
-        <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">FAQ</a>
-
-        <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/contacts">Contacts</a>
+        <li class="nav-item">
+          <a class="nav-item nav-link " style="padding-top:15px ; " id="login" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/contacts">Contacts</a>
+        </li>
         {% endblock %}
-
-      
+      </ul>
     </div>
   </nav>
+  
+
+
+
+
+
+
 
 
   {% block content %}
