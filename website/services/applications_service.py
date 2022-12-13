@@ -39,3 +39,10 @@ class ApplicationsService():
         selections.append(applicant.selected_university_5)
         
         return selections
+    
+    def changeApplicationStatus(self, student_id: int, status: str):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        
+        applicant.application_status = status
+        
+        db.session.commit()

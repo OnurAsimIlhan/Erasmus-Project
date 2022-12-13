@@ -19,10 +19,12 @@ class StudentApplication(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
 
-        # If download form
-        # application_form_template = self.pdf_service.get_application_form(current_user.bilkent_id)
-        # return send_file(application_form_template, as_attachment=True, download_name="application_form_template.pdf")
-
+        try:
+            if request.args["download"]:
+                application_form_template = self.pdf_service.get_application_form(current_user.bilkent_id)
+                return send_file(application_form_template, as_attachment=True, download_name="application_form_template.pdf")
+        except:
+            pass
         
         universities = self.university_service.getUniversitiesByDepartment(current_user.department)
         current_selections = self.applications_service.getUniversitySelections(
@@ -59,9 +61,10 @@ class StudentApplication(MethodView, AuthorizeService):
         if len(request.files) == 1:
             file = request.files["file"]
             self.pdf_service.upload_application_form(file=file, student_id=current_user.bilkent_id)
+            self.applications_service.changeApplicationStatus(student_id=current_user.bilkent_id, status="Applied Eramus")
         else:
             self.pdf_service.create_application_form(current_user, current_selections)
-        
+            
         return render_template(
             "student_application_page.html",
             universities=universities,
