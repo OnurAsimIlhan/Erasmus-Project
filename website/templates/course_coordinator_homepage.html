@@ -14,7 +14,7 @@
     <!--Link Logout Service Here -->
     <li class="nav-item">
         <form action="" method="POST">
-            <button type="logout" class="logoutButton" style="padding-top:15px" name="logout" value="">
+            <button type="logout" class="logoutButton" style="padding-top:5px" name="logout" value="">
                 Logout
             </button>
         </form>
@@ -24,12 +24,12 @@
 
     {% block content %}
 
-    <div class="row justify-content-around" style="margin:10px">
-        <div class="col-8"
+    <div class="row d-block justify-content-around" style="margin:10px;">
+        <div class="col-7 float-left"
             style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
             <div style="padding:10px">
                 <h1 style="color:#33BBCF">Last Proposals</h1>
-                <table class="table table-light table-striped">
+                <table class="table table-light table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -92,8 +92,16 @@
                 padding:0;
             }
         </style>
-        <div class="col-3">
-            {% include 'calendar.html' %}
+        <div class="col-4 float-right" style="padding:20px;margin:10px; background:linear-gradient(333.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+            <div style="background-color:white; padding:5px">
+                {% include 'calendar.html' %}
+            </div>
+            <h2 style="color:white;margin-top:10px">Closing Deadlines</h2>
+            <!-- for loop -->
+                <div style="margin-top:10px;margin-left:20px;background-color:white">
+                    Insert Deadline Here
+                </div>
+            
         </div>
     </div>
     {% endblock %}
