@@ -5,7 +5,6 @@ from flask import Flask
 
 db = SQLAlchemy()
 
-
 def create_app():
     # --------------------------------------- Create app ------------------------------------------
     app = Flask(__name__, template_folder="../website/templates")
@@ -18,7 +17,17 @@ def create_app():
     # ---------------------------------------------------------------------------------------------
 
     # -------------------- Call the Models and create the tables or the database ------------------
-    from .models import User, Role, University, Course, Todo, Applications, ApplicationPeriod, Faq
+    from .models import (
+        User,
+        Role,
+        University,
+        Course,
+        Todo,
+        Applications,
+        ApplicationPeriod,
+        Faq,
+        Deadlines,
+    )
 
     with app.app_context():
         db.create_all()
@@ -27,6 +36,7 @@ def create_app():
     # --------------------- Call the Services and connect them with the Models --------------------
     from .services import (
         AuthenticateService,
+        RoleService,
         UserService,
         TodoService,
         UniversityService,
@@ -38,8 +48,8 @@ def create_app():
         ViewApplicationsService,
         FinalFormsService,
     )
-
-    authenticate_service = AuthenticateService(User, Role)
+    role_service = RoleService(role_table=Role)
+    authenticate_service = AuthenticateService(user_table=User, role_service=role_service)
     user_service = UserService(User)
     todo_service = TodoService(User, Todo)
     course_coordinator_service = CourseCoordinatorService(User, Course)
@@ -56,6 +66,7 @@ def create_app():
     # --------------------- Call the Views and connect them with the Services ---------------------
     from .controllers import (
         Login,
+        RoleSelection,
         Main,
         Contacts,
         FAQ,
@@ -71,10 +82,15 @@ def create_app():
         InternationalOffice,
         AdministratorController,
         ViewApplicationsController,
-        FinalFormsController
+        FinalFormsController,
     )
 
-    app.add_url_rule("/login/", view_func=Login.as_view("login", authenticate_service=authenticate_service))
+    app.add_url_rule(
+        "/login/", view_func=Login.as_view("login", authenticate_service=authenticate_service)
+    )
+    app.add_url_rule(
+        "/select_role/", view_func=RoleSelection.as_view("select_role", role_service=role_service)
+    )
     app.add_url_rule(
         "/main/", view_func=Main.as_view("main", university_service=university_service)
     )
@@ -112,6 +128,7 @@ def create_app():
             course_service="",
         ),
     )
+    
     app.add_url_rule(
         "/ec/home",
         view_func=ErasmusCoordinatorHome.as_view(
@@ -133,6 +150,16 @@ def create_app():
         ),
     )
     app.add_url_rule(
+        "/faq/update/department=<department>",
+        view_func=FaqFormController.as_view(
+            "faq_form",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            faq_service=faq_service,
+        ),
+    )
+
+    app.add_url_rule(
         "/cchome/",
         view_func=CourseCoordinatorController.as_view(
             "course_coordinator_homepage",
@@ -146,20 +173,12 @@ def create_app():
             "todo_page", role="Course Coordinator", todo_service=todo_service
         ),
     )
-
-    app.add_url_rule(
-        "/faq/update/department=<department>",
-        view_func=FaqFormController.as_view(
-            "faq_form",
-            role="Erasmus Coordinator",
-            user_service=user_service,
-            faq_service=faq_service,
-        ),
-    )
+    
     app.add_url_rule(
         "/intoff/",
-        view_func=InternationalOffice.as_view("view_applications", role="International Office"),
+        view_func=InternationalOffice.as_view("intoff_homepage", role="International Office"),
     )
+    
     app.add_url_rule(
         "/administrator_homepage",
         view_func=AdministratorController.as_view(

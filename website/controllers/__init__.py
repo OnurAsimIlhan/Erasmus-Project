@@ -1,4 +1,5 @@
 from .login_controller import Login 
+from .role_selection_controller import RoleSelection
 from .erasmus_coordinator_home import ErasmusCoordinatorHome
 from .erasmus_coordinator_applications import ErasmusCoordinatorApplications
 from .todo_controller import TodoController
