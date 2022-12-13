@@ -7,9 +7,13 @@
       var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth'
       });
+      calendar.addEvent({
+      title: 'Lunch',
+      start: '2022-12-07T12:30:00',
+      end: '2022-12-08T12:30:00',
+    });
       calendar.render();
     });
-
   </script>
 
 <body>

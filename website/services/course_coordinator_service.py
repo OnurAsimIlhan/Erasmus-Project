@@ -16,6 +16,6 @@ class CourseCoordinatorService():
 
     def sendSyllabus(self, course_id : int):
         course = self.course_table.query.filter_by(course_id = course_id).first()
-        syllabus_path = course.syllabus
+        syllabus_path = course.syllabus + "\\" + course_id + ".pdf" 
         return syllabus_path
         

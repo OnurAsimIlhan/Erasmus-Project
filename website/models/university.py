@@ -8,9 +8,11 @@ class University(db.Model):
     name = db.Column(db.String(50), nullable=False)
     country = db.Column(db.String(20), nullable=False)
     semester = db.Column(db.String(20), nullable=False)
-    departments = db.Column(db.String(50), nullable=False)
     language_requirements = db.Column(db.String(50), nullable=False)
+    total_quota =  db.Column(db.Integer, nullable=False)
+    remaining_quota =  db.Column(db.Integer, nullable=False)
     
+    departments = db.relationship("UniversityDepartments", backref="university")
     db.relationship("Applications", backref="university")
     
     def get_id(self):
