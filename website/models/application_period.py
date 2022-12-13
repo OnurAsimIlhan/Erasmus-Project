@@ -1,3 +1,4 @@
+import datetime
 from website import db
 
 class ApplicationPeriod(db.Model):
@@ -6,4 +7,6 @@ class ApplicationPeriod(db.Model):
     department = db.Column(db.String(5), nullable=False)
     title = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(50), nullable=False)
+    deadline = db.Column(db.DateTime)
+    type = db.Column(db.String(50), nullable=False)
     applications = db.relationship("Applications")

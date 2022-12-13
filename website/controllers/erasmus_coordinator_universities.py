@@ -13,7 +13,8 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
     
     def get(self):
         if AuthorizeService.is_authorized(self):
-            return render_template("erasmus_coordinator_universities.html", user = current_user, university_service = self.university_service, user_service=self.user_service)        
+            universities = self.university_service.getUniversitiesByDepartment(current_user.department)
+            return render_template("erasmus_coordinator_universities.html", user = current_user, universities = universities, user_service=self.user_service)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

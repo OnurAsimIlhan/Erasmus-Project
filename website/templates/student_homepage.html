@@ -2,48 +2,43 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title> Student Homepage </title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href={{ url_for("static", filename="student_home_assets/vendor/bootstrap/css/bootstrap.min.css") }} rel="stylesheet">
-  <link href={{ url_for("static", filename="student_home_assets/vendor/glightbox/css/glightbox.min.css") }} rel="stylesheet">
-  <link href={{ url_for("static", filename="student_home_assets/vendor/remixicon/remixicon.css") }} rel="stylesheet">
-  <link href={{ url_for("static", filename="student_home_assets/vendor/swiper/swiper-bundle.min.css") }} rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href={{ url_for("static", filename="student_home_assets/css/style.css") }} rel="stylesheet">
-
+  <meta charset="UTF-8">
+    <title>Student Home Page</title>
 </head>
 
 <body>
+  {% extends 'main_page.html' %}
+  <h1 align="center">Pending Proposals</h1>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center justify-content-between">
+  {% block nav_content %}
+  
+  <!-- LINKS ON ALL href's-->
+  <li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/my_application.html">My Application</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">FAQ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/contacts">Contacts</a>
+  </li>
 
-      <h1 class="logo"><a href="index.html">Erasmus Bilkent</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+  
+  <li class="nav-item">
+      <form action="" method="POST">
+          <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)" name="logout" value="">
+              Logout
+          </button>
+      </form>
+  </li>
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="#contact">FAQ</a></li>
-          <li><a class="getstarted scrollto" href="#about">Contact</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+  {% endblock %}
 
-    </div>
-  </header><!-- End Header -->
-
+  
+  {% block content %}
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
@@ -87,7 +82,7 @@
       </div>
     </div>
   </section>
-  
+  {% endblock %}
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

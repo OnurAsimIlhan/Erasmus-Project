@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     crossorigin="anonymous" />
 
-  <title>{% block title %}Erasmus Coordinator Homepage{% endblock %}</title>
+  <title>{% block title %} University Management {% endblock %}</title>
 </head>
 
 <body>
@@ -117,7 +117,7 @@
       <th>Total Quota</th>
       <th>Remaining Quota</th>
     </tr>
-    {% for university in university_service.getUniversitiesByDepartment(user_service.getUserById(user.bilkent_id).department) %}
+    {% for university in universities %}
     <tr>
       <form action="" method="POST" >
       <div class="form-group">

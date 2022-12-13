@@ -3,16 +3,23 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    crossorigin="anonymous" />
-
-  <title>{% block title %}Erasmus Coordinator Homepage{% endblock %}</title>
+  <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <title>{% block title %} Erasmus Coordinator Homepage {% endblock %} </title>
 </head>
 
 <body>
+  <!-- WORK HERE -->
+  {% block content %}
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
       <span class="navbar-toggler-icon"></span>
@@ -23,7 +30,7 @@
         <a class="nav-item nav-link" href="/ec/home">Home</a>
         </form>
         <a class="nav-item nav-link" href="/">Upload Final Form</a>
-        <a class="nav-item nav-link" href="/faq/update/department={{user_service.getUserById(user.bilkent_id).department}}">Update FAQ</a>
+        <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
         <a class="nav-item nav-link" href="/ec/applications/">View Student Applications</a>
         <a class="nav-item nav-link" href="/ec/form_application">Open Application Period</a>
         <a class="nav-item nav-link" href="/ec/universities">Universities</a>
@@ -31,78 +38,77 @@
       </div>
     </div>
   </nav>
-
-  <h1 style="text-align: center;">Coordinator Home</h1>
-  <br><br>
-  <div class="row hidden-md-up">
-    <div class="col-12 col-md-8">
-
-      <h2>Ongoing Application Periods</h2>
-      <div class="card text-center" style="margin-bottom: 20px;">
-        {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
-            user_service.getUserById(user.bilkent_id).department) 
-        %}
-        <div class="card-body">
-          <div class="card-body">
-            <p class="card-text" style="text-align: left;"> {{ application_period.title }}</p>
-            <p class="card-text" style="text-align: right;"> Department: {{ application_period.department }}</p>
-          </div>
-          <div class="card-footer text">
-            <span style="float: left;">Status: {{ application_period.status }}</span>
-            <span style="float: right;">Due: </span>
-          </div>
-        </div>
-        <div class="card-body">
-          <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-              <a class="nav-link" href="eventDetails" (click)="onEventDetails(userEvent.id)">Modify Application</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="dashboard" (click)="onDelete(userEvent.id)">Terminate Period</a>
-            </li>
-          </ul>
-        </div>
-        {% endfor %}
-
+  
+  <div class="row justify-content-around" style="margin:10px">
+    <div class="col-8" 
+      style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
+      <div style="padding:10px">
+        <h2>Ongoing Application Periods</h2>
+        <table class="table table-light table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Type</th>
+              <th scope="col">Status</th>
+              <th scope="col">Due</th>
+              <th scope="col">Update</th>
+              <th scope="col">Complete</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
+            user_service.getUserById(user.bilkent_id).department)
+            %}
+            {% if application_period.status != "Completed" %}
+            <tr>
+              <td>{{application_period.title}}</td>
+              <td>{{ application_period.type }}</td>
+              <td>{{ application_period.status }}</td>
+              <td>{{ application_period.deadline }}</td>
+              <td>
+                <form action="" method="POST">
+                  <a 
+                    class="nav-link" 
+                    href="/ec/application_period/update/application_period_id={{application_period.id}}"
+                    >
+                    Modify Application
+                  </a>
+                </form>
+              </td>
+              <td>
+                <form action="" method="POST">
+                  <button 
+                    class="btn btn-info"
+                    name="complete_application_period"
+                    value="{{application_period.id}}">
+                    Terminate Period
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
-
-    <div class="col-12 col-md-4">
-      <h2>To-Do List</h2>
-      <div class="card text-center" style="margin-bottom: 20px;">
-
-        <div class="card-body">
-          <div class="card-header" style="background-color: rgb(100, 150, 200);">
-          </div>
-          <div class="card-body">
-            <p class="card-text" style="text-align: left;"> TodoItem</p>
-            <p class="card-text" style="text-align: right;"> From: </p>
-          </div>
-          <div class="card-footer text">
-            <span style="float: right;">Category: </span>
-          </div>
-        </div>
-
-        <div class="card-body">
-          <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-              <a (click)="">Check Details</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <!-- dont worry about calendar do rest -->
+    <div class="col-3">
+      {% include 'calendar.html' %}
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-  </script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-  </script>
+  <div style="margin:40px; width:600px">
+    <div
+      style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
+      <div style="padding:10px">
+        <h2>To Do List</h2>
+        
+      </div>
+  </div>
+
+  {% endblock %}
 </body>
 
 </html>
