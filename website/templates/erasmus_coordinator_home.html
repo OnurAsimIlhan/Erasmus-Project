@@ -3,39 +3,41 @@
 
 <head>
   <meta charset="utf-8" />
-
+  <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <title>{% block title %} Erasmus Coordinator Homepage {% endblock %} </title>
 </head>
 
 <body>
-  {% extends 'main_page.html' %}
-
-  {% block nav_content %}
-
-  <!--Link all pages to related pages-->
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px" href="/ec/applications/">All Applications</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px"
-      href="/faq/update/department={{user_service.getUserById(user.bilkent_id).department}}">Update FAQ</a>
-  </li>
-  <li class="nav-item">
-    <form action="" method="POST">
-      <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)"
-        name="logout" value="">
-        Logout
-      </button>
-    </form>
-  </li>
-  {% endblock %}
-
-
   <!-- WORK HERE -->
   {% block content %}
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+      <div class="navbar-nav">
+        <form method="POST">
+        <a class="nav-item nav-link" href="/ec/home">Home</a>
+        </form>
+        <a class="nav-item nav-link" href="/">Upload Final Form</a>
+        <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
+        <a class="nav-item nav-link" href="/ec/applications/">View Student Applications</a>
+        <a class="nav-item nav-link" href="/ec/application_period/create/department={{user.department}}">Open Application Period</a>
+        <a class="nav-item nav-link" href="/login">Logout</a>
+      </div>
+    </div>
+  </nav>
+  
   <div class="row justify-content-around" style="margin:10px">
     <div class="col-8" 
       style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
@@ -44,41 +46,48 @@
         <table class="table table-light table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Student ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Type</th>
               <th scope="col">Status</th>
-              <th scope="col">View</th>
-              <th scope="col">Message</th>
+              <th scope="col">Due</th>
+              <th scope="col">Update</th>
+              <th scope="col">Complete</th>
             </tr>
           </thead>
           <tbody>
-
+            
             {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
             user_service.getUserById(user.bilkent_id).department)
             %}
-            <!--Check if it is working -->
+            {% if application_period.status != "Completed" %}
             <tr>
-              <th scope="row">1</th>
-              <td>{{user.bilkent_id}}</td>
+              <td>{{application_period.title}}</td>
+              <td>{{ application_period.type }}</td>
               <td>{{ application_period.status }}</td>
+              <td>{{ application_period.deadline }}</td>
               <td>
                 <form action="" method="POST">
-                  <button type="submit" class="open" name="Message" value="">
-                    Download
-                  </button>
+                  <a 
+                    class="nav-link" 
+                    href="/ec/application_period/update/application_period_id={{application_period.id}}"
+                    >
+                    Modify Application
+                  </a>
                 </form>
               </td>
               <td>
                 <form action="" method="POST">
-                  <button type="submit" class="open" name="Message" value="">
-                    Message
+                  <button 
+                    class="btn btn-info"
+                    name="complete_application_period"
+                    value="{{application_period.id}}">
+                    Terminate Period
                   </button>
                 </form>
               </td>
             </tr>
+            {% endif %}
             {% endfor %}
-
-
           </tbody>
         </table>
       </div>

@@ -86,6 +86,8 @@ def create_app():
         AdministratorController,
         ViewApplicationsController,
         FinalFormsController,
+        ApplicationPeriodCreateForm,
+        ApplicationPeriodUpdateForm,
     )
 
     app.add_url_rule(
@@ -160,6 +162,24 @@ def create_app():
             role="Erasmus Coordinator",
             user_service=user_service,
             faq_service=faq_service,
+        ),
+    )
+    app.add_url_rule(
+        "/ec/application_period/create/department=<department>",
+        view_func=ApplicationPeriodCreateForm.as_view(
+            "application_period_create_form",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            application_period_service=application_period_service,
+        ),
+    )
+    app.add_url_rule(
+        "/ec/application_period/update/application_period_id=<application_period_id>",
+        view_func=ApplicationPeriodUpdateForm.as_view(
+            "application_period_update_form",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            application_period_service=application_period_service,
         ),
     )
 

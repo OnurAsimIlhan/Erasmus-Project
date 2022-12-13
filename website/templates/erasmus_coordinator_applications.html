@@ -45,6 +45,7 @@
             <th scope="col">Selected</th>
           </tr>
         </thead>
+        
         <tbody>
           <form method="POST">
             {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
@@ -55,12 +56,22 @@
               <td>{{application_period.department}}</td>
               <td>{{application_period.status}}</td>
               <td>
+                {% if application_period.id == application_period_id|int %}
+                <input 
+                  type="radio" 
+                  style="width: 15px; height: 15px;"
+                  name="application_period_id"
+                  value={{application_period.id}}
+                  checked
+                >
+                {% else%}
                 <input 
                   type="radio" 
                   style="width: 15px; height: 15px;"
                   name="application_period_id"
                   value={{application_period.id}}
                 >
+                {% endif %}
               </td>
             </tr>
             {% endfor %}
@@ -84,9 +95,12 @@
             application_period_id) 
           %}
           <tr>
-            <td>{{application.id}}</td>
+            <td>{{application.application_id}}</td>
             <td>{{application.student_id}}</td>
-            <td>Some link to application</td>
+            <td>{{application.application_status}}</td>
+            <td>
+              <a href="STUDENT APPLICATION DETAILS">Application details</a>
+            </td>
           </tr>
           {% endfor %}
           {% endif %}
