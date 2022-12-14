@@ -7,6 +7,14 @@
 </head>
 
 <body>
+
+  {{name}}
+  {{application_deadline}}
+  {{preapproval_deadline}}
+  {{learning_agreement_deadline}}
+  {{matched_university}}
+
+
   {% extends 'main_page.html' %}
   <h1 align="center">Pending Proposals</h1>
 
@@ -85,8 +93,7 @@
   <script src={{ url_for("static", filename="student_home_assets/vendor/swiper/swiper-bundle.min.js") }}></script>
   
   <!-- Template Main JS File -->
-  <script src={{ url_for("static", filename="student_home_assets/js/main.js") }}></script>
-
+  <script src={{ url_for("static", filename="student_home_assets/js/main.js") }}></script> 
 </body>
 
 </html>

@@ -8,6 +8,10 @@ class ApplicationsService():
         task = self.application_table.query.filter_by(id = id).first()
         print(task)
         return task
+    
+    def getApplicationByStudentId(self, student_id: int):
+        application = self.application_table.query.filter_by(student_id=student_id).first()
+        return application
 
     def getApplicationsByDepartment(self, dep: str):
         applications = self.application_table.query.filter_by(department = dep).all()

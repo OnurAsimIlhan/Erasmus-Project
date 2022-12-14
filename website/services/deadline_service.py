@@ -10,7 +10,7 @@ class DeadlineService():
             You can compare the datetime objects using comparison operators (=, <, >, <=, >=) 
         """
     
-        deadline = self.deadlines_table.query.filter_by(deadline_title=deadline_title)
+        deadline = self.deadlines_table.query.filter_by(deadline_title=deadline_title).first()
         deadline_str = deadline.deadline
         
         deadline_obj = datetime.strptime(deadline_str, "%d/%m/%y %H.%M")
