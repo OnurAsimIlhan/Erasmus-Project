@@ -13,7 +13,10 @@ class CourseCoordinatorController(MethodView, AuthorizeService):
 
     def get(self):
         if AuthorizeService.is_authorized(self):
-            return render_template("course_coordinator_homepage.html", user = current_user)           
+            return render_template("course_coordinator_homepage.html", 
+                                    user = current_user, 
+                                    getBilkentCourseName = self.course_service.getBilkentCourseName,
+                                    getUniversityName = self.course_service.getUniversityName)           
         else:
             logout_user() 
             return redirect(url_for("main"))  # not authorized page eklenince değiştirilecek
@@ -32,9 +35,6 @@ class CourseCoordinatorController(MethodView, AuthorizeService):
                 course_id = request.form.get('Reject')
                 self.course_service.rejectCourse(course_id)
                 return redirect(url_for("course_coordinator_homepage", user = current_user)) 
-            if "Message" in request.form:
-                student_id = request.form.get('Message')
-                return redirect(url_for("course_coordinator_homepage", user = current_user)) # message homepage ver service eklenecek
             if "logout" in request.form:
                 logout_user() 
                 return redirect(url_for("main")) 

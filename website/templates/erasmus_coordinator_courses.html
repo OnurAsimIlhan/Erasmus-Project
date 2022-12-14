@@ -57,18 +57,18 @@
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
                
-                ">Last Proposals</h1>
+                ">Last Course Proposals</h1>
                 <table class="table table-light table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Student ID</th>
+                            <th scope="col">Course Name</th>
+                            <th scope="col">University Name</th>
                             <th scope="col">Bilkent Course</th>
                             <th scope="col">Syllabus</th>
                             <th scope="col">Course Website</th>
                             <th scope="col">Approve</th>
                             <th scope="col">Reject</th>
-                            <th scope="col">Message</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,9 +81,11 @@
                         <tr>
                             <th scope="row">{{i.value}}</th>
 
-                            <td>{{course.proposing_student}}</td> 
+                            <td>{{course.course_name}}</td> 
 
-                            <td>{{course.equivalent_bilkent_course}}</td>
+                            <td>{{getUniversityName(course.university_id)}}</td>
+
+                            <td>{{getBilkentCourseName(course.equivalent_bilkent_course)}}</td>
 
                             <td><form action="" method="POST">
                                 <button type="submit" class="open" name="Download" value="{{ course.course_id }}">
@@ -99,11 +101,6 @@
                             <td><form action="" method="POST">
                                 <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
                                     Reject
-                                </button>
-                            </form></td>
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Message" value="{{ course.proposing_student }}">
-                                    Message
                                 </button>
                             </form></td>
                         </tr>

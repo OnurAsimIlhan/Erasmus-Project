@@ -10,9 +10,13 @@ class ErasmusCoordinatorCoursesController(MethodView, AuthorizeService):
         AuthorizeService.__init__(self, role=role)
         self.course_service = course_service
    
+
     def get(self):
         if AuthorizeService.is_authorized(self):
-            return render_template("erasmus_coordinator_courses.html", user = current_user)           
+            return render_template("erasmus_coordinator_courses.html", 
+                                    user = current_user, 
+                                    getBilkentCourseName = self.course_service.getBilkentCourseName,
+                                    getUniversityName = self.course_service.getUniversityName)            
         else:
             logout_user() 
             return redirect(url_for("main"))  # not authorized page eklenince değiştirilecek
@@ -31,9 +35,6 @@ class ErasmusCoordinatorCoursesController(MethodView, AuthorizeService):
                 course_id = request.form.get('Reject')
                 self.course_service.rejectCourse(course_id)
                 return redirect(url_for("erasmus_coordinator_courses", user = current_user)) 
-            if "Message" in request.form:
-                student_id = request.form.get('Message')
-                return redirect(url_for("erasmus_coordinator_courses", user = current_user)) # message homepage ver service eklenecek
             if "logout" in request.form:
                 logout_user() 
                 return redirect(url_for("main")) 

@@ -28,6 +28,7 @@ def create_app():
         ApplicationPeriod,
         Faq,
         Deadlines,
+        BilkentCourses,
     )
 
     with app.app_context():
@@ -54,7 +55,7 @@ def create_app():
     authenticate_service = AuthenticateService(user_table=User, role_service=role_service)
     user_service = UserService(User)
     todo_service = TodoService(User, Todo)
-    course_service = CourseService(User, Course)
+    course_service = CourseService(User, Course, BilkentCourses, University)
     university_service = UniversityService(University, UniversityDepartments)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
