@@ -44,6 +44,7 @@ def create_app():
         FaqService,
         ApplicationsService,
         ApplicationPeriodService,
+        DeadlineService,
         PDFService,
         CourseCoordinatorService,
         AdministratorService,
@@ -58,6 +59,7 @@ def create_app():
     university_service = UniversityService(University, UniversityDepartments)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
+    deadline_service = DeadlineService(deadlines_table=Deadlines) 
     pdf_service = PDFService(application_table=Applications)
     faq_service = FaqService(user_table=User, faq_table=Faq)
     administrator_service = AdministratorService(User)
@@ -106,7 +108,7 @@ def create_app():
     )
 
     app.add_url_rule(
-        "/student_home/", view_func=StudentHome.as_view("student_home", role="Student")
+        "/student_home/", view_func=StudentHome.as_view("student_home", role="Student", deadline_service=deadline_service)
     )
     app.add_url_rule(
         "/student_application/",

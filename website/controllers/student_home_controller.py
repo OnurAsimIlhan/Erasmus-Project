@@ -6,8 +6,9 @@ from website.services import AuthorizeService
 class StudentHome(MethodView, AuthorizeService):
     decorators = [login_required]
     
-    def __init__(self, role: str):
+    def __init__(self, role: str, deadline_service):
         AuthorizeService.__init__(self, role=role)
+        self.deadline_service = deadline_service
     
     def get(self):
         if AuthorizeService.is_authorized(self) == False:
