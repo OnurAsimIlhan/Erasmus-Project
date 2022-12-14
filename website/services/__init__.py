@@ -2,7 +2,7 @@ from .authenticate_service import AuthenticateService
 from .authorize_service import AuthorizeService
 from .role_service import RoleService
 from .todo_service import TodoService
-from .course_coordinator_service import CourseCoordinatorService
+from .course_service import CourseService
 from .applications_service import ApplicationsService
 from .faq_service import FaqService
 from .application_period_service import ApplicationPeriodService
