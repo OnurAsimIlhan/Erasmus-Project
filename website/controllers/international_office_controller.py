@@ -22,11 +22,12 @@ class InternationalOffice(MethodView, AuthorizeService):
     def post(self):
         if AuthorizeService.is_authorized(self):
             if "download" in request.form:
-                department = request.form.get("value")
+                department = request.form.get("downloadDepartment")
+                print(department)
                 file = self.international_office_service.getAppliedStudents(department)
-                return send_file(file, attachment_filename=""+department+'applications.xlsx', as_attachment=True)
+                return send_file(file, download_name=""+department+'_applications.xlsx', as_attachment=True)
             if "upload" in request.form:
                 file = request.files.get('file')
-                department = request.form.get("value")
+                department = request.form.get("uploadDepartment")
                 self.international_office_service.place(department,file)
                 return redirect(url_for("international_office_homepage", user = current_user)) 

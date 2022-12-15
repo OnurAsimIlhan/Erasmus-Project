@@ -1,15 +1,15 @@
 from website import db
 import pandas as pd
 import io
-from website.models import User
 
 
 class InternationalOfficeService:
     
-    def __init__(self, user_table, university_table, applications_table):
+    def __init__(self, user_table, university_table, applications_table, university_departments_table):
         self.user_table = user_table
         self.university_table = university_table
         self.applications_table = applications_table
+        self.university_departments_table = university_departments_table
 
     def getAppliedStudents(self, department:str):
         df = pd.DataFrame(columns=['FirstName', 'LastName', 'StudentID', 'Faculty', 'Department', 
@@ -38,12 +38,13 @@ class InternationalOfficeService:
     def place(self, department:str, file): # columns: StudentID | Score
         df = pd.read_excel(file)  
         sorted_df = df.sort_values(by=['Score'], ascending=False)
-        for index in sorted_df.index:
+        rank = 1
+        for index, row in sorted_df.iterrows():
             process_end = False
-            application = self.applications_table.query.filter_by(student_id=sorted_df["StudentID"][index]).first()
-            application.ranking = index
-
-            student = self.user_table.query.filter_by(bilkent_id=sorted_df["StudentID"][index]).first()
+            application = self.applications_table.query.filter_by(student_id=row["StudentID"]).first()
+            application.ranking = rank
+            rank = rank + 1
+            student = self.user_table.query.filter_by(bilkent_id=row["StudentID"]).first()
 
             university_list = []
             university1 = self.university_table.query.filter_by(university_id = application.selected_university_1).first()
@@ -59,7 +60,8 @@ class InternationalOfficeService:
 
             for university in university_list:
                 if university != None and process_end == False:
-                    for department in university.departments:
+                    departments = university.departments 
+                    for department in departments:
                         if department.department == student.department:
                             if department.remaining_quota > 0:
                                 application.matched_university = university.university_id
@@ -67,14 +69,17 @@ class InternationalOfficeService:
                                 application.application_status = "Matched"
                                 process_end = True
                 else:
-                    application.application_status = "WaitingList"
+                    if (process_end == False):
+                        application.application_status = "Waiting List"
                     process_end = True
         db.session.commit() 
 
     def getDepartments(self):
         departments = []
-        for department in db.session.query.distinct(User.name):
-            departments.append(department)
+        users = self.user_table.query.all()
+        for user in users:
+            if ((user.department in departments) == False):
+                departments.append(user.department)
         return departments
 
 
