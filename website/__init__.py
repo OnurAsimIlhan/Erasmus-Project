@@ -28,6 +28,7 @@ def create_app():
         ApplicationPeriod,
         Faq,
         Deadlines,
+        BilkentCourses,
     )
 
     with app.app_context():
@@ -46,7 +47,7 @@ def create_app():
         ApplicationPeriodService,
         DeadlineService,
         PDFService,
-        CourseCoordinatorService,
+        CourseService,
         AdministratorService,
         ViewApplicationsService,
         FinalFormsService,
@@ -55,7 +56,7 @@ def create_app():
     authenticate_service = AuthenticateService(user_table=User, role_service=role_service)
     user_service = UserService(User)
     todo_service = TodoService(User, Todo)
-    course_coordinator_service = CourseCoordinatorService(User, Course)
+    course_service = CourseService(User, Course, BilkentCourses, University)
     university_service = UniversityService(University, UniversityDepartments)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
@@ -81,6 +82,7 @@ def create_app():
         PreApprovalController,
         ErasmusCoordinatorHome,
         ErasmusCoordinatorApplications,
+        ErasmusCoordinatorCoursesController,
         ErasmusCoordinatorUniversities,
         CourseCoordinatorController,
         TodoController,
@@ -159,6 +161,14 @@ def create_app():
         ),
     )
     app.add_url_rule(
+        "/ec/courses/",
+        view_func=ErasmusCoordinatorCoursesController.as_view(
+            "erasmus_coordinator_courses",
+            role="Erasmus Coordinator",
+            course_service=course_service
+        ),
+    )
+    app.add_url_rule(
         "/ec/universities/",
         view_func=ErasmusCoordinatorUniversities.as_view(
             "erasmus_coordinator_universities",
@@ -200,7 +210,7 @@ def create_app():
         view_func=CourseCoordinatorController.as_view(
             "course_coordinator_homepage",
             role="Course Coordinator",
-            course_coordinator_service=course_coordinator_service,
+            course_service=course_service,
         ),
     )
     app.add_url_rule(
