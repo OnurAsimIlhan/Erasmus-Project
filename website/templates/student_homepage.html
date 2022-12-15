@@ -7,24 +7,25 @@
 </head>
 
 <body>
+
+  {{name}}
+  {{application_deadline}}
+  {{preapproval_deadline}}
+  {{learning_agreement_deadline}}
+  {{matched_university}}
+
+
   {% extends 'main_page.html' %}
   <h1 align="center">Pending Proposals</h1>
 
   {% block nav_content %}
   
   <!-- LINKS ON ALL href's-->
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">Home</a>
-  </li>
+  
   <li class="nav-item">
     <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/my_application.html">My Application</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/faq">FAQ</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/contacts">Contacts</a>
-  </li>
+  
 
   
   <li class="nav-item">
@@ -92,8 +93,7 @@
   <script src={{ url_for("static", filename="student_home_assets/vendor/swiper/swiper-bundle.min.js") }}></script>
   
   <!-- Template Main JS File -->
-  <script src={{ url_for("static", filename="student_home_assets/js/main.js") }}></script>
-
+  <script src={{ url_for("static", filename="student_home_assets/js/main.js") }}></script> 
 </body>
 
 </html>

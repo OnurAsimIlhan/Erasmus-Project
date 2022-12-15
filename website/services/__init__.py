@@ -4,6 +4,7 @@ from .role_service import RoleService
 from .todo_service import TodoService
 from .course_service import CourseService
 from .applications_service import ApplicationsService
+from .deadline_service import DeadlineService
 from .faq_service import FaqService
 from .application_period_service import ApplicationPeriodService
 from .pdf_service import PDFService
