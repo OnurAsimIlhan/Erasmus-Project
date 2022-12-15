@@ -1,3 +1,4 @@
+from sqlalchemy import desc
 from website import db
 class ApplicationsService():
     def __init__(self, user_table, application_table):
@@ -22,7 +23,7 @@ class ApplicationsService():
         return applications
 
     def getApplicationsByStatus(self, status: str):
-        applications = self.application_table.query.filter_by(application_status=status).all()
+        applications = self.application_table.query.filter_by(application_status=status).order_by(desc(self.application_table.cgpa)).all()
         return applications
     
     def insertUniversitySelections(self, student_id: int, selected_universities: list):
