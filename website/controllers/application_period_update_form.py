@@ -33,7 +33,7 @@ class ApplicationPeriodUpdateForm(MethodView):
                 print(status)
                 deadline = request.form.get('application_period_update_deadline')
                 if deadline.__len__() > 0:
-                    deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M")
+                    deadline = datetime.datetime.strptime(deadline, "%d/%m/%y %H.%M")
                 else:
                     deadline = None
                 

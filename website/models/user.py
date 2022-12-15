@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     courses = db.relationship("Course", backref="user")                 # Course Coordinator 
     todo = db.relationship("Todo", backref="user")                      # Course Coordinator  
     applications = db.relationship("Applications", backref="user")      # Student    
+    bilkent_courses = db.relationship("BilkentCourses", backref="user") # Course Coordinator
 
     def get_id(self):
         return self.bilkent_id
