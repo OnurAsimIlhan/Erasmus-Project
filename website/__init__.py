@@ -5,6 +5,7 @@ from flask import Flask
 
 db = SQLAlchemy()
 
+
 def create_app():
     # --------------------------------------- Create app ------------------------------------------
     app = Flask(__name__, template_folder="../website/templates")
@@ -52,6 +53,7 @@ def create_app():
         ViewApplicationsService,
         FinalFormsService,
     )
+
     role_service = RoleService(role_table=Role)
     authenticate_service = AuthenticateService(user_table=User, role_service=role_service)
     user_service = UserService(User)
@@ -60,7 +62,7 @@ def create_app():
     university_service = UniversityService(University, UniversityDepartments)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
-    deadline_service = DeadlineService(deadlines_table=Deadlines) 
+    deadline_service = DeadlineService(deadlines_table=Deadlines)
     pdf_service = PDFService(application_table=Applications)
     faq_service = FaqService(user_table=User, faq_table=Faq)
     administrator_service = AdministratorService(User)
@@ -110,7 +112,13 @@ def create_app():
     )
 
     app.add_url_rule(
-        "/student_home/", view_func=StudentHome.as_view("student_home", role="Student", deadline_service=deadline_service, applications_service=applications_service)
+        "/student_home/",
+        view_func=StudentHome.as_view(
+            "student_home",
+            role="Student",
+            deadline_service=deadline_service,
+            applications_service=applications_service,
+        ),
     )
     app.add_url_rule(
         "/student_application/",
@@ -119,7 +127,7 @@ def create_app():
             role="Student",
             university_service=university_service,
             applications_service=applications_service,
-            pdf_service=pdf_service
+            pdf_service=pdf_service,
         ),
     )
     app.add_url_rule(
@@ -139,7 +147,7 @@ def create_app():
             course_service="",
         ),
     )
-    
+
     app.add_url_rule(
         "/ec/home",
         view_func=ErasmusCoordinatorHome.as_view(
@@ -163,9 +171,7 @@ def create_app():
     app.add_url_rule(
         "/ec/courses/",
         view_func=ErasmusCoordinatorCoursesController.as_view(
-            "erasmus_coordinator_courses",
-            role="Erasmus Coordinator",
-            course_service=course_service
+            "erasmus_coordinator_courses", role="Erasmus Coordinator", course_service=course_service
         ),
     )
     app.add_url_rule(
@@ -173,8 +179,8 @@ def create_app():
         view_func=ErasmusCoordinatorUniversities.as_view(
             "erasmus_coordinator_universities",
             role="Erasmus Coordinator",
-            user_service = user_service,
-            university_service = university_service,
+            user_service=user_service,
+            university_service=university_service,
         ),
     )
     app.add_url_rule(
@@ -219,12 +225,12 @@ def create_app():
             "todo_page", role="Course Coordinator", todo_service=todo_service
         ),
     )
-    
+
     app.add_url_rule(
         "/intoff/",
         view_func=InternationalOffice.as_view("intoff_homepage", role="International Office"),
     )
-    
+
     app.add_url_rule(
         "/administrator_homepage",
         view_func=AdministratorController.as_view(
@@ -257,6 +263,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(bilkent_id):
         return User.query.get(int(bilkent_id))
+
     # ---------------------------------------------------------------------------------------------
 
     return app
