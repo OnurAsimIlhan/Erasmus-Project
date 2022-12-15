@@ -141,15 +141,15 @@
         </td>
         <td>
           <select class="form-control" id ="update_semester" name="update_semester">
-            {% if university.semester == "Fall" %}
+            {% if university.semester == "fall" %}
             <option value="fall" selected>Fall</option>
             <option value="spring">Spring</option>
             <option value="both">Both</option>
-            {% elif university.semester == "Spring" %}
+            {% elif university.semester == "spring" %}
             <option value="fall">Fall</option>
             <option value="spring" selected>Spring</option>
             <option value="both">Both</option>
-            {% elif university.semester == "Both" %}
+            {% elif university.semester == "both" %}
             <option value="fall">Fall</option>
             <option value="spring">Spring</option>
             <option value="both" selected>Both</option>
