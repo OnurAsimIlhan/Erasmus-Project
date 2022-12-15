@@ -90,7 +90,6 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                 ws.title = "Waiting Bin"
                 ws.append(["Student ID", "Name"])
                 applications = self.applications_service.getApplicationsByStatus(status = "waiting_bin")
-                # applications.sort(key=)
                 for application in applications:
                     student_id = application.student_id
                     student = self.user_service.getUserById(student_id)
