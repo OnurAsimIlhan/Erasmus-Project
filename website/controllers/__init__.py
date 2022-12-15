@@ -2,6 +2,7 @@ from .login_controller import Login
 from .role_selection_controller import RoleSelection
 from .erasmus_coordinator_home import ErasmusCoordinatorHome
 from .erasmus_coordinator_applications import ErasmusCoordinatorApplications
+from .erasmus_coordinator_courses_controller import ErasmusCoordinatorCoursesController
 from .erasmus_coordinator_universities import ErasmusCoordinatorUniversities
 from .todo_controller import TodoController
 from .course_coordinator_controller import CourseCoordinatorController

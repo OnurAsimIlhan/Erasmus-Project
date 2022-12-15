@@ -1,5 +1,6 @@
 from .role import Role
 from .user import User
+from .bilkent_courses import BilkentCourses
 from .course import Course
 from .university import University
 from .university_departments import UniversityDepartments
