@@ -21,6 +21,7 @@ class CourseService():
         course = self.course_table.query.filter_by(course_id = course_id).first()
         course.approval_status = "Approved"
         db.session.commit()
+        
     def rejectCourse(self, course_id : int):
         course = self.course_table.query.filter_by(course_id = course_id).first()
         course.approval_status = "Rejected"

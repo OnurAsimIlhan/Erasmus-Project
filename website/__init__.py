@@ -52,6 +52,7 @@ def create_app():
         AdministratorService,
         ViewApplicationsService,
         FinalFormsService,
+        InternationalOfficeService,
     )
 
     role_service = RoleService(role_table=Role)
@@ -68,6 +69,7 @@ def create_app():
     administrator_service = AdministratorService(User)
     view_applications_service = ViewApplicationsService(User)
     final_forms_service = FinalFormsService(User)
+    international_office_service = InternationalOfficeService(User,University,Applications)
 
     # ---------------------------------------------------------------------------------------------
 
@@ -228,7 +230,10 @@ def create_app():
 
     app.add_url_rule(
         "/intoff/",
-        view_func=InternationalOffice.as_view("intoff_homepage", role="International Office"),
+        view_func=InternationalOffice.as_view("international_office_homepage", role="International Office",
+            international_office_service = international_office_service,
+            deadline_service = deadline_service,
+        ),
     )
 
     app.add_url_rule(

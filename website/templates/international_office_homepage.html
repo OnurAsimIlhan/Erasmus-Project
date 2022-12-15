@@ -1,0 +1,32 @@
+<body>
+    <h1> Download Applications</h1>
+    <div class="center">
+        <form method="POST" type="download" enctype="multipart/form-data">
+            <label for="lang">Choose Department</label>
+                <select name="downloadDepartment" id="lang">
+                    <option value=None> None </option>
+                    {% for department in departments %}
+                    <option value={{department}}> {{department}} </option>
+                    {% endfor %}
+                </select>
+            <button>Download</button>
+        </form>
+    </div>    
+
+    <br> 
+
+    <h1> Upload Calculated Points</h1>
+    <div class="center">
+        <form method="POST" type="upload" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <label for="lang">Choose Department</label>
+                <select name="uploadDepartment" id="lang">
+                    <option value=None> None </option>
+                    {% for department in departments %}
+                    <option value={{department}}> {{department}} </option>
+                    {% endfor %}
+                </select>
+            <button>Upload</button>
+        </form>
+    </div>
+</body>
