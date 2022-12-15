@@ -20,6 +20,10 @@ class ApplicationsService():
     def getApplicationsByApplicationPeriodId(self, id: int):
         applications = self.application_table.query.filter_by(application_period_id = id).all()
         return applications
+
+    def getApplicationsByStatus(self, status: str):
+        applications = self.application_table.query.filter_by(application_status=status).all()
+        return applications
     
     def insertUniversitySelections(self, student_id: int, selected_universities: list):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()

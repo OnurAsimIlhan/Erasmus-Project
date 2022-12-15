@@ -181,6 +181,7 @@ def create_app():
             role="Erasmus Coordinator",
             user_service=user_service,
             university_service=university_service,
+            applications_service = applications_service
         ),
     )
     app.add_url_rule(

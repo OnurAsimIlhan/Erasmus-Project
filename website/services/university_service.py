@@ -59,16 +59,17 @@ class UniversityService():
     
     def getUniversitiesByDepartment(self, department: str):
         university_ids = self.university_departments_table.query.filter_by(department=department).all()
-        
-        universities = [self.university_table.query.filter_by(university_id=id.university_id).first() for id in university_ids]
-            
+        universities = [self.university_table.query.filter_by(university_id=id.university_id).first() for id in university_ids] 
         return universities
 
     def getUniversityByName(self, name: str):
-        return self.university_table.query.filter_by(name=name).first()
+        university = self.university_table.query.filter_by(name=name).first()
+        return university
 
     def getDepartments(self, department: str):
-        return self.university_departments_table.query.filter_by(department=department).all()
+        departments = self.university_departments_table.query.filter_by(department=department).all()
+        return departments
     
     def getDepartment(self, department: str, university_id: int):
-        return self.university_departments_table.query.filter_by(department=department, university_id=university_id).first()
+        department = self.university_departments_table.query.filter_by(department=department, university_id=university_id).first()
+        return department

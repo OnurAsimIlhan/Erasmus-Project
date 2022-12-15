@@ -1,15 +1,17 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, send_file
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
+from openpyxl import Workbook
 from website.services import AuthorizeService
 
 class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
     decorators = [login_required]
 
-    def __init__(self, role: str, university_service, user_service):
+    def __init__(self, role: str, university_service, user_service, applications_service):
         AuthorizeService.__init__(self, role)
         self.university_service = university_service
         self.user_service = user_service
+        self.applications_service = applications_service
     
     def get(self):
         if AuthorizeService.is_authorized(self):
@@ -83,7 +85,19 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                     flash(name + " is succesfully updated", category='success')
                 return redirect(url_for("erasmus_coordinator_universities"))
             if "waiting_bin" in request.form:
-                pass
+                wb = Workbook()
+                ws = wb.active
+                ws.title = "Waiting Bin"
+                ws.append(["Student ID", "Name"])
+                applications = self.applications_service.getApplicationsByStatus(status = "waiting_bin")
+                # applications.sort(key=)
+                for application in applications:
+                    student_id = application.student_id
+                    student = self.user_service.getUserById(student_id)
+                    if student.department == current_user.department:
+                        ws.append([student_id, student.name])
+                wb.save("website\static\waiting_bin.xlsx")
+                return send_file("static\waiting_bin.xlsx", as_attachment=True, download_name= current_user.department + "_waiting_bin.xlsx")
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
