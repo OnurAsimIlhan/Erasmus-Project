@@ -1,6 +1,6 @@
 import datetime
 
-class FaqUpdateRequest:
+class FaqCreateRequest:
     def __init__(self, department, question, answer):
         self.department = department
         self.question = question

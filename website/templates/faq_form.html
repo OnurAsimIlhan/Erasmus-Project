@@ -14,33 +14,67 @@
 
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbar">
-      <div class="navbar-nav">
-        <form method="POST">
-        <a class="nav-item nav-link" href="/ec/home">Home</a>
-        </form>
-        <a class="nav-item nav-link" href="/">Upload Final Form</a>
-        <a class="nav-item nav-link" href="/faq/update/department={{user_service.getUserById(user.bilkent_id).department}}">Update FAQ</a>
-        <a class="nav-item nav-link" href="/ec/applications">View Student Applications</a>
-        <a class="nav-item nav-link" href="/ec/form_application">Open Application Period</a>
-        <a class="nav-item nav-link" href="/logout">Logout</a>
-      </div>
-    </div>
-  </nav>
-	
-	<form method="POST">
-		<h2>Update FAQ</h2>
-		<textarea id="update_faq_info" name="update_faq_info" style="text-align: center;" class="form-control">
-      {{ faq_service.getFaqByDepartment(user_service.getUserById(user.bilkent_id).department).info }}
-		</textarea>
-		<p>Last Updaed: {{ faq_service.getFaqByDepartment(user_service.getUserById(user.bilkent_id).department).date }}</p>
-		<button name="update_faq" style="width: min-content;" class="btn btn-info">
-			Submit
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+			<span class="navbar-toggler-icon"></span>
 		</button>
+		<div class="collapse navbar-collapse" id="navbar">
+			<div class="navbar-nav">
+				<form method="POST">
+					<a class="nav-item nav-link" href="/ec/home">Home</a>
+				</form>
+				<a class="nav-item nav-link" href="/">Upload Final Form</a>
+				<a class="nav-item nav-link"
+					href="/faq/update/department={{user.department}}">Update FAQ</a>
+				<a class="nav-item nav-link" href="/ec/applications">View Student Applications</a>
+				<a class="nav-item nav-link" href="/ec/form_application">Open Application Period</a>
+				<a class="nav-item nav-link" href="/logout">Logout</a>
+			</div>
+		</div>
+	</nav>
+
+	<h2>Add FAQ</h2>
+	<form method="POST">
+		<h3>Question</h3>
+			<textarea id="faq_create_question" name="faq_create_question" style="text-align: left;" class="form-control">
+			</textarea>
+			<h3>Answer</h3>
+			<textarea id="faq_create_answer" name="faq_create_answer" style="text-align: left;" class="form-control">
+			</textarea>
+		<button name="faq_create" value="True" class="btn btn-info">Add Faq</button>
 	</form>
+
+	<h2>Current FAQ</h2>
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Question</th>
+				<th scope="col">Answer</th>
+			</tr>
+		</thead>
+		<tbody>
+			<form method="POST">
+				{% for faq in faq_service.getFaqByDepartment(user.department) 
+				%}
+				<tr>
+					<td>
+						<textarea id="faq_update_question" name="faq_update_question{{faq.id}}" style="text-align: left;" class="form-control">
+							{{faq.question}}
+						</textarea>
+					</td>
+					<td>
+						<textarea id="faq_update_answer" name="faq_update_answer{{faq.id}}" style="text-align: left;" class="form-control">
+							{{faq.answer}}
+						</textarea>
+					</td>
+					<td>
+						<button name="faq_update" value={{faq.id}} class="btn btn-info">Update</button>
+						<button name="faq_delete" value={{faq.id}} class="btn btn-info">Delete</button>
+					</td>
+				</tr>
+				{% endfor %}
+			</form>
+		</tbody>
+	</table>
 
 
 
