@@ -30,7 +30,7 @@
         <a class="nav-item nav-link" href="/">Upload Final Form</a>
         <a class="nav-item nav-link" href="/faq/update/department={{user_service.getUserById(user.bilkent_id).department}}">Update FAQ</a>
         <a class="nav-item nav-link" href="/ec/applications/">View Student Applications</a>
-        <a class="nav-item nav-link" href="/ec/form_application">Open Application Period</a>
+        <a class="nav-item nav-link" href="/ec/application_period/create/department={{user.department}}">Open Application Period</a>
         <a class="nav-item nav-link" href="/ec/courses">View Course Proposals</a>
         <a class="nav-item nav-link" href="/ec/universities">Universities</a>
         <a class="nav-item nav-link" href="/logout">Logout</a>
@@ -147,15 +147,15 @@
         </td>
         <td>
           <select class="form-control" id ="update_semester" name="update_semester">
-            {% if university.semester == "Fall" %}
+            {% if university.semester == "fall" %}
             <option value="fall" selected>Fall</option>
             <option value="spring">Spring</option>
             <option value="both">Both</option>
-            {% elif university.semester == "Spring" %}
+            {% elif university.semester == "spring" %}
             <option value="fall">Fall</option>
             <option value="spring" selected>Spring</option>
             <option value="both">Both</option>
-            {% elif university.semester == "Both" %}
+            {% elif university.semester == "both" %}
             <option value="fall">Fall</option>
             <option value="spring">Spring</option>
             <option value="both" selected>Both</option>

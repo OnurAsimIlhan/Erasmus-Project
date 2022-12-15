@@ -33,20 +33,21 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                 elif quota <= 0:
                     flash("Quota can't be less than 1", category='error')
                 else:
-                    if semester == "fall":
-                        semester = "Fall"
-                    elif semester == "spring":
-                        semester = "Spring"
-                    elif semester == "both":
-                        semester = "Both"
-                    self.university_service.addUniversity(
-                        name = name,
-                        country = country,
-                        semester = semester,
-                        department = department,
-                        language = language,
-                        quota = quota
-                    )
+                    university = self.university_service.getUniversityByName(name=name)
+                    if (university != None):
+                        self.university_service.addDepartment(
+                            department = department,
+                            university_id = university.university_id
+                        )
+                    else:
+                        self.university_service.addUniversity(
+                            name = name,
+                            country = country,
+                            semester = semester,
+                            department = department,
+                            language = language,
+                            quota = quota
+                        )
                     flash(name + " is successfully added to the system", category='success')
                 return redirect(url_for("erasmus_coordinator_universities"))
             if 'update' in request.form:
@@ -62,12 +63,6 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                 if new_remaining_quota < 0:
                     flash("The quota change you are attempting decreases remaining quota to a negative value", category='error')
                 else:
-                    if semester == "fall":
-                        semester = "Fall"
-                    elif semester == "spring":
-                        semester = "Spring"
-                    elif semester == "both":
-                        semester = "Both"
                     self.university_service.updateUniversity(
                         id = university_id,
                         name = name,
