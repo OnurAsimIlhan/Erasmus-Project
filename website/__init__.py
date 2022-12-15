@@ -108,7 +108,7 @@ def create_app():
     )
 
     app.add_url_rule(
-        "/student_home/", view_func=StudentHome.as_view("student_home", role="Student", deadline_service=deadline_service, applications_service=applications_service)
+        "/student_home/", view_func=StudentHome.as_view("student_home", role="Student",  applications_service=applications_service)
     )
     app.add_url_rule(
         "/student_application/",
