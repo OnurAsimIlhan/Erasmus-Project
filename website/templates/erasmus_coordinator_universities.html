@@ -123,7 +123,7 @@
       <th>Total Quota</th>
       <th>Remaining Quota</th>
     </tr>
-    {% for university in universities %}
+    {% for university, department in university_dictionary.items() %}
     <tr>
       <form action="" method="POST" >
       <div class="form-group">
@@ -147,15 +147,15 @@
         </td>
         <td>
           <select class="form-control" id ="update_semester" name="update_semester">
-            {% if university.semester == "fall" %}
+            {% if university.semester == "Fall" %}
             <option value="fall" selected>Fall</option>
             <option value="spring">Spring</option>
             <option value="both">Both</option>
-            {% elif university.semester == "spring" %}
+            {% elif university.semester == "Spring" %}
             <option value="fall">Fall</option>
             <option value="spring" selected>Spring</option>
             <option value="both">Both</option>
-            {% elif university.semester == "both" %}
+            {% elif university.semester == "Both" %}
             <option value="fall">Fall</option>
             <option value="spring">Spring</option>
             <option value="both" selected>Both</option>
@@ -176,7 +176,7 @@
             type="number"
             id="update_total_quota"
             name="update_total_quota"
-            value="{{ university.total_quota }}"
+            value="{{ department.total_quota }}"
             required
           />
         </td>
@@ -185,8 +185,7 @@
             type="number"
             id="update_remaining_quota"
             name="update_remaining_quota"
-            value="{{ university.remaining_quota }}"
-            required
+            value="{{ department.remaining_quota }}"
             readonly
             />
         </td>
@@ -196,6 +195,13 @@
               Update
           </button>
         </td>
+        {% if department.remaining_quota == 0 %}
+        <td>
+          <button type="submit" class="open" name="waiting_bin" value="{{ university.university_id }}">
+              Waiting Bin
+          </button>
+        </td>
+        {% endif %}
     </form>
     </tr>
     {% endfor %}

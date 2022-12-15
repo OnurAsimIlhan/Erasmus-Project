@@ -14,7 +14,9 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
     def get(self):
         if AuthorizeService.is_authorized(self):
             universities = self.university_service.getUniversitiesByDepartment(current_user.department)
-            return render_template("erasmus_coordinator_universities.html", user = current_user, universities = universities, user_service=self.user_service)        
+            departments = self.university_service.getDepartments(current_user.department)
+            university_dictionary = dict(zip(universities, departments))
+            return render_template("erasmus_coordinator_universities.html", user = current_user, university_dictionary = university_dictionary, user_service=self.user_service)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
@@ -37,9 +39,11 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                     if (university != None):
                         self.university_service.addDepartment(
                             department = department,
+                            quota = quota,
                             university_id = university.university_id
                         )
                     else:
+                        semester = semester.capitalize()
                         self.university_service.addUniversity(
                             name = name,
                             country = country,
@@ -53,27 +57,33 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
             if 'update' in request.form:
                 university_id = request.form.get('update')
                 university = self.university_service.getUniversityById(university_id)
+                department = self.university_service.getDepartment(department=current_user.department, university_id=university_id)
                 name = request.form.get('update_name')
                 country = request.form.get('update_country')
                 semester = request.form.get('update_semester')
                 language = request.form.get('update_language')
                 new_quota = int(request.form.get('update_total_quota'))
                 remaining_quota = int(request.form.get('update_remaining_quota'))
-                new_remaining_quota = remaining_quota + new_quota - int(university.total_quota)
+                old_quota = int(department.total_quota)
+                new_remaining_quota = remaining_quota + new_quota - old_quota
                 if new_remaining_quota < 0:
                     flash("The quota change you are attempting decreases remaining quota to a negative value", category='error')
                 else:
+                    semester = semester.capitalize()
                     self.university_service.updateUniversity(
                         id = university_id,
                         name = name,
                         country = country,
                         semester = semester,
+                        department = current_user.department,
                         language = language,
                         total_quota = new_quota,
                         remaining_quota = new_remaining_quota
                     )
                     flash(name + " is succesfully updated", category='success')
                 return redirect(url_for("erasmus_coordinator_universities"))
+            if "waiting_bin" in request.form:
+                pass
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
