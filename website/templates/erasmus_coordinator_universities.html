@@ -195,7 +195,7 @@
               Update
           </button>
         </td>
-        {% if department.remaining_quota == 0 %}
+        {% if department.remaining_quota != 0 %}
         <td>
           <button type="submit" class="open" name="waiting_bin" value="{{ university.university_id }}">
               Waiting Bin
