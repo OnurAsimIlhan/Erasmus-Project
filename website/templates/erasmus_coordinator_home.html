@@ -49,56 +49,7 @@
     <div class="col-8" 
       style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
       <div style="padding:10px">
-        <h2>Ongoing Application Periods</h2>
-        <table class="table table-light table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Type</th>
-              <th scope="col">Status</th>
-              <th scope="col">Due</th>
-              <th scope="col">Update</th>
-              <th scope="col">Complete</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
-            user_service.getUserById(user.bilkent_id).department)
-            %}
-            {% if application_period.status != "Completed" %}
-            <tr>
-              <td>{{application_period.title}}</td>
-              <td>{{ application_period.type }}</td>
-              <td>{{ application_period.status }}</td>
-              <td>{{ application_period.deadline }}</td>
-              <td>
-                <form action="" method="POST">
-                  <a 
-                    class="nav-link" 
-                    href="/ec/application_period/update/application_period_id={{application_period.id}}"
-                    >
-                    Modify Application
-                  </a>
-                </form>
-              </td>
-              <td>
-                <form action="" method="POST">
-                  <button 
-                    class="btn btn-info"
-                    name="complete_application_period"
-                    value="{{application_period.id}}">
-                    Terminate Period
-                  </button>
-                </form>
-              </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+        
     <!-- dont worry about calendar do rest -->
     <div class="col-3">
       {% include 'calendar.html' %}
