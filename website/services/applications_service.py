@@ -38,6 +38,11 @@ class ApplicationsService():
         
         db.session.commit()
     
+    def matchWithUniversity(self, student_id: int, university_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        applicant.matched_university = university_id
+        db.session.commit()
+    
     def getUniversitySelections(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         

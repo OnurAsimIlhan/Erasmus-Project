@@ -119,9 +119,8 @@
                 </button>
               {% elif application.application_status == "waiting bin" %}
                 <select class="form-control" id ="select_university" name="select_university">
-                  <option value="default" selected>Select a university to place the student</option>
-                  {% for university, department in university_dictionary %}
-                    {% if department.remaining_quota != "0" %}
+                  {% for university, department in university_dictionary.items() %}
+                    {% if department.remaining_quota|int != 0 %}
                       <option value="{{ university.name }}">{{ university.name }}</option>
                     {% endif %}
                   {% endfor %}
