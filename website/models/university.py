@@ -13,6 +13,7 @@ class University(db.Model):
     remaining_quota =  db.Column(db.Integer, nullable=False)
     
     departments = db.relationship("UniversityDepartments", backref="university")
+    courses = db.relationship("Course", backref="university")
     db.relationship("Applications", backref="university")
     
     def get_id(self):

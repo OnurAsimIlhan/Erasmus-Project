@@ -146,6 +146,7 @@ def create_app():
             role="Student",
             applications_service=applications_service,
             course_service=course_service,
+            university_service=university_service
         ),
     )
     app.add_url_rule(

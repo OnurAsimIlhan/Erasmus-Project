@@ -26,5 +26,7 @@ class Applications(db.Model):
         
     application_period_id = db.Column(db.Integer, db.ForeignKey("application_period.id"), nullable=True)
     
+    selected_courses = db.Column(db.String(50), nullable=True)
+    
     def get_id(self):
         return self.application_id
