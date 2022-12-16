@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect, url_for, send_file
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
-# from website.services.application_period_service import ApplicationPeriodService
 from website.services.faq_service import FaqService
 
 from website.services import AuthorizeService
@@ -51,7 +50,6 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
             if "approve" in request.form:
                 application_id = request.form.get("approve")
                 application = self.applications_service.getApplicationById(id=application_id)
-                # app_period_id = application.application_period_id
                 status = application.application_status
                 if status == "waiting preapproval approval":
                     self.applications_service.changeApplicationStatus(student_id=application.student_id, status="preapproval approved")
@@ -59,12 +57,9 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
                     self.applications_service.changeApplicationStatus(student_id=application.student_id, status="ready for mobility")
                 applications = self.applications_service.getApplicationsByDepartment(current_user.department)
                 return render_template("erasmus_coordinator_home.html", user = current_user, applications=applications)
-
-                # return render_template("erasmus_coordinator_applications.html", application_period_id=app_period_id, user = current_user, university_dictionary=university_dictionary, user_service=self.user_service, applications_service=self.applications_service, application_period_service=self.application_period_service)
             if "reject" in request.form:
                 application_id = request.form.get("reject")
                 application = self.applications_service.getApplicationById(id=application_id)
-                # app_period_id = application.application_period_id
                 status = application.application_status
                 if status == "waiting preapproval approval":
                     self.applications_service.changeApplicationStatus(student_id=application.student_id, status="placed")
