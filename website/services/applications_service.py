@@ -27,6 +27,11 @@ class ApplicationsService():
         applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()
         return applications
     
+    def getApplicationsByStatus(self, status: str, dep: str):
+        applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()        
+        applications_by_department = [application for application in applications if(self.user_table.query.filter_by(bilkent_id=application.student_id).first().department == dep)]  
+        return applications_by_department
+
     def insertUniversitySelections(self, student_id: int, selected_universities: list):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         

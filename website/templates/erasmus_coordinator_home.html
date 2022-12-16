@@ -40,6 +40,7 @@
         <a class="nav-item nav-link" href="/ec/application_period/create/department={{user.department}}">Open Application Period</a>
         <a class="nav-item nav-link" href="/ec/universities">Universities</a>
         <a class="nav-item nav-link" href="/ec/courses">View Course Proposals</a>
+        <a class="nav-item nav-link" href="/ec/wb_management/department={{user.department}}">Waiting Bin</a>
         <a class="nav-item nav-link" href="/logout">Logout</a>
       </div>
     </div>
@@ -63,9 +64,7 @@
           </thead>
           <tbody>
             
-            {% for application_period in application_period_service.getApplicationPeriodsByDepartment(
-            user_service.getUserById(user.bilkent_id).department)
-            %}
+            {% for application_period in application_period_service.getApplicationPeriodsByDepartment(user.department) %}
             {% if application_period.status != "Completed" %}
             <tr>
               <td>{{application_period.title}}</td>

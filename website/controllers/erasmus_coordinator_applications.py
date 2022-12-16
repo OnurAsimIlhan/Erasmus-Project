@@ -78,29 +78,6 @@ class ErasmusCoordinatorApplications(MethodView, AuthorizeService):
                 if status == "waiting learning agreement approval":
                     self.applications_service.changeApplicationStatus(student_id=application.student_id, status="preapproval approved")
                 return render_template("erasmus_coordinator_applications.html", application_period_id=app_period_id, user = current_user, university_dictionary=university_dictionary, user_service=self.user_service, applications_service=self.applications_service, application_period_service=self.application_period_service)
-            if "place" in request.form:
-                universities = self.university_service.getUniversitiesByDepartment(current_user.department)
-                departments = self.university_service.getDepartments(current_user.department)
-                university_dictionary = dict(zip(universities, departments))
-                application_id = request.form.get("place")
-                application = self.applications_service.getApplicationById(id=application_id)
-                app_period_id = application.application_period_id
-                selected_university_name = request.form.get("select_university")
-                university = self.university_service.getUniversityByName(selected_university_name)
-                if university != None:
-                    department = self.university_service.getDepartment(
-                        department=current_user.department,
-                        university_id=university.university_id
-                    )
-                    self.university_service.updateDepartment(
-                        department=current_user.department,
-                        total_quota=department.total_quota,
-                        remaining_quota=department.remaining_quota-1,
-                        university_id=university.university_id
-                    )
-                    self.applications_service.changeApplicationStatus(student_id=application.student_id, status="placed")
-                    self.applications_service.matchWithUniversity(student_id=application.student_id, university_id=university.university_id)
-                return render_template("erasmus_coordinator_applications.html", application_period_id=app_period_id, user = current_user, university_dictionary=university_dictionary, user_service=self.user_service, applications_service=self.applications_service, application_period_service=self.application_period_service)
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

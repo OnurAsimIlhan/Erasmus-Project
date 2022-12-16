@@ -86,6 +86,7 @@ def create_app():
         ErasmusCoordinatorApplications,
         ErasmusCoordinatorCoursesController,
         ErasmusCoordinatorUniversities,
+        ErasmusCoordinatorWaitingBin,
         CourseCoordinatorController,
         TodoController,
         FaqFormController,
@@ -179,6 +180,16 @@ def create_app():
         "/ec/universities/",
         view_func=ErasmusCoordinatorUniversities.as_view(
             "erasmus_coordinator_universities",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            university_service=university_service,
+            applications_service = applications_service,
+        ),
+    )
+    app.add_url_rule(
+        "/ec/wb_management/department=<department>",
+        view_func=ErasmusCoordinatorWaitingBin.as_view(
+            "erasmus_coordinator_waiting_bin",
             role="Erasmus Coordinator",
             user_service=user_service,
             university_service=university_service,

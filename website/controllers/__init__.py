@@ -4,6 +4,7 @@ from .erasmus_coordinator_home import ErasmusCoordinatorHome
 from .erasmus_coordinator_applications import ErasmusCoordinatorApplications
 from .erasmus_coordinator_courses_controller import ErasmusCoordinatorCoursesController
 from .erasmus_coordinator_universities import ErasmusCoordinatorUniversities
+from .erasmus_coordinator_waiting_bin import ErasmusCoordinatorWaitingBin
 from .todo_controller import TodoController
 from .course_coordinator_controller import CourseCoordinatorController
 from .student_application_details import StudentApplicationDetails
