@@ -13,7 +13,7 @@ class InternationalOfficeService:
 
     def getAppliedStudents(self, department:str):
         df = pd.DataFrame(columns=['FirstName', 'LastName', 'StudentID', 'Faculty', 'Department', 
-                                    'Degree', 'CGPA'])
+                                    'Degree', 'CGPA', 'Score'])
         applications = self.applications_table.query.all()
         for application in applications:
             student_id = application.student_id
@@ -25,12 +25,12 @@ class InternationalOfficeService:
                 last_name = name_list[-1]
                 new_row = {'FirstName': first_name, 'LastName': last_name, 'StudentID': student_id, 
                             'Faculty': 'Faculty of Engineering', 'Department': student.department, 
-                            'Degree': 'undergraduate', 'CGPA': application.cgpa}
+                            'Degree': 'undergraduate', 'CGPA': application.cgpa, 'Score':""}
                 df = df.append(new_row, ignore_index = True)
 
         output = io.BytesIO()
         writer = pd.ExcelWriter(output, engine='xlsxwriter')
-        df.to_excel(writer, sheet_name='Applications')
+        df.to_excel(writer, sheet_name='Applications', index=False)
         writer.save()
         output.seek(0)
         return output
