@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>International Office</title>
+</head>
+
+<body style="background-color:#b9b9b9">
+    {% extends 'main_page.html' %}
+
+    {% block nav_content %}
+    
+    <li class="nav-item">
+        <form action="" method="POST">
+            <button type="logout" class="logoutButton" style="padding-top:3px" name="logout" value="">
+                Logout
+            </button>
+        </form>
+    </li>
+    <style>
+        .logoutButton {
+            background:none;
+            color:rgb(125, 125, 125);
+            border:none;
+            margin:0;
+            padding:0;
+        }
+    </style>
+    {% endblock %}
+
+    {% block content %}
+<body>
+    <h1> Download Applications</h1>
+    <div class="center">
+        <form method="POST" type="download" enctype="multipart/form-data">
+            <label for="lang">Choose Department</label>
+                <select name="downloadDepartment" id="lang">
+                    <option value=None> None </option>
+                    {% for department in departments %}
+                    <option value={{department}}> {{department}} </option>
+                    {% endfor %}
+                </select>
+            <button name="download">Download</button>
+        </form>
+    </div>    
+
+    <br> 
+
+    <h1> Upload Calculated Points</h1>
+    <div class="center">
+        <form method="POST" type="upload" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <label for="lang">Choose Department</label>
+                <select name="uploadDepartment" id="lang">
+                    <option value=None> None </option>
+                    {% for department in departments %}
+                    <option value={{department}}> {{department}} </option>
+                    {% endfor %}
+                </select>
+            <button name="upload">Upload</button>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

@@ -29,7 +29,7 @@ class Login(MethodView):
             elif role[0].role == "Course Coordinator":  
                 return redirect(url_for("course_coordinator_homepage"))
             elif role[0].role == "International Office":
-                return redirect(url_for("intoff_homepage"))
+                return redirect(url_for("international_office_homepage"))
             elif role[0].role == "Administrator":
                 return redirect(url_for("administrator_homepage"))
             
