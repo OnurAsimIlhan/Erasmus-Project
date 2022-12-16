@@ -7,27 +7,14 @@
 </head>
 
 <body>
-
-  
-
-
   {% extends 'main_page.html' %}
 
-  {{name}}
-  {{application_deadline}}
-  {{preapproval_deadline}}
-  {{learning_agreement_deadline}}
-  {{matched_university}}
 
   {% block nav_content %}
-
   <!-- LINKS ON ALL href's-->
-
   <li class="nav-item">
     <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/my_application.html">My Application</a>
   </li>
-
-
 
   <li class="nav-item">
     <form action="" method="POST">
@@ -37,18 +24,9 @@
       </button>
     </form>
   </li>
-
   {% endblock %}
 
-    {% set app_dl = 5 %}
-    {% set pre_dl = 10 %}
-    {% set match = 1 %}
-    {% set today = 6 %}
 
-    {% set pre_approved = 1 %}
-    {% set preapproval_loaded = 1 %}
-    {% set you_applied = 1 %}
-    {% set learning_ag_loaded =1 %}
   {% block content %}
   <!-- ======= Hero Section ======= -->
   <div style="justify-content:center;  margin-top:40px;display:flex">
@@ -82,134 +60,141 @@
       }
     </style>
 
-    {% if today < app_dl %} 
-      {% if you_applied == 0 %}
-      <div class="block">
-        <h2> 1. Start Application</h2>
-        <img class="icon" src="../static/start.png"/>
-        <p>There is no record of application in your profile. You can start your application right now</p>
-        <div class="buttons">
-          <a class="btn btn-primary" href="{{ url_for('student_application') }}"> Apply Erasmus </a> 
-        </div>
-       
-      </div>
-      {% else %}
-      <div class="block">
-        <h2> 1. View Application</h2>
-        <img class="icon" src="../static/edit.png"/>
-        <p>You can view your application or create a new application</p>
-        <div class="buttons">
-          <a class="btn btn-primary" style="margin:20px" href="{{ url_for('student_application') }}"> Apply Erasmus </a>
-          <a class="btn btn-primary" style="margin:20px"  href="{}"> View Application </a>
-        </div>
-      </div>
-      {% endif %}
-    {% endif %}
-    
-    {% if today >= app_dl and you_applied == 0 %}
-    <div class="block">
-      <h2>Application Period Closed</h2>
-      <p>Applications for this period of erasmus has over. You can try to apply following periods</p>
-    </div>
-    {% endif %}
-
-    {% if today >= app_dl and you_applied == 1 %} 
-    <div class="block">
-      <h2> 1. Application Period Over</h2>
-      <img class="icon" src="../static/the-end.png"/>
-      <p>You can no longer create or edit your application</p>
-      <div class="buttons">
-        <a class="btn btn-primary" style="margin:20px" href="{{ url_for('student_application') }}"> View Application</a> 
-      </div>
-    </div>
-
-      
-      {% if match == 0 %} 
-        {% if today < pre_dl %}
+    {% if application_deadline == False %} 
+      {% if application_status == "not applied" %}
         <div class="block">
+          <h2> 1. Start Application</h2>
+          <img class="icon" src="../static/start.png"/>
+          <p>There is no record of application in your profile. You can start your application right now</p>
+          <div class="buttons">
+            <a class="btn btn-primary" href="{{ url_for('student_application') }}"> Apply Erasmus </a> 
+          </div>
+        </div>
+      {% elif application_status == "applied" %}
+        <div class="block">
+          <h2> 1. View Application</h2>
+          <img class="icon" src="../static/edit.png"/>
+          <p>You can view your application or create a new application</p>
+          <div class="buttons">
+            <a class="btn btn-primary" style="margin:20px" href="{{ url_for('student_application') }}"> Apply Erasmus </a>
+            <a class="btn btn-primary" style="margin:20px"  href="http://127.0.0.1:5000/student_application?download=True"> View Application </a>
+          </div>
+        </div>
+      {% endif %}
+    {% elif preapproval_deadline == False and application_deadline == True %}
+      {% if application_status == "not applied"%}      
+        <div class="block">
+          <h2>Application Period Closed</h2>
+          <p>Applications for this period of erasmus has over. You can try to apply following periods</p>
+        </div>
+      {% else %} 
+        <div class="block">
+          <h2> 1. Application Period Over</h2>
+          <img class="icon" src="../static/the-end.png"/>
+          <p>You can no longer create or edit your application</p>
+          <div class="buttons">
+            <a class="btn btn-primary" style="margin:20px" href="http://127.0.0.1:5000/student_application?download=True"> View Application</a> 
+          </div>
+        </div>
+      {% endif %}
+
+      {% if application_status == "applied" %}
+        <div class="block">
+          <h2> 2. Waiting for University Match</h2>
+          <img class="icon" src="../static/waiting.png"/>
+          <p>University Placements are not yet Completed</p>
+        </div>
+      {% elif application_status == "waiting bin" %}
+        {% if preapproval_deadline == False %}
+          <div class="block">
             <h2> 2. Waiting for University Match</h2>
             <img class="icon" src="../static/waiting.png"/>
             <p>You are currently on waiting list. This process can take until end of preapproval application deadline</p>
-          </div> 
-        {% else %}
-        <div class="block">
+          </div>
+        {% elif preapproval_deadline == True %}
+          <div class="block">
             <h2> 2. No Match</h2>
             <img class="icon" src="../static/nomatch.png"/>
             <p>You did not get a spot for this periods erasmus, you can apply for next periods</p>
-          </div> 
-        {% endif %} 
-      {% else %}
-      <div class="block">
+          </div>
+        {% endif %}  
+      {% elif application_status == "placed" %}
+        <div class="block">
           <h2> 2. Matched </h2>
           <img class="icon" src="../static/puzzle.png"/>
-          <p>You are matched with "insert university name here" </p>
+          <p>You are matched with {{matched_university}} </p>
         </div> 
-        {% if today < pre_dl %}
-          {% if preapproval_loaded == 1 %}
-          <div class="block">
-            <h2> 3. View Preapproval Form </h2>
-            <img class="icon" src="../static/online-course.png"/>
-            <p>You can start a new preapproval form or view your previous form</p>
-            <div class="buttons">
-              <a class="btn btn-primary" style="margin:20px"  href="{}"> View Preapproval</a>
-              <a class="btn btn-primary" style="margin:20px"  href="{}"> Start Preapproval</a>
-            </div>
-          </div>
-          {% else %}
-          <div class="block">
-              <h2> 3. Load Preapproval Form </h2>
-              <img class="icon" src="../static/online-course.png"/>
-              <p>You can start a new preapproval form to choose/request courses for your matched university </p>
-              <div class="buttons">
-                <a class="btn btn-primary" style="margin:20px"  href="{}"> Start Preapproval Form </a>
-              </div>
-            </div>
-          {% endif %}
-        {% else %}
         <div class="block">
-          <h2> 3. Preapproval Period is Over </h2>
-            
-          </div>
-        {% endif %}
-        
-        {% if pre_approved == 1 and preapproval_loaded == 1 %}
-        <div class="block">
-          {% if learning_ag_loaded == 0 %}
-          <h2> 4. Learning Agreement </h2>
-          <img class="icon" src="../static/agreement.png"/>
+          <h2> 3. Load Preapproval Form </h2>
+          <img class="icon" src="../static/online-course.png"/>
+          <p>You can start a new preapproval form to choose/request courses for your matched university </p>
           <div class="buttons">
-            <a class="btn btn-primary" style="margin:20px" href="{}"> Upload </a>
+            <a class="btn btn-primary" style="margin:20px"  href="{}"> Start Preapproval Form </a>
           </div>
-          {% else %}
-          <h2>Ready to Go</h2>
-          <img class="icon" src="../static/checked.png"/>
-          
-          {% endif %}
         </div>
-        {% endif %}
-      
+      {% elif application_status == "waiting preapproval approval" or application_status == "preapproval approved" %}
+        <div class="block">
+          <h2> 2. Matched </h2>
+          <img class="icon" src="../static/puzzle.png"/>
+          <p>You are matched with {{matched_university}} </p>
+        </div>
+        <div class="block">
+          <h2> 3. View Preapproval Form </h2>
+          <img class="icon" src="../static/online-course.png"/>
+          <p>You can start a new preapproval form or view your previous form</p>
+          <div class="buttons">
+            <a class="btn btn-primary" style="margin:20px"  href="http://127.0.0.1:5000/propose_course?download=True"> View Preapproval</a>
+            <a class="btn btn-primary" style="margin:20px"  href="{{url_for('student_preapproval')}}"> Start Preapproval</a>
+          </div>
+        </div>
       {% endif %}
-      
-
+    {% elif preapproval_deadline == True %}
+      <div class="block">
+        <h2> 1. Application Period Over</h2>
+        <img class="icon" src="../static/the-end.png"/>
+        <p>You can no longer create or edit your application</p>
+        <div class="buttons">
+          <a class="btn btn-primary" style="margin:20px" href="http://127.0.0.1:5000/student_application?download=True"> View Application</a> 
+        </div>
+      </div>
+      <div class="block">
+        <h2> 2. Matched </h2>
+        <img class="icon" src="../static/puzzle.png"/>
+        <p>You are matched with {{matched_university}} </p>
+      </div>
+      <div class="block">
+        <h2> 3. View Preapproval Form </h2>
+        <img class="icon" src="../static/online-course.png"/>
+        <p>You can start a new preapproval form or view your previous form</p>
+        <div class="buttons">
+          <a class="btn btn-primary" style="margin:20px"  href="http://127.0.0.1:5000/propose_course?download=True"> View Preapproval</a>
+          <a class="btn btn-primary" style="margin:20px"  href="{{url_for('student_preapproval')}}"> Start Preapproval</a>
+        </div>
+      </div>
+      <div class="block">
+        <h2> 4. Learning Agreement </h2>
+        <img class="icon" src="../static/agreement.png"/>
+        <div class="buttons">
+          <a class="btn btn-primary" style="margin:20px" href="{}"> Upload </a>
+        </div>
+      </div>  
     {% endif %}
-
-
-   
-
-    </div>
-    {% endblock %}
-    <div id="preloader"></div>
+    
+  </div>
+  {% endblock %}
+  
+  <div id="preloader"></div>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
+  </div>
+  <!-- Vendor JS Files -->
+  <script src={{ url_for("static", filename="student_home_assets/vendor/bootstrap/js/bootstrap.bundle.min.js" )
+    }}></script>
+  <script src={{ url_for("static", filename="student_home_assets/vendor/glightbox/js/glightbox.min.js" ) }}></script>
+  <script src={{ url_for("static", filename="student_home_assets/vendor/swiper/swiper-bundle.min.js" ) }}></script>
 
-    <!-- Vendor JS Files -->
-    <script src={{ url_for("static", filename="student_home_assets/vendor/bootstrap/js/bootstrap.bundle.min.js" )
-      }}></script>
-    <script src={{ url_for("static", filename="student_home_assets/vendor/glightbox/js/glightbox.min.js" ) }}></script>
-    <script src={{ url_for("static", filename="student_home_assets/vendor/swiper/swiper-bundle.min.js" ) }}></script>
-
-    <!-- Template Main JS File -->
-    <script src={{ url_for("static", filename="student_home_assets/js/main.js" ) }}></script>
+  <!-- Template Main JS File -->
+  <script src={{ url_for("static", filename="student_home_assets/js/main.js" ) }}></script>
 </body>
 
 </html>

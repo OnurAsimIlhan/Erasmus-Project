@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<form action="/propose_course/" method="POST">
+    <label for="course_name">Course name:</label><br>
+    <input type="text" id="course_name" name="course_name"><br>
+    <label for="course_credit">Coures Credit:</label><br>
+    <input type="text" id="course_credit" name="course_credit"><br>
+    <label for="equivalent_bilkent_course">Equivalent Course</label><br>
+    <input type="text" id="equivalent_bilkent_course" name="equivalent_bilkent_course"><br>
+    <label for="web_page">Link to Web Page</label><br>
+    <input type="text" id="web_page" name="web_page"><br>
+    <label for="lang">Elective/Mandatory</label><br>
+    <select name="is_elective" id="lang"><br>
+        <option value="Elective"> Elective </option><br>
+        <option value="Mandatory"> Mandatory </option><br>
+    </select><br>
+    <label for="file">Syllabus</label><br>
+    <input type="file" name="syllabus"><br>
+    <input type="submit" value="Submit"><br>
+  </form>

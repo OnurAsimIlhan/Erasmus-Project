@@ -61,7 +61,7 @@ class StudentApplication(MethodView, AuthorizeService):
         if len(request.files) == 1:
             file = request.files["file"]
             self.pdf_service.upload_application_form(file=file, student_id=current_user.bilkent_id)
-            self.applications_service.changeApplicationStatus(student_id=current_user.bilkent_id, status="Applied Eramus")
+            self.applications_service.changeApplicationStatus(student_id=current_user.bilkent_id, status="applied")
         else:
             self.pdf_service.create_application_form(current_user, current_selections)
             
