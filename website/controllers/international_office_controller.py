@@ -22,6 +22,7 @@ class InternationalOffice(MethodView, AuthorizeService):
     def post(self):
         if AuthorizeService.is_authorized(self):
             if "download" in request.form:
+                # if self.deadline_service.has_passed("application_deadline"):
                 department = request.form.get("downloadDepartment")
                 print(department)
                 file = self.international_office_service.getAppliedStudents(department)
@@ -31,3 +32,6 @@ class InternationalOffice(MethodView, AuthorizeService):
                 department = request.form.get("uploadDepartment")
                 self.international_office_service.place(department,file)
                 return redirect(url_for("international_office_homepage", user = current_user)) 
+            if "logout" in request.form:
+                logout_user() 
+                return redirect(url_for("main")) 

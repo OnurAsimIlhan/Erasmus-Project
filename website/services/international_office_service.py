@@ -66,11 +66,11 @@ class InternationalOfficeService:
                             if department.remaining_quota > 0:
                                 application.matched_university = university.university_id
                                 department.remaining_quota = department.remaining_quota - 1
-                                application.application_status = "Matched"
+                                application.application_status = "placed"
                                 process_end = True
                 else:
                     if (process_end == False):
-                        application.application_status = "Waiting List"
+                        application.application_status = "waiting bin"
                     process_end = True
         db.session.commit() 
 

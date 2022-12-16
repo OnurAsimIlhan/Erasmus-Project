@@ -1,3 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>International Office</title>
+</head>
+
+<body style="background-color:#b9b9b9">
+    {% extends 'main_page.html' %}
+
+    {% block nav_content %}
+    
+    <li class="nav-item">
+        <form action="" method="POST">
+            <button type="logout" class="logoutButton" style="padding-top:3px" name="logout" value="">
+                Logout
+            </button>
+        </form>
+    </li>
+    <style>
+        .logoutButton {
+            background:none;
+            color:rgb(125, 125, 125);
+            border:none;
+            margin:0;
+            padding:0;
+        }
+    </style>
+    {% endblock %}
+
+    {% block content %}
 <body>
     <h1> Download Applications</h1>
     <div class="center">
@@ -29,4 +61,6 @@
             <button name="upload">Upload</button>
         </form>
     </div>
+    {% endblock %}
 </body>
+</html>
