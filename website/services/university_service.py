@@ -67,7 +67,7 @@ class UniversityService():
         return university
 
     def getDepartments(self, department: str):
-        departments = self.university_departments_table.query.filter_by(department=department).all()
+        departments = self.university_departments_table.query.filter_by(department=department).order_by(self.university_departments_table.university_id).all()
         return departments
     
     def getDepartment(self, department: str, university_id: int):

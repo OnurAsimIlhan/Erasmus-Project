@@ -1,12 +1,13 @@
-from sqlalchemy import desc
 from website import db
+from io import BytesIO
+
 class ApplicationsService():
     def __init__(self, user_table, application_table):
         self.user_table = user_table
         self.application_table = application_table
     
     def getApplicationById(self, id: int):
-        task = self.application_table.query.filter_by(id = id).first()
+        task = self.application_table.query.filter_by(application_id = id).first()
         print(task)
         return task
     
@@ -55,3 +56,18 @@ class ApplicationsService():
         applicant.application_status = status
         
         db.session.commit()
+
+    def sendApplicationForm(self, id: int):
+        application = self.application_table.query.filter_by(application_id = id).first()
+        file = BytesIO(application.application_form) 
+        return file
+
+    def sendPreapprovalForm(self, id: int):
+        application = self.application_table.query.filter_by(application_id = id).first()
+        file = BytesIO(application.pre_approval_form) 
+        return file
+
+    def sendLearningAgreementForm(self, id: int):
+        application = self.application_table.query.filter_by(application_id = id).first()
+        file = BytesIO(application.learning_agreement_form) 
+        return file

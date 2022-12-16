@@ -96,7 +96,7 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                     if student.department == current_user.department:
                         ws.append([student_id, student.name])
                 wb.save("website\static\waiting_bin.xlsx")
-                return send_file("static\waiting_bin.xlsx", as_attachment=True, download_name= current_user.department + "_waiting_bin.xlsx")
+                return send_file("static\waiting_bin.xlsx", as_attachment=True, download_name=current_user.department + "_waiting_bin.xlsx")
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
