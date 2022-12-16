@@ -26,7 +26,6 @@ def create_app():
         Course,
         Todo,
         Applications,
-        ApplicationPeriod,
         Faq,
         Deadlines,
         BilkentCourses,
@@ -45,7 +44,6 @@ def create_app():
         UniversityService,
         FaqService,
         ApplicationsService,
-        ApplicationPeriodService,
         DeadlineService,
         PDFService,
         CourseService,
@@ -61,7 +59,6 @@ def create_app():
     course_service = CourseService(User, Course, BilkentCourses, University)
     university_service = UniversityService(University, UniversityDepartments)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
-    application_period_service = ApplicationPeriodService(User, ApplicationPeriod)
     deadline_service = DeadlineService(deadlines_table=Deadlines)
     pdf_service = PDFService(application_table=Applications)
     faq_service = FaqService(user_table=User, faq_table=Faq)
@@ -83,7 +80,6 @@ def create_app():
         LearningAggrementController,
         PreApprovalController,
         ErasmusCoordinatorHome,
-        ErasmusCoordinatorApplications,
         ErasmusCoordinatorCoursesController,
         ErasmusCoordinatorUniversities,
         ErasmusCoordinatorWaitingBin,
@@ -94,8 +90,6 @@ def create_app():
         AdministratorController,
         ViewApplicationsController,
         FinalFormsController,
-        ApplicationPeriodCreateForm,
-        ApplicationPeriodUpdateForm,
     )
 
     app.add_url_rule(
@@ -155,21 +149,9 @@ def create_app():
             "erasmus_coordinator_homepage",
             role="Erasmus Coordinator",
             user_service=user_service,
-            application_period_service=application_period_service,
         ),
     )
-    app.add_url_rule(
-        "/ec/applications/",
-        view_func=ErasmusCoordinatorApplications.as_view(
-            "erasmus_coordinator_applications",
-            application_period_id=None,
-            role="Erasmus Coordinator",
-            user_service=user_service,
-            applications_service=applications_service,
-            application_period_service=application_period_service,
-            university_service=university_service,
-        ),
-    )
+    
     app.add_url_rule(
         "/ec/courses/",
         view_func=ErasmusCoordinatorCoursesController.as_view(
@@ -203,24 +185,6 @@ def create_app():
             role="Erasmus Coordinator",
             user_service=user_service,
             faq_service=faq_service,
-        ),
-    )
-    app.add_url_rule(
-        "/ec/application_period/create/department=<department>",
-        view_func=ApplicationPeriodCreateForm.as_view(
-            "application_period_create_form",
-            role="Erasmus Coordinator",
-            user_service=user_service,
-            application_period_service=application_period_service,
-        ),
-    )
-    app.add_url_rule(
-        "/ec/application_period/update/application_period_id=<application_period_id>",
-        view_func=ApplicationPeriodUpdateForm.as_view(
-            "application_period_update_form",
-            role="Erasmus Coordinator",
-            user_service=user_service,
-            application_period_service=application_period_service,
         ),
     )
 
