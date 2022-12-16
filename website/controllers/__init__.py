@@ -1,7 +1,6 @@
 from .login_controller import Login 
 from .role_selection_controller import RoleSelection
 from .erasmus_coordinator_home import ErasmusCoordinatorHome
-from .erasmus_coordinator_applications import ErasmusCoordinatorApplications
 from .erasmus_coordinator_courses_controller import ErasmusCoordinatorCoursesController
 from .erasmus_coordinator_universities import ErasmusCoordinatorUniversities
 from .todo_controller import TodoController
@@ -20,5 +19,3 @@ from .international_office_controller import InternationalOffice
 from .administrator_controller import AdministratorController
 from .view_applications_controller import ViewApplicationsController
 from .final_forms_controller import FinalFormsController
-# from .application_period_create_form import ApplicationPeriodCreateForm
-# from .application_period_update_form import ApplicationPeriodUpdateForm
