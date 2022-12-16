@@ -19,9 +19,9 @@ class ApplicationsService():
         applications = self.application_table.query.filter_by(department = dep).all()
         return applications
     
-    def getApplicationsByApplicationPeriodId(self, id: int):
-        applications = self.application_table.query.filter_by(application_period_id = id).all()
-        return applications
+    # def getApplicationsByApplicationPeriodId(self, id: int):
+    #     applications = self.application_table.query.filter_by(application_period_id = id).all()
+    #     return applications
 
     def getApplicationsByStatus(self, status: str):
         applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()

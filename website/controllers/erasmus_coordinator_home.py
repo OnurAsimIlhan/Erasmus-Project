@@ -1,16 +1,15 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
-from website.services.application_period_service import ApplicationPeriodService
+# from website.services.application_period_service import ApplicationPeriodService
 from website.services.faq_service import FaqService
 
 from website.services import AuthorizeService
 class ErasmusCoordinatorHome(MethodView, AuthorizeService):
     decorators = [login_required]
 
-    def __init__(self, role: str, application_period_service, user_service):
+    def __init__(self, role: str, user_service):
         AuthorizeService.__init__(self, role=role)
-        self.application_period_service = application_period_service
         self.user_service = user_service
 
     def get(self):
@@ -18,7 +17,6 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
             return render_template(
                 "erasmus_coordinator_home.html", 
                 user = current_user, 
-                application_period_service = self.application_period_service, 
                 user_service = self.user_service)        
         else:
             logout_user() 
@@ -28,10 +26,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
         if AuthorizeService.is_authorized(self):
             if "update_faq" in request.form:
                 return redirect(url_for("faq_form", user=current_user))
-            elif "complete_application_period" in request.form:
-                application_period_id = int(request.form.get('complete_application_period'))
-                self.application_period_service.terminateApplicationPeriod(application_period_id)
-                return redirect(url_for("erasmus_coordinator_homepage"))
+            
                 
         else:
             logout_user() 

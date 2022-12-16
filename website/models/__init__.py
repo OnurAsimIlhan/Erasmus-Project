@@ -6,6 +6,5 @@ from .university import University
 from .university_departments import UniversityDepartments
 from .todo import Todo
 from .applications import Applications
-from .application_period import ApplicationPeriod
 from .faq import Faq 
 from .deadlines import Deadlines

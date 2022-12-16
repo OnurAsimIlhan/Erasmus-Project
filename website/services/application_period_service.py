@@ -1,4 +1,4 @@
-from website import db
+"""from website import db
 from website.dtos.applicationPeriodCreateRequest import ApplicationPeriodCreateRequest
 from website.dtos.applicationPeriodUpdateRequest import ApplicationPeriodUpdateRequest
 
@@ -68,4 +68,4 @@ class ApplicationPeriodService():
         
         return application_period
 
-        
+        """
