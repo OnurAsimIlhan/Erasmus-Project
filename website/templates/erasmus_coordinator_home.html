@@ -59,59 +59,87 @@
 
   <!-- WORK HERE -->
   {% block content %}
+  	<div class="row d-block justify-content-around" style="margin:10px;">
+		<div class="col-7 float-left"
+			style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
+			<div style="padding:10px">
+				<h1 style="background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			
+				">Last Proposals</h1>
+				<table class="table table-light table-striped table-bordered">
+					<thead class="thead-dark">
+						<tr>
+						  <th scope="col">#</th>
+						  <th scope="col">Student ID</th>
+						  <th scope="col">Application Status</th>
+						  <th scope="col">Check Details</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						
+						{% for application in applications %}
+						<tr>
+						  <td>{{application.application_id}}</td>
+						  <td>{{application.student_id}}</td>
+						  <td>{{application.application_status}}</td>
+						  <td>
+							<form method="POST">
+							{% if application.application_status == "waiting preapproval approval" or application.application_status == "waiting learning agreement approval" %}
+							  <button type="submit" class="open" name="download" value="{{ application.application_id }}">
+								Download
+							  </button>
+							  <button type="submit" class="open" name="approve" value="{{ application.application_id }}">
+								Approve
+							  </button>
+							  <button type="submit" class="open" name="reject" value="{{ application.application_id }}">
+								Reject
+							  </button>
+							{% elif application.application_status == "waiting bin" %}
+							  <select class="form-control" id ="select_university" name="select_university">
+								{% for university, department in university_dictionary.items() %}
+								  {% if department.remaining_quota|int != 0 %}
+									<option value="{{ university.name }}">{{ university.name }}</option>
+								  {% endif %}
+								{% endfor %}
+							  </select>
+							  <button type="submit" class="open" name="place" value="{{ application.application_id }}">
+								Place
+							  </button>
+							{% else %}
+							  <button type="submit" class="open" name="download" value="{{ application.application_id }}">
+								Download Latest Form
+							  </button>
+							{% endif %}
+						  </form>
+						  </td>
+						</tr>
+						{% endfor %}
+					  
+					  <tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-4 float-right" style="padding:20px;margin:10px; background:linear-gradient(333.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+			<div style="background-color:white; padding:5px">
+				{% include 'calendar.html' %}
+			</div>
+			<h2 style="padding-top:10px; padding-bottom:5px;background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			">Closing Deadlines</h2>
+			<!-- for loop -->
+				<div style="margin-top:10px;margin-left:20px;background-color:white">
+					Insert Deadline Here
+				</div>
+			
+		</div>
+	</div>
 
-  <h2> Application List </h2>
-      <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Student ID</th>
-            <th scope="col">Application Status</th>
-            <th scope="col">Check Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          {% for application in applications %}
-          <tr>
-            <td>{{application.application_id}}</td>
-            <td>{{application.student_id}}</td>
-            <td>{{application.application_status}}</td>
-            <td>
-              <form method="POST">
-              {% if application.application_status == "waiting preapproval approval" or application.application_status == "waiting learning agreement approval" %}
-                <button type="submit" class="open" name="download" value="{{ application.application_id }}">
-                  Download
-                </button>
-                <button type="submit" class="open" name="approve" value="{{ application.application_id }}">
-                  Approve
-                </button>
-                <button type="submit" class="open" name="reject" value="{{ application.application_id }}">
-                  Reject
-                </button>
-              {% elif application.application_status == "waiting bin" %}
-                <select class="form-control" id ="select_university" name="select_university">
-                  {% for university, department in university_dictionary.items() %}
-                    {% if department.remaining_quota|int != 0 %}
-                      <option value="{{ university.name }}">{{ university.name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-                <button type="submit" class="open" name="place" value="{{ application.application_id }}">
-                  Place
-                </button>
-              {% else %}
-                <button type="submit" class="open" name="download" value="{{ application.application_id }}">
-                  Download Latest Form
-                </button>
-              {% endif %}
-            </form>
-            </td>
-          </tr>
-          {% endfor %}
-        
-        <tbody>
-      </table>
+  
   <div style="margin:40px; width:600px">
     <div
       style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
