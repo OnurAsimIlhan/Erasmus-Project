@@ -44,9 +44,19 @@ class ApplicationsService():
         
         return selections
     
+    def getMatchedUniversity(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        return applicant.matched_university
+    
     def changeApplicationStatus(self, student_id: int, status: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         
         applicant.application_status = status
         
         db.session.commit()
+        
+    def getApplicationStatus(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        
+        status = applicant.application_status
+        return status
