@@ -60,10 +60,105 @@
     {% endif %}
   {% endwith %}
 
-  <form method="POST">
     <h1 style="text-align: center;">Universities</h1>
-    <br><br>
-    
+    <br>
+
+    <table>
+      <tr>
+        <th>University</th>
+        <th>Country</th>
+        <th>Semesters</th>
+        <th>Language Requirements</th>
+        <th>Total Quota</th>
+        <th>Remaining Quota</th>
+      </tr>
+      {% for university, department in university_dictionary.items() %}
+      <tr>
+        <form action="" method="POST" >
+        <div class="form-group">
+          <td>
+            <input
+              type="text"
+              id="update_name"
+              name="update_name"
+              value="{{ university.name }}"
+              required
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              id="update_country"
+              name="update_country"
+              value="{{ university.country }}"
+              required
+            />
+          </td>
+          <td>
+            <select class="form-control" id ="update_semester" name="update_semester">
+              {% if university.semester == "Fall" %}
+              <option value="fall" selected>Fall</option>
+              <option value="spring">Spring</option>
+              <option value="both">Both</option>
+              {% elif university.semester == "Spring" %}
+              <option value="fall">Fall</option>
+              <option value="spring" selected>Spring</option>
+              <option value="both">Both</option>
+              {% elif university.semester == "Both" %}
+              <option value="fall">Fall</option>
+              <option value="spring">Spring</option>
+              <option value="both" selected>Both</option>
+              {% endif %}
+            </select>
+          </td>
+          <td>
+            <input
+              type="text"
+              id="update_language"
+              name="update_language"
+              value="{{ university.language_requirements }}"
+              required
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              id="update_total_quota"
+              name="update_total_quota"
+              value="{{ department.total_quota }}"
+              required
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              id="update_remaining_quota"
+              name="update_remaining_quota"
+              value="{{ department.remaining_quota }}"
+              readonly
+              />
+          </td>
+        </div>
+          <td>
+            <button type="submit" class="open" name="update" value="{{ university.university_id }}">
+                Update
+            </button>
+          </td>
+          {% if department.remaining_quota != 0 %}
+          <td>
+            <button type="submit" class="open" name="waiting_bin" value="{{ university.university_id }}">
+                Waiting Bin
+            </button>
+          </td>
+          {% endif %}
+      </form>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <br>
+
+    <form method="POST">
     <div class="form-group">
       <label for="name">University Name</label>
       <input
@@ -113,99 +208,6 @@
       Add University
     </button>
   </form>
-  <br>
-  <table>
-    <tr>
-      <th>University</th>
-      <th>Country</th>
-      <th>Semesters</th>
-      <th>Language Requirements</th>
-      <th>Total Quota</th>
-      <th>Remaining Quota</th>
-    </tr>
-    {% for university, department in university_dictionary.items() %}
-    <tr>
-      <form action="" method="POST" >
-      <div class="form-group">
-        <td>
-          <input
-            type="text"
-            id="update_name"
-            name="update_name"
-            value="{{ university.name }}"
-            required
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            id="update_country"
-            name="update_country"
-            value="{{ university.country }}"
-            required
-          />
-        </td>
-        <td>
-          <select class="form-control" id ="update_semester" name="update_semester">
-            {% if university.semester == "Fall" %}
-            <option value="fall" selected>Fall</option>
-            <option value="spring">Spring</option>
-            <option value="both">Both</option>
-            {% elif university.semester == "Spring" %}
-            <option value="fall">Fall</option>
-            <option value="spring" selected>Spring</option>
-            <option value="both">Both</option>
-            {% elif university.semester == "Both" %}
-            <option value="fall">Fall</option>
-            <option value="spring">Spring</option>
-            <option value="both" selected>Both</option>
-            {% endif %}
-          </select>
-        </td>
-        <td>
-          <input
-            type="text"
-            id="update_language"
-            name="update_language"
-            value="{{ university.language_requirements }}"
-            required
-          />
-        </td>
-        <td>
-          <input
-            type="number"
-            id="update_total_quota"
-            name="update_total_quota"
-            value="{{ department.total_quota }}"
-            required
-          />
-        </td>
-        <td>
-          <input
-            type="number"
-            id="update_remaining_quota"
-            name="update_remaining_quota"
-            value="{{ department.remaining_quota }}"
-            readonly
-            />
-        </td>
-      </div>
-        <td>
-          <button type="submit" class="open" name="update" value="{{ university.university_id }}">
-              Update
-          </button>
-        </td>
-        {% if department.remaining_quota != 0 %}
-        <td>
-          <button type="submit" class="open" name="waiting_bin" value="{{ university.university_id }}">
-              Waiting Bin
-          </button>
-        </td>
-        {% endif %}
-    </form>
-    </tr>
-    {% endfor %}
-  </table>
 </body>
 
 </html>
