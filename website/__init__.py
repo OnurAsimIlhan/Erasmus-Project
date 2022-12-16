@@ -154,6 +154,7 @@ def create_app():
             "erasmus_coordinator_homepage",
             role="Erasmus Coordinator",
             user_service=user_service,
+            applications_service=applications_service,
             # application_period_service=application_period_service,
         ),
     )

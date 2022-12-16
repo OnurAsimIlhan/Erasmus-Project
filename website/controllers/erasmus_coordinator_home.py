@@ -8,16 +8,23 @@ from website.services import AuthorizeService
 class ErasmusCoordinatorHome(MethodView, AuthorizeService):
     decorators = [login_required]
 
-    def __init__(self, role: str, user_service):
+    def __init__(self, role: str, user_service, applications_service):
         AuthorizeService.__init__(self, role=role)
         self.user_service = user_service
+        self.applications_service = applications_service
 
     def get(self):
         if AuthorizeService.is_authorized(self):
+            
+            # all applications by department
+            applications = self.applications_service.getApplicationsByDepartment(current_user.department)
+
             return render_template(
                 "erasmus_coordinator_home.html", 
                 user = current_user, 
-                user_service = self.user_service)        
+                user_service = self.user_service,
+                applications = applications
+                )        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

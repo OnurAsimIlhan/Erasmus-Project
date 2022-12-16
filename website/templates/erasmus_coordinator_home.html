@@ -56,6 +56,58 @@
     </div>
   </div>
 
+  <h2> Application List </h2>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Student ID</th>
+            <th scope="col">Application Status</th>
+            <th scope="col">Check Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {% for application in applications %}
+          <tr>
+            <td>{{application.application_id}}</td>
+            <td>{{application.student_id}}</td>
+            <td>{{application.application_status}}</td>
+            <td>
+              <form method="POST">
+              {% if application.application_status == "waiting preapproval approval" or application.application_status == "waiting learning agreement approval" %}
+                <button type="submit" class="open" name="download" value="{{ application.application_id }}">
+                  Download
+                </button>
+                <button type="submit" class="open" name="approve" value="{{ application.application_id }}">
+                  Approve
+                </button>
+                <button type="submit" class="open" name="reject" value="{{ application.application_id }}">
+                  Reject
+                </button>
+              {% elif application.application_status == "waiting bin" %}
+                <select class="form-control" id ="select_university" name="select_university">
+                  {% for university, department in university_dictionary.items() %}
+                    {% if department.remaining_quota|int != 0 %}
+                      <option value="{{ university.name }}">{{ university.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <button type="submit" class="open" name="place" value="{{ application.application_id }}">
+                  Place
+                </button>
+              {% else %}
+                <button type="submit" class="open" name="download" value="{{ application.application_id }}">
+                  Download Latest Form
+                </button>
+              {% endif %}
+            </form>
+            </td>
+          </tr>
+          {% endfor %}
+        
+        <tbody>
+      </table>
   <div style="margin:40px; width:600px">
     <div
       style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
