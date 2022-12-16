@@ -80,7 +80,6 @@ def create_app():
         LearningAggrementController,
         PreApprovalController,
         ErasmusCoordinatorHome,
-        ErasmusCoordinatorApplications,
         ErasmusCoordinatorCoursesController,
         ErasmusCoordinatorUniversities,
         CourseCoordinatorController,
@@ -150,16 +149,6 @@ def create_app():
             role="Erasmus Coordinator",
             user_service=user_service,
             applications_service=applications_service,
-        ),
-    )
-    app.add_url_rule(
-        "/ec/applications/",
-        view_func=ErasmusCoordinatorApplications.as_view(
-            "erasmus_coordinator_applications",
-            role="Erasmus Coordinator",
-            user_service=user_service,
-            applications_service=applications_service,
-            university_service=university_service,
         ),
     )
     app.add_url_rule(
