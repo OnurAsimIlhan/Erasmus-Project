@@ -84,6 +84,7 @@ def create_app():
         StudentApplication,
         LearningAggrementController,
         PreApprovalController,
+        CourseProposalController,
         ErasmusCoordinatorHome,
         ErasmusCoordinatorApplications,
         ErasmusCoordinatorCoursesController,
@@ -146,8 +147,19 @@ def create_app():
             "student_preapproval",
             role="Student",
             applications_service=applications_service,
-            course_service="",
+            course_service=course_service,
+            university_service=university_service
         ),
+    )
+    app.add_url_rule(
+        "/propose_course/",
+        view_func=CourseProposalController.as_view(
+            "student_propose_course",
+            role="Student",
+            course_service=course_service,
+            applications_service=applications_service,
+            university_service=university_service
+        )
     )
 
     app.add_url_rule(

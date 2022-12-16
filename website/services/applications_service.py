@@ -44,9 +44,31 @@ class ApplicationsService():
         
         return selections
     
+    def getMatchedUniversity(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        return applicant.matched_university
+    
     def changeApplicationStatus(self, student_id: int, status: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         
         applicant.application_status = status
         
         db.session.commit()
+        
+    def getApplicationStatus(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        
+        status = applicant.application_status
+        return status
+    
+    def addCourse(self, student_id: int, course_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+
+        applicant.selected_courses = applicant.selected_courses + ".." + course_id
+
+        db.session.commit()
+
+    def download(self, student_id: int):
+        application = self.application_table.query.filter_by(student_id=student_id).first()
+        file_path = str(student_id) + "\\" + str(application.application_id) + ".pdf"
+        return file_path

@@ -23,12 +23,12 @@ class StudentHome(MethodView, AuthorizeService):
         learning_agreement_deadline_bool = self.deadline_service.has_passed(
             "learning_agreement_deadline"
         )
+        
+        application_status = self.applications_service.getApplicationStatus(current_user.bilkent_id) 
 
         matched_university = self.applications_service.getApplicationByStudentId(
             current_user.bilkent_id
         ).matched_university
-        if matched_university == None:
-            matched_university = "waiting_bin"
 
         return render_template(
             "student_homepage.html",
@@ -36,5 +36,6 @@ class StudentHome(MethodView, AuthorizeService):
             application_deadline=application_deadline_bool,
             preapproval_deadline=preapproval_deadline_bool,
             learning_agreement_deadline=learning_agreement_deadline_bool,
+            application_status=application_status,
             matched_university=matched_university
         )
