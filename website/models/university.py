@@ -9,9 +9,9 @@ class University(db.Model):
     country = db.Column(db.String(20), nullable=False)
     semester = db.Column(db.String(20), nullable=False)
     language_requirements = db.Column(db.String(50), nullable=False)
-    image_url = db.Column(db.String(500), nullable=True)
     departments = db.relationship("UniversityDepartments", backref="university")
     courses = db.relationship("Course", backref="university")
+    image_url = db.Column(db.String(500), nullable=False)
     db.relationship("Applications", backref="university")
     
     def get_id(self):

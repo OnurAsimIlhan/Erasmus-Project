@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     todo = db.relationship("Todo", backref="user")                      # Course Coordinator  
     applications = db.relationship("Applications", backref="user")      # Student    
     bilkent_courses = db.relationship("BilkentCourses", backref="user") # Course Coordinator
-
+    
     def get_id(self):
         return self.bilkent_id
     

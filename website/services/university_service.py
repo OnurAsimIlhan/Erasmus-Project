@@ -18,7 +18,8 @@ class UniversityService():
             name = name,
             country = country,
             semester = semester,
-            language_requirements = language
+            language_requirements = language,
+            image_url = None
         )
         db.session.add(new_university)
         db.session.commit()
