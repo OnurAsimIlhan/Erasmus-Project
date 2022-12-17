@@ -39,7 +39,7 @@
 
 
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbarToggle">
       <ul class="navbar-nav ml-auto">
         {% block nav_content %}
 
@@ -60,17 +60,19 @@
 
   {% block content %}
 
-  <div class="d-flex justify-content-between" style="margin-top:20px;margin-left:20px;margin-right:20px">
+  <div class="row" style="margin:20px;   justify-content: space-between; ">
 
-    <div>
+    <div class="" style="">
       <h1 style="text-align:left; font-weight:bold">Bilkent Erasmus</h1>
-      <p style="text-align:left; line-height: 170%; width: 529px; height: 155px; margin-top:100px">Bilkent Computer
+      <p style="text-align:left; line-height: 170%; width: 529px; margin-top:50px">Bilkent Computer
         Engineering
         Department has been actively involved in exchange programs and has established bilateral agreements with some of
         the leading universities of the world. Students who are interested in studying abroad are encouraged to apply.
       </p>
     </div>
-    <img src="/static/pic1.png" alt="Recuit" width="300" height="400" >
+    <div >
+      <img src="/static/pic1.png" alt="Recuit" width="300" height="400" >
+    </div>
   </div>
 
 
