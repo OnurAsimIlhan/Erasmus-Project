@@ -11,6 +11,7 @@ class University(db.Model):
     language_requirements = db.Column(db.String(50), nullable=False)
     
     departments = db.relationship("UniversityDepartments", backref="university")
+    courses = db.relationship("Course", backref="university")
     db.relationship("Applications", backref="university")
     
     def get_id(self):

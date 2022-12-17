@@ -30,6 +30,11 @@ class ApplicationsService():
         applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()
         return applications
     
+    def getApplicationsByStatus(self, status: str, dep: str):
+        applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()        
+        applications_by_department = [application for application in applications if(self.user_table.query.filter_by(bilkent_id=application.student_id).first().department == dep)]  
+        return applications_by_department
+
     def insertUniversitySelections(self, student_id: int, selected_universities: list):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         
@@ -57,6 +62,10 @@ class ApplicationsService():
         selections.append(applicant.selected_university_5)
         
         return selections
+    
+    def getMatchedUniversity(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        return applicant.matched_university
     
     def changeApplicationStatus(self, student_id: int, status: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
@@ -97,3 +106,21 @@ class ApplicationsService():
         application.final_transfer_form=None
         application.application_status="ready for mobility"
         db.session.commit()
+        
+    def getApplicationStatus(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        
+        status = applicant.application_status
+        return status
+    
+    def addCourse(self, student_id: int, course_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+
+        applicant.selected_courses = applicant.selected_courses + ".." + course_id
+
+        db.session.commit()
+
+    def download(self, student_id: int):
+        application = self.application_table.query.filter_by(student_id=student_id).first()
+        file_path = str(student_id) + "\\" + str(application.application_id) + ".pdf"
+        return file_path

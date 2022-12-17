@@ -108,7 +108,7 @@
         style="background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;margin-top:10px; padding:10px">
             <h1> Your Current Selections </h1>
             {% for selection in current_selections %}
-            <a>Selection 1: {{selection}}</a> <br>
+            <a>Selection {{loop.index}}: {{selection}}</a> <br>
             {% endfor %}
 
         </div>

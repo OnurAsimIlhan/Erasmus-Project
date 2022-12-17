@@ -50,6 +50,7 @@ def create_app():
         AdministratorService,
         ViewApplicationsService,
         FinalFormsService,
+        InternationalOfficeService,
     )
 
     role_service = RoleService(role_table=Role)
@@ -65,6 +66,7 @@ def create_app():
     administrator_service = AdministratorService(User)
     view_applications_service = ViewApplicationsService(User)
     final_forms_service = FinalFormsService(User)
+    international_office_service = InternationalOfficeService(User,University,Applications,UniversityDepartments)
 
     # ---------------------------------------------------------------------------------------------
 
@@ -79,9 +81,11 @@ def create_app():
         StudentApplication,
         LearningAggrementController,
         PreApprovalController,
+        CourseProposalController,
         ErasmusCoordinatorHome,
         ErasmusCoordinatorCoursesController,
         ErasmusCoordinatorUniversities,
+        ErasmusCoordinatorWaitingBin,
         CourseCoordinatorController,
         TodoController,
         FaqFormController,
@@ -140,8 +144,19 @@ def create_app():
             "student_preapproval",
             role="Student",
             applications_service=applications_service,
-            course_service="",
+            course_service=course_service,
+            university_service=university_service
         ),
+    )
+    app.add_url_rule(
+        "/propose_course/",
+        view_func=CourseProposalController.as_view(
+            "student_propose_course",
+            role="Student",
+            course_service=course_service,
+            applications_service=applications_service,
+            university_service=university_service
+        )
     )
 
     app.add_url_rule(
@@ -153,6 +168,7 @@ def create_app():
             applications_service=applications_service,
         ),
     )
+    
     app.add_url_rule(
         "/ec/courses/",
         view_func=ErasmusCoordinatorCoursesController.as_view(
@@ -167,15 +183,6 @@ def create_app():
             user_service=user_service,
             university_service=university_service,
             applications_service = applications_service,
-        ),
-    )
-    app.add_url_rule(
-        "/faq/update/department=<department>",
-        view_func=FaqFormController.as_view(
-            "faq_form",
-            role="Erasmus Coordinator",
-            user_service=user_service,
-            faq_service=faq_service,
         ),
     )
     app.add_url_rule(
@@ -197,7 +204,25 @@ def create_app():
             university_service=university_service,
             application_id=None
         )
-        
+    )    
+    app.add_url_rule(
+        "/ec/wb_management/department=<department>",
+        view_func=ErasmusCoordinatorWaitingBin.as_view(
+            "erasmus_coordinator_waiting_bin",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            university_service=university_service,
+            applications_service = applications_service,
+        ),
+    )
+    app.add_url_rule(
+        "/faq/update/department=<department>",
+        view_func=FaqFormController.as_view(
+            "faq_form",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            faq_service=faq_service,
+        ),
     )
 
     app.add_url_rule(
@@ -217,7 +242,11 @@ def create_app():
 
     app.add_url_rule(
         "/intoff/",
-        view_func=InternationalOffice.as_view("intoff_homepage", role="International Office"),
+        view_func=InternationalOffice.as_view(
+            "international_office_homepage", role="International Office",
+            international_office_service = international_office_service,
+            deadline_service = deadline_service,
+        ),
     )
 
     app.add_url_rule(

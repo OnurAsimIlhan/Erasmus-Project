@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-		crossorigin="anonymous" />
-
-	<title>{% block title %}Update FAQ{% endblock %}</title>
-</head>
-
 <body>
 	{% extends 'main_page.html' %}
 
@@ -59,35 +48,57 @@
 		<button name="faq_create" value="True" class="btn btn-info">Add Faq</button>
 	</form>
 
-	<h2>Current FAQ</h2>
-	<table class="table table-bordered table-striped">
-		<thead class="thead-dark">
-			<tr>
-				<th scope="col">Question</th>
-				<th scope="col">Answer</th>
-			</tr>
-		</thead>
-		<tbody>
-			<form method="POST">
-				{% for faq in faq_service.getFaqByDepartment(user.department) 
-				%}
+		<div class="block mt-5">
+		<h1>Current FAQ</h1>
+		<table class="table table-bordered table-striped">
+			<thead class="thead-light">
 				<tr>
-					<td>
-						<textarea id="faq_update_question" name="faq_update_question{{faq.id}}" style="text-align: left;" class="form-control">{{faq.question}}</textarea>
-					</td>
-					<td>
-						<textarea id="faq_update_answer" name="faq_update_answer{{faq.id}}" style="text-align: left;" class="form-control">{{faq.answer}}</textarea>
-					</td>
-					<td>
-						<button name="faq_update" value={{faq.id}} class="btn btn-info">Update</button>
-						<button name="faq_delete" value={{faq.id}} class="btn btn-info">Delete</button>
-					</td>
+					<th scope="col">Question</th>
+					<th scope="col">Answer</th>
+					<th scope="col">Operation</th>
 				</tr>
-				{% endfor %}
-			</form>
-		</tbody>
-	</table>
-{% endblock %}
+			</thead>
+			<tbody>
+				<form method="POST">
+					{% for faq in faq_service.getFaqByDepartment(user.department)
+					%}
+					<tr>
+						<td>
+							<textarea id="faq_update_question" name="faq_update_question{{faq.id}}"
+								style="text-align: left;" class="form-control">
+							{{faq.question}}
+						</textarea>
+						</td>
+						<td>
+							<textarea id="faq_update_answer" name="faq_update_answer{{faq.id}}"
+								style="text-align: left;" class="form-control">
+							{{faq.answer}}
+						</textarea>
+						</td>
+						<td >
+							<button name="faq_update" value={{faq.id}} class="btn btn-info">Update</button>
+							<button name="faq_delete" value={{faq.id}} class="btn btn-info">Delete</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</form>
+			</tbody>
+		</table>
+	</div>
+	</div>
+
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+		</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+		</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+		</script>
+	{% endblock %}
 </body>
 
 </html>

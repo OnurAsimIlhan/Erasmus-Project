@@ -18,7 +18,7 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
             universities = self.university_service.getUniversitiesByDepartment(current_user.department)
             departments = self.university_service.getDepartments(current_user.department)
             university_dictionary = dict(zip(universities, departments))
-            return render_template("erasmus_coordinator_universities.html", user = current_user, university_dictionary = university_dictionary, user_service=self.user_service)        
+            return render_template("erasmus_coordinator_universities.html", user = current_user, university_dictionary = university_dictionary)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
@@ -84,19 +84,6 @@ class ErasmusCoordinatorUniversities(MethodView, AuthorizeService):
                     )
                     flash(name + " is succesfully updated", category='success')
                 return redirect(url_for("erasmus_coordinator_universities"))
-            if "waiting_bin" in request.form:
-                wb = Workbook()
-                ws = wb.active
-                ws.title = "Waiting Bin"
-                ws.append(["Student ID", "Name"])
-                applications = self.applications_service.getApplicationsByStatus(status = "waiting bin")
-                for application in applications:
-                    student_id = application.student_id
-                    student = self.user_service.getUserById(student_id)
-                    if student.department == current_user.department:
-                        ws.append([student_id, student.name])
-                wb.save("website\static\waiting_bin.xlsx")
-                return send_file("static\waiting_bin.xlsx", as_attachment=True, download_name=current_user.department + "_waiting_bin.xlsx")
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

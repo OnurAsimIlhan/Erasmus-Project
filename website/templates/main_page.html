@@ -39,7 +39,7 @@
 
 
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbarToggle">
       <ul class="navbar-nav ml-auto">
         {% block nav_content %}
 
@@ -60,17 +60,19 @@
 
   {% block content %}
 
-  <div class="d-flex justify-content-between" style="margin-top:20px;margin-left:20px;margin-right:20px">
+  <div class="row" style="margin:20px;   justify-content: space-between; ">
 
-    <div>
+    <div class="" style="">
       <h1 style="text-align:left; font-weight:bold">Bilkent Erasmus</h1>
-      <p style="text-align:left; line-height: 170%; width: 529px; height: 155px; margin-top:100px">Bilkent Computer
+      <p style="text-align:left; line-height: 170%; width: 529px; margin-top:50px">Bilkent Computer
         Engineering
         Department has been actively involved in exchange programs and has established bilateral agreements with some of
         the leading universities of the world. Students who are interested in studying abroad are encouraged to apply.
       </p>
     </div>
-    <img src="/static/pic1.png" alt="Recuit" width="300" height="400" >
+    <div >
+      <img src="/static/pic1.png" alt="Recuit" width="300" height="400" >
+    </div>
   </div>
 
 
@@ -121,8 +123,8 @@
   <div class="col-6" style="margin-left:20px">
     <div class="row"
       style="align-items:center; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
-      <img class="col-8" src="/static/robotic.png" style="padding-left:4px"/>
-      <p class="col-4" style="color:white;">Application Assistant</p>
+      <img src="/static/accuracy.png" style="margin:50px; width:300px"/>
+      <p  style="color:white;">Application Assistant</p>
     </div>
   </div>
 
