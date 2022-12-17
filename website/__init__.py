@@ -50,6 +50,7 @@ def create_app():
         AdministratorService,
         ViewApplicationsService,
         FinalFormsService,
+        InternationalOfficeService,
     )
 
     role_service = RoleService(role_table=Role)
@@ -65,6 +66,7 @@ def create_app():
     administrator_service = AdministratorService(User)
     view_applications_service = ViewApplicationsService(User)
     final_forms_service = FinalFormsService(User)
+    international_office_service = InternationalOfficeService(User,University,Applications,UniversityDepartments)
 
     # ---------------------------------------------------------------------------------------------
 
@@ -79,6 +81,7 @@ def create_app():
         StudentApplication,
         LearningAggrementController,
         PreApprovalController,
+        CourseProposalController,
         ErasmusCoordinatorHome,
         ErasmusCoordinatorCoursesController,
         ErasmusCoordinatorUniversities,
@@ -139,8 +142,19 @@ def create_app():
             "student_preapproval",
             role="Student",
             applications_service=applications_service,
-            course_service="",
+            course_service=course_service,
+            university_service=university_service
         ),
+    )
+    app.add_url_rule(
+        "/propose_course/",
+        view_func=CourseProposalController.as_view(
+            "student_propose_course",
+            role="Student",
+            course_service=course_service,
+            applications_service=applications_service,
+            university_service=university_service
+        )
     )
 
     app.add_url_rule(
@@ -205,7 +219,11 @@ def create_app():
 
     app.add_url_rule(
         "/intoff/",
-        view_func=InternationalOffice.as_view("intoff_homepage", role="International Office"),
+        view_func=InternationalOffice.as_view(
+            "international_office_homepage", role="International Office",
+            international_office_service = international_office_service,
+            deadline_service = deadline_service,
+        ),
     )
 
     app.add_url_rule(

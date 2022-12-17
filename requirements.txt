@@ -3,4 +3,9 @@ flask-login
 flask-sqlalchemy
 docx2pdf
 docxtpl
+<<<<<<< HEAD
+=======
+pandas
+xlsxwriter
+>>>>>>> main
 openpyxl
