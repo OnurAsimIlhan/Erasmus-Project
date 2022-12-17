@@ -30,6 +30,9 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
     
     def post(self):
         if AuthorizeService.is_authorized(self):
+            if "logout" in request.form:
+                logout_user() 
+                return redirect(url_for("main")) 
             if "update_faq" in request.form:
                 return redirect(url_for("faq_form", user=current_user))
             if "application_form" in request.form:

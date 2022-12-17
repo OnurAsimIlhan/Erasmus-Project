@@ -79,3 +79,21 @@ class ApplicationsService():
         application = self.application_table.query.filter_by(application_id = id).first()
         file = BytesIO(application.learning_agreement_form) 
         return file
+
+    def sendCourseTransfer(self, application_id : int):
+        application = self.application_table.query.filter_by(application_id = application_id).first()
+        file = BytesIO(application.final_transfer_form) 
+        return file
+    
+    def uploadCourseTransfer(self, application_id: int, file):
+        application = self.getApplicationById(application_id)
+        application.final_transfer_form=file.read()
+        application.application_status="under board inspection"
+        db.session.commit()
+        return application.final_transfer_form != None
+    
+    def deleteCourseTransfer(self, application_id: int):
+        application = self.getApplicationById(application_id)
+        application.final_transfer_form=None
+        application.application_status="ready for mobility"
+        db.session.commit()

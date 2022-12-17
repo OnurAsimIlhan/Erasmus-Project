@@ -21,18 +21,12 @@
     </li>
     {% endif %}
     {% endfor %}
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/">Upload Final Form</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/ec/applications/">View Student Applications</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/ec/universities">Universities</a>
-    </li>
+    <a class="nav-item nav-link" href="/ec/home">Home</a>
+    <a class="nav-item nav-link" href="/">Upload Final Form</a>
+    <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
+    <a class="nav-item nav-link" href="/ec/universities">Universities</a>
+    <a class="nav-item nav-link" href="/ec/update_deadline">Deadlines</a>
+    <a class="nav-item nav-link" href="/ec/courses">View Course Proposals</a>
     <li class="nav-item">
         <form action="" method="POST">
             <button type="logout" class="logoutButton" style="padding-top:5px" name="logout" value="">

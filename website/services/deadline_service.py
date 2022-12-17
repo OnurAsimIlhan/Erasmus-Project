@@ -31,4 +31,17 @@ class DeadlineService():
         
         return todays_date > deadline
         
+    def get_all_deadlines(self):
+        return self.deadlines_table.query.all()
     
+    def update_deadline(self, deadline_title: str, deadline_str: str):
+        if (deadline_title != "application_deadline" 
+                and deadline_title != "preapproval_deadline" 
+                and deadline_title != "learning_agreement_deadline"):
+            return None
+
+        deadline = self.deadlines_table.query.filter_by(deadline_title=deadline_title).first()
+        deadline.deadline = deadline_str
+        db.session.commit()
+        return deadline
+        

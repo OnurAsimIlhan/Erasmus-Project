@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+</head>
+
+<body style="background-color:#d7d5d5">
+    {% extends 'main_page.html' %}
+
+    {% block nav_content %}
+    
+    {% for role in user.role %}
+    {% if role.role == "Course Coordinator" %}
+    <li class="nav-item">
+        <a class="nav-item nav-link" href="/cchome">Switch to Course Coordinator</a>
+    </li>
+    {% endif %}
+    {% endfor %}
+
+	<a class="nav-item nav-link" href="/ec/home">Home</a>
+    <a class="nav-item nav-link" href="/">Upload Final Form</a>
+    <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
+    <a class="nav-item nav-link" href="/ec/universities">Universities</a>
+    <a class="nav-item nav-link" href="/ec/update_deadline">Deadlines</a>
+    <a class="nav-item nav-link" href="/ec/courses">View Course Proposals</a>
+
+    <li class="nav-item">
+        <form action="" method="POST">
+            <button type="logout" class="logoutButton" style="padding-top:5px" name="logout" value="">
+                Logout
+            </button>
+        </form>
+    </li>
+    <style>
+        .logoutButton {
+            background:none;
+            color:rgb(224, 214, 214);
+            border:none;
+            margin:0;
+            padding:0;
+        }
+    </style>
+  {% endblock %}
+  {% block content %}
+    <form method="POST">
+        <h2>Update Application Deadlines</h2>
+        <p>Select deadline type</p>
+        <div class="input-field">
+            <select
+            name="deadline_type">
+                {% for deadline in deadline_service.get_all_deadlines() %}
+                    <option value={{deadline.deadline_title}} selected>{{deadline.deadline_title}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <p>Enter new deadline</p>
+        <div class="input-field">
+            <input 
+            name="deadline"
+            type="datetime-local"
+            >
+        </div>
+        <br>
+        <button name="update" class="btn btn-info">Update</button>
+    </form>
+
+    {% endblock %}
+</body>
+</html>
