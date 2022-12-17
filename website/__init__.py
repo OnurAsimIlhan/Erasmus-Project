@@ -61,7 +61,7 @@ def create_app():
     university_service = UniversityService(University, UniversityDepartments)
     applications_service = ApplicationsService(user_table=User, application_table=Applications)
     deadline_service = DeadlineService(deadlines_table=Deadlines)
-    pdf_service = PDFService(application_table=Applications)
+    pdf_service = PDFService(Applications, University, Course, BilkentCourses )
     faq_service = FaqService(user_table=User, faq_table=Faq)
     administrator_service = AdministratorService(User)
     view_applications_service = ViewApplicationsService(User)
