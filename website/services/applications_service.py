@@ -1,11 +1,13 @@
 from website import db
+from io import BytesIO
+
 class ApplicationsService():
     def __init__(self, user_table, application_table):
         self.user_table = user_table
         self.application_table = application_table
     
     def getApplicationById(self, id: int):
-        task = self.application_table.query.filter_by(id = id).first()
+        task = self.application_table.query.filter_by(application_id = id).first()
         print(task)
         return task
     
@@ -20,7 +22,16 @@ class ApplicationsService():
     def getApplicationsByApplicationPeriodId(self, id: int):
         applications = self.application_table.query.filter_by(application_period_id = id).all()
         return applications
+
+    def getApplicationsByStatus(self, status: str):
+        applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()
+        return applications
     
+    def getApplicationsByStatus(self, status: str, dep: str):
+        applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()        
+        applications_by_department = [application for application in applications if(self.user_table.query.filter_by(bilkent_id=application.student_id).first().department == dep)]  
+        return applications_by_department
+
     def insertUniversitySelections(self, student_id: int, selected_universities: list):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         
@@ -30,6 +41,11 @@ class ApplicationsService():
         applicant.selected_university_4 = selected_universities[3]
         applicant.selected_university_5 = selected_universities[4]
         
+        db.session.commit()
+    
+    def matchWithUniversity(self, student_id: int, university_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        applicant.matched_university = university_id
         db.session.commit()
     
     def getUniversitySelections(self, student_id: int):
@@ -54,6 +70,23 @@ class ApplicationsService():
         applicant.application_status = status
         
         db.session.commit()
+<<<<<<< HEAD
+
+    def sendApplicationForm(self, id: int):
+        application = self.application_table.query.filter_by(application_id = id).first()
+        file = BytesIO(application.application_form) 
+        return file
+
+    def sendPreapprovalForm(self, id: int):
+        application = self.application_table.query.filter_by(application_id = id).first()
+        file = BytesIO(application.pre_approval_form) 
+        return file
+
+    def sendLearningAgreementForm(self, id: int):
+        application = self.application_table.query.filter_by(application_id = id).first()
+        file = BytesIO(application.learning_agreement_form) 
+        return file
+=======
         
     def getApplicationStatus(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
@@ -72,3 +105,4 @@ class ApplicationsService():
         application = self.application_table.query.filter_by(student_id=student_id).first()
         file_path = str(student_id) + "\\" + str(application.application_id) + ".pdf"
         return file_path
+>>>>>>> main

@@ -1,6 +1,7 @@
 __pycache__
 instance/
 *.db
+*.xlsx
 *.pdf
 *.db-journal
 erasmuspython/

@@ -15,11 +15,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
 
     def get(self):
         if AuthorizeService.is_authorized(self):
-            return render_template(
-                "erasmus_coordinator_home.html", 
-                user = current_user, 
-                application_period_service = self.application_period_service, 
-                user_service = self.user_service)        
+            return render_template("erasmus_coordinator_home.html", user = current_user, application_period_service = self.application_period_service)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

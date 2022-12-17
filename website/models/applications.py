@@ -23,8 +23,6 @@ class Applications(db.Model):
     pre_approval_form = db.Column(db.LargeBinary)
     learning_agreement_form = db.Column(db.LargeBinary)
     final_transfer_form = db.Column(db.LargeBinary)
-        
-    application_period_id = db.Column(db.Integer, db.ForeignKey("application_period.id"), nullable=True)
     
     selected_courses = db.Column(db.String(50), nullable=True)
     
