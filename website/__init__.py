@@ -51,6 +51,7 @@ def create_app():
         ViewApplicationsService,
         FinalFormsService,
         InternationalOfficeService,
+        ContactsService,
     )
 
     role_service = RoleService(role_table=Role)
@@ -67,6 +68,7 @@ def create_app():
     view_applications_service = ViewApplicationsService(User)
     final_forms_service = FinalFormsService(User)
     international_office_service = InternationalOfficeService(User,University,Applications,UniversityDepartments)
+    contacts_service = ContactsService(User,Role)
 
     # ---------------------------------------------------------------------------------------------
 
@@ -108,7 +110,7 @@ def create_app():
     )
     app.add_url_rule("/faq/", view_func=FAQ.as_view("faq", faq_service=faq_service))
     app.add_url_rule(
-        "/contacts/", view_func=Contacts.as_view("contacts", user_service=user_service)
+        "/contacts/", view_func=Contacts.as_view("contacts", contacts_service = contacts_service)
     )
 
     app.add_url_rule(
