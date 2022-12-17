@@ -9,8 +9,11 @@ from website import db
 
 
 class PDFService:
-    def __init__(self, application_table):
+    def __init__(self, application_table, university_table, course_table, bilkent_course_table):
         self.application_table = application_table
+        self.university_table = university_table
+        self.course_table = course_table
+        self.bilkent_course_table = bilkent_course_table
 
     def create_application_form(self, current_user, university_selections: list):
         document = DocxTemplate("forms/form_templates/application_form_template.docx")
