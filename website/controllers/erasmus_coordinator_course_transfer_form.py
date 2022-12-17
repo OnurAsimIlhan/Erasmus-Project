@@ -18,8 +18,6 @@ class ErasmusCoordinatorCourseFransferForm(MethodView):
     
     def get(self):
         if AuthorizeService.is_authorized(self):
-            
-
             return render_template(
                 "erasmus_coordinator_course_transfer_form.html",
                 user=current_user,

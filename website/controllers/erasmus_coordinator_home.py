@@ -1,3 +1,5 @@
+import datetime
+import json
 from flask import render_template, request, redirect, url_for, send_file
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
@@ -7,10 +9,11 @@ from website.services import AuthorizeService
 class ErasmusCoordinatorHome(MethodView, AuthorizeService):
     decorators = [login_required]
 
-    def __init__(self, role: str, user_service, applications_service):
+    def __init__(self, role: str, user_service, applications_service, deadline_service):
         AuthorizeService.__init__(self, role=role)
         self.user_service = user_service
         self.applications_service = applications_service
+        self.deadline_service = deadline_service
 
     def get(self):
         if AuthorizeService.is_authorized(self):
@@ -22,7 +25,8 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
                 "erasmus_coordinator_home.html", 
                 user = current_user, 
                 user_service = self.user_service,
-                applications = applications
+                applications = applications,
+                deadline_list = self.deadline_service.get_all_deadlines_format_calendar(),
                 )        
         else:
             logout_user() 

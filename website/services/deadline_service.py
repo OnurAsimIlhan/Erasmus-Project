@@ -33,6 +33,17 @@ class DeadlineService():
         
     def get_all_deadlines(self):
         return self.deadlines_table.query.all()
+
+    def get_all_deadlines_format_calendar(self):
+        deadlines = self.get_all_deadlines()
+        # list is preferred as order matters, map oobject lacks the required sequence
+        deadline_list = ["now", datetime.strftime(datetime.now(), "%Y-%m-%dT%H:%M")]
+        for deadline in deadlines:
+            deadline_t = datetime.strptime(deadline.deadline, "%d/%m/%y %H.%M")
+            deadline_s = datetime.strftime(deadline_t, "%Y-%m-%dT%H:%M")
+            deadline_list.append(deadline.deadline_title)
+            deadline_list.append(deadline_s)
+        return deadline_list
     
     def update_deadline(self, deadline_title: str, deadline_str: str):
         if (deadline_title != "application_deadline" 
