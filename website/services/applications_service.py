@@ -19,9 +19,12 @@ class ApplicationsService():
         applications = self.application_table.query.filter_by(department = dep).all()
         return applications
     
-    def getApplicationsByApplicationPeriodId(self, id: int):
-        applications = self.application_table.query.filter_by(application_period_id = id).all()
-        return applications
+    def getApplicationsByDepartment(self, dep: str):
+        applications = self.application_table.query.all()
+        
+        applications_by_department = [application for application in applications if(self.user_table.query.filter_by(bilkent_id=application.student_id).first().department == dep)]
+                
+        return applications_by_department
 
     def getApplicationsByStatus(self, status: str):
         applications = self.application_table.query.filter_by(application_status=status).order_by(self.application_table.ranking).all()
@@ -70,7 +73,6 @@ class ApplicationsService():
         applicant.application_status = status
         
         db.session.commit()
-<<<<<<< HEAD
 
     def sendApplicationForm(self, id: int):
         application = self.application_table.query.filter_by(application_id = id).first()
@@ -86,7 +88,24 @@ class ApplicationsService():
         application = self.application_table.query.filter_by(application_id = id).first()
         file = BytesIO(application.learning_agreement_form) 
         return file
-=======
+
+    def sendCourseTransfer(self, application_id : int):
+        application = self.application_table.query.filter_by(application_id = application_id).first()
+        file = BytesIO(application.final_transfer_form) 
+        return file
+    
+    def uploadCourseTransfer(self, application_id: int, file):
+        application = self.getApplicationById(application_id)
+        application.final_transfer_form=file.read()
+        application.application_status="under board inspection"
+        db.session.commit()
+        return application.final_transfer_form != None
+    
+    def deleteCourseTransfer(self, application_id: int):
+        application = self.getApplicationById(application_id)
+        application.final_transfer_form=None
+        application.application_status="ready for mobility"
+        db.session.commit()
         
     def getApplicationStatus(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
@@ -105,4 +124,3 @@ class ApplicationsService():
         application = self.application_table.query.filter_by(student_id=student_id).first()
         file_path = str(student_id) + "\\" + str(application.application_id) + ".pdf"
         return file_path
->>>>>>> main

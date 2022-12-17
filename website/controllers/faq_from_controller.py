@@ -29,7 +29,9 @@ class FaqFormController(MethodView):
             
     def post(self, department):
         if AuthorizeService.is_authorized(self):
-            
+            if "logout" in request.form:
+                logout_user() 
+                return redirect(url_for("main")) 
             if "faq_update" in request.form:
                 faq_id = str(request.form.get('faq_update'))
                 question = request.form.get('faq_update_question'+faq_id)

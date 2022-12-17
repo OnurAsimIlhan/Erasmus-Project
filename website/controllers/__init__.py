@@ -6,7 +6,8 @@ from .erasmus_coordinator_universities import ErasmusCoordinatorUniversities
 from .erasmus_coordinator_waiting_bin import ErasmusCoordinatorWaitingBin
 from .todo_controller import TodoController
 from .course_coordinator_controller import CourseCoordinatorController
-from .student_application_details import StudentApplicationDetails
+from .erasmus_coordinator_course_transfer_form import ErasmusCoordinatorCourseFransferForm
+from .erasmus_coordinator_deadline_update import ErasmusCoordinatorDeadlineUpdate
 from .faq_from_controller import FaqFormController
 from .main_controller import Main 
 from .faq_controller import FAQ

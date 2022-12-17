@@ -93,6 +93,8 @@ def create_app():
         AdministratorController,
         ViewApplicationsController,
         FinalFormsController,
+        ErasmusCoordinatorCourseFransferForm,
+        ErasmusCoordinatorDeadlineUpdate,
     )
 
     app.add_url_rule(
@@ -163,6 +165,7 @@ def create_app():
             "erasmus_coordinator_homepage",
             role="Erasmus Coordinator",
             user_service=user_service,
+            applications_service=applications_service,
         ),
     )
     
@@ -182,6 +185,26 @@ def create_app():
             applications_service = applications_service,
         ),
     )
+    app.add_url_rule(
+        "/ec/update_deadline",
+        view_func=ErasmusCoordinatorDeadlineUpdate.as_view(
+            "erasmus_coordinator_update_deadline",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            deadline_service=deadline_service,
+        )
+    )
+    app.add_url_rule(
+        "/ec/upload_ct_form",
+        view_func=ErasmusCoordinatorCourseFransferForm.as_view(
+            "erasmus_coordinator_course_transfer_form",
+            role="Erasmus Coordinator",
+            user_service=user_service,
+            applications_service=applications_service,
+            university_service=university_service,
+            application_id=None
+        )
+    )    
     app.add_url_rule(
         "/ec/wb_management/department=<department>",
         view_func=ErasmusCoordinatorWaitingBin.as_view(
