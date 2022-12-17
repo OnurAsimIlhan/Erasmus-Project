@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
-from website.services.application_period_service import ApplicationPeriodService
 from website.services.faq_service import FaqService
 
 from website.services import AuthorizeService

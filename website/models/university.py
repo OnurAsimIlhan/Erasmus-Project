@@ -9,10 +9,6 @@ class University(db.Model):
     country = db.Column(db.String(20), nullable=False)
     semester = db.Column(db.String(20), nullable=False)
     language_requirements = db.Column(db.String(50), nullable=False)
-<<<<<<< HEAD
-=======
-    
->>>>>>> main
     
     departments = db.relationship("UniversityDepartments", backref="university")
     courses = db.relationship("Course", backref="university")

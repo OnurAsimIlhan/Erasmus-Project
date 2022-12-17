@@ -70,7 +70,6 @@ class ApplicationsService():
         applicant.application_status = status
         
         db.session.commit()
-<<<<<<< HEAD
 
     def sendApplicationForm(self, id: int):
         application = self.application_table.query.filter_by(application_id = id).first()
@@ -86,7 +85,6 @@ class ApplicationsService():
         application = self.application_table.query.filter_by(application_id = id).first()
         file = BytesIO(application.learning_agreement_form) 
         return file
-=======
         
     def getApplicationStatus(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
@@ -105,4 +103,3 @@ class ApplicationsService():
         application = self.application_table.query.filter_by(student_id=student_id).first()
         file_path = str(student_id) + "\\" + str(application.application_id) + ".pdf"
         return file_path
->>>>>>> main
