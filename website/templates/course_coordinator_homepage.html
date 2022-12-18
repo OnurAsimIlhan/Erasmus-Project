@@ -6,11 +6,11 @@
     <title>Homepage</title>
 </head>
 
-<body style="background-color:#b9b9b9">
+<body>
     {% extends 'main_page.html' %}
 
     {% block nav_content %}
-    
+
     {% for role in user.role %}
     {% if role.role == "Erasmus Coordinator" %}
     <li class="nav-item">
@@ -26,22 +26,30 @@
             </button>
         </form>
     </li>
-  
+
     {% endblock %}
 
     {% block content %}
+    <style>
+        .block {
+            margin: 10px;
+            background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);
+        }
 
-    <div class="row d-block justify-content-around" style="margin:10px;">
-        <div class="col-7 float-left"
-            style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
+        h1 {
+            background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%)
+                /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+            ;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+    <div class="row justify-content-around" style="margin:30px;">
+        <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
-                <h1 style="background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-               
-                ">Last Proposals</h1>
-                <table class="table table-light table-striped table-bordered">
+                <h1>Last Proposals</h1>
+                <table class="table table-responsive table-light table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -65,28 +73,35 @@
                         <tr>
                             <th scope="row">{{i.value}}</th>
 
-                            <td>{{course.course_name}}</td> 
+                            <td>{{course.course_name}}</td>
 
                             <td>{{getUniversityName(course.university_id)}}</td>
 
                             <td>{{getBilkentCourseName(course.equivalent_bilkent_course)}}</td>
 
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Download" value="{{ course.course_id }}">
-                                    Download Syllabus
-                                </button>
-                            </form></td>
-                            <td><a href="{{course.web_page}}" target="_blank" rel="noreferrer noopener">Course Website</a></td>
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
-                                    Approve
-                                </button>
-                            </form></td>
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
-                                    Reject
-                                </button>
-                            </form></td>
+                            <td>
+                                <form action="" method="POST">
+                                    <button type="submit" class="open" name="Download" value="{{ course.course_id }}">
+                                        Download Syllabus
+                                    </button>
+                                </form>
+                            </td>
+                            <td><a href="{{course.web_page}}" target="_blank" rel="noreferrer noopener">Course
+                                    Website</a></td>
+                            <td>
+                                <form action="" method="POST">
+                                    <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
+                                        Approve
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="" method="POST">
+                                    <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
+                                        Reject
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         {% set i.value = i.value + 1 %}
                         {% endif %}
@@ -99,29 +114,26 @@
         </div>
         <style>
             .logoutButton {
-                background:none;
-                color:rgb(224, 214, 214);
-                border:none;
-                margin:0;
-                padding:0;
+                background: none;
+                color: rgb(224, 214, 214);
+                border: none;
+                margin: 0;
+                padding: 0;
             }
         </style>
-        <div class="col-4 float-right" style="padding:20px;margin:10px; background:linear-gradient(333.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+        <div class="col-xl-4 col-lg-6 col-md-8 block" style="padding:20px;">
             <div style="background-color:white; padding:5px">
                 {% include 'calendar.html' %}
             </div>
-            <h2 style="padding-top:10px; padding-bottom:5px;background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            ">Closing Deadlines</h2>
+            <h1>Closing Deadlines</h1>
             <!-- for loop -->
-                <div style="margin-top:10px;margin-left:20px;background-color:white">
-                    Insert Deadline Here
-                </div>
-            
+            <div style="margin-top:10px;margin-left:20px;background-color:white">
+                Insert Deadline Here
+            </div>
+
         </div>
     </div>
     {% endblock %}
 </body>
+
 </html>

@@ -1,61 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Homepage</title>
-</head>
 
-<body style="background-color:#d7d5d5">
+<body>
     {% extends 'main_page.html' %}
 
     {% block nav_content %}
-    <!--Link Logout Service Here -->
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/ec/home">Home</a>
-    </li>
+
     {% for role in user.role %}
     {% if role.role == "Course Coordinator" %}
-    <li class="nav-item">  
+    <li class="nav-item">
         <a class="nav-item nav-link" href="/cchome">Switch to Course Coordinator</a>
     </li>
     {% endif %}
     {% endfor %}
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/">Upload Final Form</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/ec/universities">Universities</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-item nav-link" href="/ec/wb_management/department={{user.department}}">Waiting Bin</a>
-    </li>
+
+    <a class="nav-item nav-link" href="/ec/home">Home</a>
+    <a class="nav-item nav-link" href="/ec/upload_ct_form">Upload Final Form</a>
+    <a class="nav-item nav-link" href="/faq/update/department={{user.department}}">Update FAQ</a>
+    <a class="nav-item nav-link" href="/ec/universities">Universities</a>
+    <a class="nav-item nav-link" href="/ec/update_deadline">Deadlines</a>
+    <a class="nav-item nav-link" href="/ec/courses">View Course Proposals</a>
+    <a class="nav-item nav-link" href="/ec/wb_management/department={{user.department}}">Waiting List</a>
     <li class="nav-item">
         <form action="" method="POST">
-            <button type="logout" class="logoutButton" style="padding-top:5px" name="logout" value="">
+            <button style="margin-top:8px" type="logout" class="logoutButton" style="padding-top:5px" name="logout" value="">
                 Logout
             </button>
         </form>
     </li>
-  
+    
     {% endblock %}
-
     {% block content %}
-
-    <div class="row d-block justify-content-around" style="margin:10px;">
-        <div class="col-7 float-left"
-            style="margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;">
+    <style>
+        .block{
+            margin:10px; background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);
+        }
+        h1{
+            background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+        }
+      </style>
+    <div class="row justify-content-around" style="margin:30px;">
+        <div class="col-xl-7 col-lg-8 col-md-10 block">
             <div style="padding:10px">
-                <h1 style="background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-               
-                ">Last Course Proposals</h1>
-                <table class="table table-light table-striped table-bordered">
+                <h1>Last Course Proposals</h1>
+                <table class="table table-responsive table-light table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -78,28 +70,35 @@
                         <tr>
                             <th scope="row">{{i.value}}</th>
 
-                            <td>{{course.course_name}}</td> 
+                            <td>{{course.course_name}}</td>
 
                             <td>{{getUniversityName(course.university_id)}}</td>
 
                             <td>{{getBilkentCourseName(course.equivalent_bilkent_course)}}</td>
 
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Download" value="{{ course.course_id }}">
-                                    Download Syllabus
-                                </button>
-                            </form></td>
-                            <td><a href="{{course.web_page}}" target="_blank" rel="noreferrer noopener">Course Website</a></td>
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
-                                    Approve
-                                </button>
-                            </form></td>
-                            <td><form action="" method="POST">
-                                <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
-                                    Reject
-                                </button>
-                            </form></td>
+                            <td>
+                                <form action="" method="POST">
+                                    <button type="submit" class="open" name="Download" value="{{ course.course_id }}">
+                                        Download Syllabus
+                                    </button>
+                                </form>
+                            </td>
+                            <td><a href="{{course.web_page}}" target="_blank" rel="noreferrer noopener">Course
+                                    Website</a></td>
+                            <td>
+                                <form action="" method="POST">
+                                    <button type="submit" class="open" name="Approve" value="{{ course.course_id }}">
+                                        Approve
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="" method="POST">
+                                    <button type="submit" class="open" name="Reject" value="{{ course.course_id }}">
+                                        Reject
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         {% set i.value = i.value + 1 %}
                         {% endif %}
@@ -112,29 +111,26 @@
         </div>
         <style>
             .logoutButton {
-                background:none;
-                color:rgb(224, 214, 214);
-                border:none;
-                margin:0;
-                padding:0;
+                background: none;
+                color: rgb(224, 214, 214);
+                border: none;
+                margin: 0;
+                padding: 0;
             }
         </style>
-        <div class="col-4 float-right" style="padding:20px;margin:10px; background:linear-gradient(333.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
-            <div style="background-color:white; padding:5px">
+       <div class="col-xl-4 col-lg-6 col-md-8 block" style="padding:20px;">
+        <div style="background-color:white; padding:5px">
                 {% include 'calendar.html' %}
             </div>
-            <h2 style="padding-top:10px; padding-bottom:5px;background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            ">Closing Deadlines</h2>
+            <h1 style="margin-top:10px">Closing Deadlines</h1>
             <!-- for loop -->
-                <div style="margin-top:10px;margin-left:20px;background-color:white">
-                    Insert Deadline Here
-                </div>
-            
+            <div style="margin-top:10px;margin-left:20px;background-color:white">
+                Insert Deadline Here
+            </div>
+
         </div>
     </div>
     {% endblock %}
 </body>
+
 </html>
