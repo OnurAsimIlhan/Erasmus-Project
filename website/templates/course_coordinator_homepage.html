@@ -108,8 +108,10 @@
         </style>
         <div class="col-4 float-right" style="padding:20px;margin:10px; background:linear-gradient(333.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
             <div style="background-color:white; padding:5px">
-                {% include 'calendar.html' %}
-            </div>
+				<div class="container">
+					<div id="calendar"></div>
+				</div>
+			</div>
             <h2 style="padding-top:10px; padding-bottom:5px;background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -122,6 +124,15 @@
             
         </div>
     </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"> </script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"> </script>
+	<script type="text/javascript" src="/static/calendar.js"></script>
+	<script type="text/javascript">
+		window.addEventListener("load", consoleInit({{deadline_list|tojson}}));
+	</script>
     {% endblock %}
 </body>
 </html>
