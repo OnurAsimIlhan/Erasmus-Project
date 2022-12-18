@@ -30,8 +30,8 @@ class PreApprovalController(MethodView, AuthorizeService):
             pass
             
         universities = self.university_service.getAllUniversities()
-        courses = self.applications_service.getCourses(student_id=current_user.bilkent_id)
-        return render_template("student_preapproval_page.html", user=current_user, universities=universities, courses=courses)
+        courses = self.applications_service.getSelectedCourses(student_id=current_user.bilkent_id)
+        return render_template("student_preapproval_page.html", user=current_user, universities=universities, courses=courses, course_service=self.course_service)
     
     def post(self):
         if AuthorizeService.is_authorized(self) == False:
@@ -41,15 +41,16 @@ class PreApprovalController(MethodView, AuthorizeService):
         universities = self.university_service.getAllUniversities()
 
         if "Choose" in request.form:
-            course_name = request.form["Choose"]
-            self.applications_service.addCourse(student_id=current_user.bilkent_id, course_name=course_name)
-            courses = self.applications_service.getCourses(student_id=current_user.bilkent_id)
+            courses = request.form.getlist("Choose")
+            self.applications_service.addCourseSelection(student_id=current_user.bilkent_id, courses=courses)
+            
+            courses_list = self.applications_service.getSelectedCourses(student_id=current_user.bilkent_id)
             
             self.pdf_service.create_preapproval_form(
                 current_user=current_user,
-                course_selections=courses
+                course_selections=courses_list
             )
             
             self.applications_service.changeApplicationStatus(student_id=current_user.bilkent_id, status="waiting preapproval approval")
             
-            return render_template("student_preapproval_page.html", user=current_user, universities=universities, courses=courses)
+            return render_template("student_preapproval_page.html", user=current_user, universities=universities, courses=courses_list, course_service=self.course_service)

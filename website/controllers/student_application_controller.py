@@ -1,5 +1,5 @@
+from flask import render_template, request, redirect, url_for, send_file, flash
 from flask_login import login_required, logout_user, current_user
-from flask import render_template, request, redirect, url_for, send_file
 from flask.views import MethodView
 
 from website.services import AuthorizeService
@@ -41,6 +41,21 @@ class StudentApplication(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
         
+        applicant = self.applications_service.getApplicationByStudentId(current_user.bilkent_id)
+        
+        universities = self.university_service.getUniversitiesByDepartment(current_user.department)
+        current_selections = self.applications_service.getUniversitySelections(
+            current_user.bilkent_id
+        )
+        
+        if applicant.cgpa < 2.5:
+            flash("Your CGPA is not high enough to apply Erasmus dumbass", "!cgpa")
+            return render_template(
+                "student_application_page.html",
+                universities=universities,
+                current_selections=current_selections,
+            )
+        
         try:
             selections = []
             for university in request.form:
@@ -53,18 +68,14 @@ class StudentApplication(MethodView, AuthorizeService):
         except:
             pass
         
-        universities = self.university_service.getUniversitiesByDepartment(current_user.department)
-        current_selections = self.applications_service.getUniversitySelections(
-            current_user.bilkent_id
-        )
-        
         if len(request.files) == 1:
             file = request.files["file"]
             self.pdf_service.upload_application_form(file=file, student_id=current_user.bilkent_id)
             self.applications_service.changeApplicationStatus(student_id=current_user.bilkent_id, status="applied")
         else:
             self.pdf_service.create_application_form(current_user, current_selections)
-            
+        
+        flash("Application Successful", "success")
         return render_template(
             "student_application_page.html",
             universities=universities,

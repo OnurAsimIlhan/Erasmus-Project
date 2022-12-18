@@ -34,7 +34,7 @@ class CourseService(metaclass=Singleton):
         university: int,
         syllabus,
     ):
-        eq_course = self.getBilkentCoursesByName(equivalent_course_name).course_id
+        eq_course = self.getBilkentCoursesByName(equivalent_course_name)
         equivalent_bilkent_course = eq_course.course_id
         equivalent_bilkent_course_coordinator = eq_course.course_coordinator
 
@@ -47,7 +47,7 @@ class CourseService(metaclass=Singleton):
             equivalent_bilkent_course=equivalent_bilkent_course,
             equivalent_bilkent_course_coordinator=equivalent_bilkent_course_coordinator,
             approval_status="waiting approval",
-            syllabus=open(syllabus).read() ,
+            syllabus=syllabus.read(),
         )
         
         db.session.add(proposed_course)

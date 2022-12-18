@@ -1,9 +1,36 @@
 <!DOCTYPE html>
 {% extends 'main_page.html' %}
-
+{% block nav_content %}
+<li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/student_home">Home</a>
+  </li>
+<li class="nav-item">
+    <form action="" method="POST">
+      <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)"
+        name="logout" value="">
+        Logout
+      </button>
+    </form>
+</li>
+{% endblock %}
 {% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == "!cgpa" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <h3> {{message}} </h3>
+                </div>
+            {% elif category == "success" %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <h3> {{message}} </h3>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 <div style="margin:10px">
-
+ 
     <div class="row justify-content-between" style="margin:0px; ">
 
         <div class="col-10"

@@ -72,18 +72,17 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      font-weight:bold
     }
   </style>
   <div style="background-image:url(/static/bilkent2.jpg); height:500px; margin:20px; padding:10px">
 
     <div class="row"
-      style="margin:10px;justify-content: space-between; background-color:rgb(40, 40, 40);padding:10px;width:480px">
+      style="margin:10px;justify-content: space-between; background-color:rgb(40, 40, 40);padding:10px;width:410px">
 
       <div class="" style="color:rgb(218, 218, 218)">
-        <h1 style="text-align:left; font-weight:bold">Bilkent Erasmus</h1>
-        <p style="text-align:left; line-height: 170%; width: 400px; margin-top:50px">Bilkent Computer
-          Engineering
-          Department has been actively involved in exchange programs and has established bilateral agreements with some
+        <h1 style="text-align:left;">Bilkent Erasmus</h1>
+        <p style="text-align:left; line-height: 170%; width: 400px; margin-top:50px">Bilkent University has been actively involved in exchange/erasmus programs and has established bilateral agreements with some
           of
           the leading universities of the world. Students who are interested in studying abroad are encouraged to apply.
         </p>
@@ -111,22 +110,19 @@
   <div style="margin:20px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
     <div style="padding:20px">
       <h1 style="color:white">Partner Instutions</h1>
-      <p style="color:rgb(218, 218, 218)">The exchange partners of the Bilkent CS Department include some of the best
-        computer
-        science/engineering departments in the world. All of our exchange partners are among the most established
+      <p style="color:rgb(218, 218, 218)">The erasmus partners of the Bilkent  include some of the best
+        science/engineering departments in the world. All of our exchange/erasmus partners are among the most established
         universities of their countries, and most of them have been listed among the World's Top 200 Universities
         according the Times Higher Education Supplement. The following is a list of our Erasmus partners:
       </p>
     </div>
+  
 
-
-    <div style="overflow: auto; white-space: nowrap; padding-bottom:20px; margin:20px">
-      {% set val = range(6) %}
-      {% for i in val %}
-      <div
-        style="display:inline-block; margin-right:5px; background-color:rgb(218, 218, 218); border-radius:5px;filter: drop-shadow(0px 4px 4px rgba(255, 255, 255, 0.5));">
-        <img style="border-radius:5px 5px 0px 0px; margin-bottom:5px" src="/static/virje_uni.jpeg" />
-        <p style="text-align:center; font-weight:bold">123112311231</p>
+    <div style="overflow: auto; white-space: nowrap; padding-bottom:20px; margin:10px">
+      {% for university in university_list %}
+      <div style="display:inline-block; margin-right:5px; background-color:rgb(218, 218, 218); border-radius:5px;filter: drop-shadow(0px 4px 4px rgba(255, 255, 255, 0.5));">
+        <img style="border-radius:5px 5px 0px 0px; margin-bottom:5px;width:240px" src="{{university.image_url}}">
+        <p style="text-align:center; font-weight:bold">{{university.name}}</p>
       </div>
       {% endfor %}
     </div>
@@ -136,14 +132,14 @@
     <div class="col block" style="padding-top:20px">
 
       <img style="margin-top:20px;display: block;margin-left: auto; margin-right: auto;width:150px" src="/static/robot-assistant.png" />
-      <h1 style="margin-top:50px">Application Assistant</h1>
+      <h1 style="margin-top:50px">Assistant</h1>
       <p>After application  you can check every step to not miss any important dead lines!</p>
 
     </div>
     <div class="col block" style="padding-top:20px">
 
       <img style="margin-top:20px;display: block;margin-left: auto; margin-right: auto;width:150px" src="/static/goal.png" />
-      <h1 style="margin-top:50px">Application Progress</h1>
+      <h1 style="margin-top:50px">Progress Bar</h1>
       <p>After application  you can check every step to not miss any important dead lines!</p>
 
     </div>
@@ -172,3 +168,6 @@
 </body>
 
 </html>
+    
+
+      

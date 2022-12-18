@@ -4,10 +4,10 @@ from flask.views import MethodView
 
 
 class Contacts(MethodView):
-    def __init__(self, user_service):
-        self.user_service = user_service
+    def __init__(self, contacts_service):
+        self.contacts_service = contacts_service
 
     def get(self):
-        return render_template("contacts_page.html", boolean=True, contacts_list = self.user_service.getAllUsers())
+        return render_template("contacts_page.html", boolean=True, eclist = self.contacts_service.getAllErasmusCoordinators())
     
     

@@ -25,11 +25,11 @@ class CourseProposalController(MethodView, AuthorizeService):
             return redirect(url_for("your_are_not_authorized_page"))
 
         equivalent_bilkent_course = request.form["equivalent_bilkent_course"]
-        is_elective = course_name = request.form["is_elective"]
+        is_elective = 1 if request.form["is_elective"] == "Elective" else 0
         course_credit = request.form["course_credit"]
         course_name = request.form["course_name"]
         web_page = request.form["web_page"]
-        syllabus = request.form["syllabus"]
+        syllabus = request.files["syllabus"]
 
         university = self.applications_service.getMatchedUniversity(current_user.bilkent_id)
 
@@ -38,11 +38,11 @@ class CourseProposalController(MethodView, AuthorizeService):
             course_credit=course_credit,
             web_page=web_page,
             is_elective=is_elective,
-            equivalent_bilkent_course=equivalent_bilkent_course,
+            equivalent_course_name=equivalent_bilkent_course,
             university=university,
             syllabus=syllabus,
         )
         
-        return redirect(url_for("student_home"))
+        return redirect(url_for("student_preapproval"))
         
         
