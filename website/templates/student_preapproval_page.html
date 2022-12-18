@@ -39,15 +39,17 @@
                             {% if university.university_id == application.matched_university %}
                             {% for course in university.courses %}
                             <tr>
-                                <td>{{course.course_name}}</td>
-                                <td>{{course.course_credit}}</td>
-                                <td>{{course_service.getBilkentCourseName(course.equivalent_bilkent_course)}}</td>
-                                <td><a href="{{course.web_page}}">link to course webpage</a></td>
-                                <td>
+                                {% if course.approval_status == "Approved" %}
+                                    <td>{{course.course_name}}</td>
+                                    <td>{{course.course_credit}}</td>
+                                    <td>{{course_service.getBilkentCourseName(course.equivalent_bilkent_course)}}</td>
+                                    <td><a href="{{course.web_page}}">link to course webpage</a></td>
+                                    <td>
 
-                                    <input type="checkbox" id="{{course.course_name}}" name="Choose"
-                                        value="{{course.course_name}}">
-                                </td>
+                                        <input type="checkbox" id="{{course.course_name}}" name="Choose"
+                                            value="{{course.course_name}}">
+                                    </td>
+                                {% endif %}    
                             </tr>
                             {% endfor %}
                             {% endif %}
@@ -109,12 +111,13 @@
 
         <div class="col-xl-4 col-lg-6 col-md-8 p-2"
             style="background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;margin-top:10px; padding:10px">
-            <h1> Download Preapplication Form </h1>
+            <h1> Download Pre-Approval Form </h1>
             <img style="width:100px" src="../static/file.png" />
             <a class="btn btn-primary" href="http://127.0.0.1:5000/student_preapproval?download=preapproval_form">
                 Download
             </a>
         </div>
+
 
 
     </div>
