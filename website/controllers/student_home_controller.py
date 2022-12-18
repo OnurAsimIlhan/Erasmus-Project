@@ -45,6 +45,36 @@ class StudentHome(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
         
+        if "learning_agreement" in request.files:
+            applicant = self.applications_service.getApplicationByStudentId(current_user.bilkent_id)
+            applicant.pre_approval_form = request.files["learning_agreement"].stream.read()
+            self.applications_service.changeApplicationStatus(current_user.bilkent_id, "waiting learning agreement approval")
+            
+            from website import db
+            db.session.commit() 
+        
         if "logout" in request.form:
-                logout_user() 
-                return redirect(url_for("main")) 
+            logout_user() 
+            return redirect(url_for("main")) 
+        
+        application_deadline_bool = self.deadline_service.has_passed("application_deadline")
+        preapproval_deadline_bool = self.deadline_service.has_passed("preapproval_deadline")
+        learning_agreement_deadline_bool = self.deadline_service.has_passed(
+            "learning_agreement_deadline"
+        )
+        
+        application_status = self.applications_service.getApplicationStatus(current_user.bilkent_id) 
+
+        matched_university = self.applications_service.getMatchedUniversityName(
+            current_user.bilkent_id
+        )
+
+        return render_template(
+            "student_homepage.html",
+            name=current_user.name,
+            application_deadline=application_deadline_bool,
+            preapproval_deadline=preapproval_deadline_bool,
+            learning_agreement_deadline=learning_agreement_deadline_bool,
+            application_status=application_status,
+            matched_university=matched_university
+        )

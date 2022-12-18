@@ -38,6 +38,10 @@ class PreApprovalController(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
 
+        if "logout" in request.form:
+            logout_user() 
+            return redirect(url_for("main")) 
+        
         universities = self.university_service.getAllUniversities()
 
         if "Choose" in request.form:
