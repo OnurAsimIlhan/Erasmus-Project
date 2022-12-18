@@ -1,7 +1,9 @@
+from .singleton import Singleton
+
 from website import db
 from io import BytesIO
 
-class ApplicationsService():
+class ApplicationsService(metaclass=Singleton):
     def __init__(self, user_table, application_table, university_table):
         self.user_table = user_table
         self.application_table = application_table

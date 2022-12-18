@@ -1,3 +1,5 @@
+from .singleton import Singleton
+
 from docxtpl import DocxTemplate, InlineImage
 from docx2pdf import convert
 from docx.shared import Mm
@@ -9,7 +11,7 @@ import os
 from website import db
 
 
-class PDFService:
+class PDFService(metaclass=Singleton):
     def __init__(self, application_table, university_table, course_table, bilkent_course_table, user_table):
         self.application_table = application_table
         self.university_table = university_table

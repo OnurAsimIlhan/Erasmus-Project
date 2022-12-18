@@ -1,7 +1,9 @@
+from .singleton import Singleton
+
 from datetime import datetime
 from website import db
 
-class DeadlineService():
+class DeadlineService(metaclass=Singleton):
     def __init__(self, deadlines_table):
         self.deadlines_table = deadlines_table
     

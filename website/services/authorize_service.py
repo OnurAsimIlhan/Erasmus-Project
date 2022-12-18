@@ -1,6 +1,6 @@
 from flask_login import current_user
-from abc import ABC
 from website.models import Role
+from abc import ABC
 
 class AuthorizeService(ABC):
     def __init__(self, role):

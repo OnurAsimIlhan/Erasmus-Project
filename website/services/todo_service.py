@@ -1,5 +1,6 @@
+from .singleton import Singleton
 from website import db
-class TodoService():
+class TodoService(metaclass=Singleton):
     def __init__(self, user_table, todo_table):
         self.user_table = user_table
         self.todo_table = todo_table

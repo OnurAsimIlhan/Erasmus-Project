@@ -1,10 +1,11 @@
-from website import db
+from .singleton import Singleton
+
 from website.models import User, Course
 from sqlalchemy import insert
 from io import BytesIO
+from website import db
 
-
-class CourseService:
+class CourseService(metaclass=Singleton):
     def __init__(self, user_table, course_table, bilkent_course_table, university_table):
         self.user_table = user_table
         self.course_table = course_table
