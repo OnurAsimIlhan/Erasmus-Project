@@ -8,3 +8,5 @@ class BilkentCourses(db.Model):
     mandatories: db.Column(db.String(50))
 
     course_coordinator = db.Column(db.Integer, db.ForeignKey("user.bilkent_id"))
+    host_course = db.relationship("Course", backref="bilkentcourses")
+    

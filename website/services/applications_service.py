@@ -81,7 +81,6 @@ class ApplicationsService(metaclass=Singleton):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         matched_uni_id = applicant.matched_university
         uni = self.university_table.query.filter_by(university_id=matched_uni_id).first()
-        
         if uni == None:
             uni_name = ""
         else:
@@ -143,28 +142,21 @@ class ApplicationsService(metaclass=Singleton):
         status = applicant.application_status
         return status
 
-    def addCourse(self, student_id: int, course_name: str):
+    def addCourseSelection(self, student_id: int, courses: list):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
 
-        try:
-            courses = applicant.selected_courses.split(" ")
-        except:
-            courses = []
-            
-        if course_name not in courses:
-            courses.append(course_name)
         applicant.selected_courses = " ".join(courses)
 
         db.session.commit()
         
-    def getCourses(self, student_id: int):
+    def getSelectedCourses(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
 
         try:
-            courses = applicant.selected_courses.split(" ")
+            courses = applicant.selected_courses.split()
             dataCourses = [self.course_table.query.filter_by(course_name=course).first() for course in courses]
         except:
-            dataCourses = self.course_table.query.filter_by(course_name="").all()
+            dataCourses = []
             
         return dataCourses
 
