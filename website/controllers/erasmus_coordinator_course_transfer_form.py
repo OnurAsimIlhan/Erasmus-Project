@@ -2,7 +2,8 @@ from flask import flash, render_template, request, redirect, send_file, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
 
-from website.services import AuthorizeService
+from website.services import AuthorizeService, document_strategy
+
 class ErasmusCoordinatorCourseFransferForm(MethodView):
     def __init__(self, role: str, user_service, applications_service,university_service, application_id):
         AuthorizeService.__init__(self, role=role)
@@ -48,8 +49,8 @@ class ErasmusCoordinatorCourseFransferForm(MethodView):
                 )
             if "download_preapproval" in request.form:
                 app_id = request.form.get("download_preapproval")
-
-                file = self.applications_service.sendPreapproval(int(app_id))
+                self.applications_service.adjustStrategy(document_strategy.SendPreapprovalStrategy())
+                file = self.applications_service.applyStrategy(int(app_id))
                 if file != None:
                     return send_file(file, as_attachment=True, download_name=app_id + "_preapproval.pdf")
                 else:
@@ -80,7 +81,8 @@ class ErasmusCoordinatorCourseFransferForm(MethodView):
 
             if "download_ct" in request.form:
                 app_id = request.form.get("download_ct")
-                file = self.applications_service.sendCourseTransfer(app_id)
+                self.applications_service.adjustStrategy(document_strategy.SendFinalTransferFormStrategy())
+                file = self.applications_service.applyStrategy(int(app_id))
                 return send_file(file, as_attachment=True, download_name=app_id + "_course_transfer.pdf")
 
             if "delete_ct" in request.form:

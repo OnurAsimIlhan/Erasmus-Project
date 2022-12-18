@@ -4,6 +4,7 @@ from flask import render_template, request, redirect, url_for, send_file
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
 from website.services.faq_service import FaqService
+from website.services import document_strategy
 
 from website.services import AuthorizeService
 class ErasmusCoordinatorHome(MethodView, AuthorizeService):
@@ -44,20 +45,23 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
             if "application_form" in request.form:
                 application_id = request.form.get("application_form")
                 application = self.applications_service.getApplicationById(application_id)
-                applicationPath = self.applications_service.sendApplicationForm(id = application_id)
+                self.applications_service.adjustStrategy(document_strategy.SendApplicationFormStrategy())
+                applicationPath = self.applications_service.applyStrategy(int(application_id))
                 return send_file(applicationPath, as_attachment=True, download_name=str(application.student_id) + "_application_form.pdf")
             if "pre_approval" in request.form:
                 application_id = request.form.get("pre_approval")
                 application = self.applications_service.getApplicationById(application_id)
                 if application.application_status != "preapproval approved":
-                    preapprovalPath = self.applications_service.sendPreapprovalForm(id = application_id)
+                    self.applications_service.adjustStrategy(document_strategy.SendPreapprovalStrategy())
+                    preapprovalPath = self.applications_service.applyStrategy(int(application_id))
                     return send_file(preapprovalPath, as_attachment=True, download_name=str(application.student_id) + "_pre_approval_form.pdf")
                 else:
                     return send_file(f"..\\forms\\signed_forms\\preapproval_form_{application.student_id}.pdf", as_attachment=True, download_name=str(application.student_id) + "_pre_approval_form.pdf")
             if "learning_agreement" in request.form:
                 application_id = request.form.get("learning_agreement")
                 application = self.applications_service.getApplicationById(application_id)
-                laPath = self.applications_service.sendLearningAgreementForm(id = application_id)
+                self.applications_service.adjustStrategy(document_strategy.SendLearningAgreementStrategy())
+                laPath = self.applications_service.applyStrategy(int(application_id))
                 return send_file(laPath, as_attachment=True, download_name=str(application.student_id) + "_learning_agreement_form.pdf")
             if "approve" in request.form:
                 application_id = request.form.get("approve")

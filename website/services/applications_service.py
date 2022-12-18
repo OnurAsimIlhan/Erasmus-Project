@@ -2,14 +2,15 @@ from .singleton import Singleton
 
 from website import db
 from io import BytesIO
-
+from .document_strategy import *
 class ApplicationsService(metaclass=Singleton):
     def __init__(self, user_table, application_table, university_table, course_table):
         self.user_table = user_table
         self.application_table = application_table
         self.university_table = university_table
         self.course_table = course_table
-    
+        self.document_strategy = None
+        
     def getApplicationById(self, id: int):
         task = self.application_table.query.filter_by(application_id = id).first()
         return task
@@ -95,27 +96,27 @@ class ApplicationsService(metaclass=Singleton):
         
         db.session.commit()
 
-    def sendApplicationForm(self, id: int):
-        application = self.application_table.query.filter_by(application_id = id).first()
-        file = BytesIO(application.application_form) 
-        return file
+    # def sendApplicationForm(self, id: int):
+    #     application = self.application_table.query.filter_by(application_id = id).first()
+    #     file = BytesIO(application.application_form) 
+    #     return file
 
-    def sendPreapprovalForm(self, id: int):
-        application = self.application_table.query.filter_by(application_id = id).first()
-        file = BytesIO(application.pre_approval_form) 
-        if file == None:
-            file = f"..\\forms\\signed_forms\\preapproval_form_{application.student_id}.pdf"
-        return file
+    # def sendPreapprovalForm(self, id: int): 
+    #     application = self.application_table.query.filter_by(application_id = id).first()
+    #     file = BytesIO(application.pre_approval_form) 
+    #     if file == None:
+    #         file = f"..\\forms\\signed_forms\\preapproval_form_{application.student_id}.pdf"
+    #     return file
 
-    def sendLearningAgreementForm(self, id: int):
-        application = self.application_table.query.filter_by(application_id = id).first()
-        file = BytesIO(application.learning_agreement_form) 
-        return file
+    # def sendLearningAgreementForm(self, id: int):
+    #     application = self.application_table.query.filter_by(application_id = id).first()
+    #     file = BytesIO(application.learning_agreement_form) 
+    #     return file
 
-    def sendCourseTransfer(self, application_id : int):
-        application = self.application_table.query.filter_by(application_id = application_id).first()
-        file = BytesIO(application.final_transfer_form) 
-        return file
+    # def sendCourseTransfer(self, application_id : int):
+    #     application = self.application_table.query.filter_by(application_id = application_id).first()
+    #     file = BytesIO(application.final_transfer_form) 
+    #     return file
     
     def uploadCourseTransfer(self, application_id: int, file):
         application = self.getApplicationById(application_id)
@@ -164,3 +165,9 @@ class ApplicationsService(metaclass=Singleton):
         application = self.application_table.query.filter_by(student_id=student_id).first()
         file_path = str(student_id) + "\\" + str(application.application_id) + ".pdf"
         return file_path
+
+    def adjustStrategy(self, new_strategy:BaseDocumentStrategy):
+        self.document_strategy = new_strategy
+
+    def applyStrategy(self, id):
+        return self.document_strategy.send_document(id)

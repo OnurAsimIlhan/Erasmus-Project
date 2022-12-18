@@ -14,3 +14,4 @@ from .view_applications_service import ViewApplicationsService
 from .final_forms_service import FinalFormsService
 from .international_office_service import InternationalOfficeService
 from .contacts_service import ContactsService
+from .document_strategy import *
