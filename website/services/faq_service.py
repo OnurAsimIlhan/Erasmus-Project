@@ -1,9 +1,11 @@
-import datetime
-from website import db
+from .singleton import Singleton
+
 from website.dtos.faqCreateRequest import FaqCreateRequest
 from website.dtos.faqUpdateRequest import FaqUpdateRequest
+import datetime
 
-class FaqService():
+from website import db
+class FaqService(metaclass=Singleton):
     def __init__(self, user_table, faq_table):
         self.user_table = user_table
         self.faq_table = faq_table

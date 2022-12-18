@@ -1,11 +1,14 @@
+from .singleton import Singleton
+
 from website import db
 from io import BytesIO
 
-class ApplicationsService():
-    def __init__(self, user_table, application_table, course_table):
+class ApplicationsService(metaclass=Singleton):
+    def __init__(self, user_table, application_table, university_table, course_table):
         self.user_table = user_table
         self.application_table = application_table
-        self.course_table = course_table 
+        self.university_table = university_table
+        self.course_table = course_table
     
     def getApplicationById(self, id: int):
         task = self.application_table.query.filter_by(application_id = id).first()
@@ -13,6 +16,13 @@ class ApplicationsService():
     
     def getApplicationByStudentId(self, student_id: int):
         application = self.application_table.query.filter_by(student_id=student_id).first()
+        if application == None:
+            new_application = self.application_table(student_id=student_id, application_status="not applied")
+            db.session.add(new_application)
+            db.commit()
+            
+            application = self.application_table.query.filter_by(student_id=student_id).first()
+            
         return application
 
     def getApplicationsByDepartment(self, dep: str):
@@ -67,6 +77,13 @@ class ApplicationsService():
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         return applicant.matched_university
     
+    def getMatchedUniversityName(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+        matched_uni_id = applicant.matched_university
+        uni = self.university_table.query.filter_by(university_id=matched_uni_id).first()
+        
+        return uni.name 
+        
     def changeApplicationStatus(self, student_id: int, status: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         
@@ -82,6 +99,8 @@ class ApplicationsService():
     def sendPreapprovalForm(self, id: int):
         application = self.application_table.query.filter_by(application_id = id).first()
         file = BytesIO(application.pre_approval_form) 
+        if file == None:
+            file = f"..\\forms\\signed_forms\\preapproval_form_{application.student_id}.pdf"
         return file
 
     def sendLearningAgreementForm(self, id: int):
@@ -109,7 +128,13 @@ class ApplicationsService():
         
     def getApplicationStatus(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
-        
+        if applicant == None:
+            new_application = self.application_table(student_id=student_id, application_status="not applied")
+            db.session.add(new_application)
+            db.commit()
+            
+            applicant = self.application_table.query.filter_by(student_id=student_id).first()
+            
         status = applicant.application_status
         return status
 

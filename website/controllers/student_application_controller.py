@@ -20,7 +20,7 @@ class StudentApplication(MethodView, AuthorizeService):
             return redirect(url_for("your_are_not_authorized_page"))
 
         try:
-            if request.args["download"]:
+            if request.args["download"] == "application_form":
                 application_form_template = self.pdf_service.get_application_form(current_user.bilkent_id)
                 return send_file(application_form_template, as_attachment=True, download_name="application_form_template.pdf")
         except:

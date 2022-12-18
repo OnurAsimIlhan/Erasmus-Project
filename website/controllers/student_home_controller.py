@@ -1,5 +1,5 @@
 from flask_login import login_required, current_user, logout_user
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, send_file
 from flask.views import MethodView
 
 from website.services import AuthorizeService
@@ -17,7 +17,7 @@ class StudentHome(MethodView, AuthorizeService):
         if AuthorizeService.is_authorized(self) == False:
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
-
+        
         application_deadline_bool = self.deadline_service.has_passed("application_deadline")
         preapproval_deadline_bool = self.deadline_service.has_passed("preapproval_deadline")
         learning_agreement_deadline_bool = self.deadline_service.has_passed(
@@ -26,9 +26,9 @@ class StudentHome(MethodView, AuthorizeService):
         
         application_status = self.applications_service.getApplicationStatus(current_user.bilkent_id) 
 
-        matched_university = self.applications_service.getApplicationByStudentId(
+        matched_university = self.applications_service.getMatchedUniversityName(
             current_user.bilkent_id
-        ).matched_university
+        )
 
         return render_template(
             "student_homepage.html",
@@ -39,3 +39,12 @@ class StudentHome(MethodView, AuthorizeService):
             application_status=application_status,
             matched_university=matched_university
         )
+    
+    def post(self):
+        if AuthorizeService.is_authorized(self) == False:
+            logout_user()
+            return redirect(url_for("your_are_not_authorized_page"))
+        
+        if "logout" in request.form:
+                logout_user() 
+                return redirect(url_for("main")) 

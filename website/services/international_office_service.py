@@ -1,9 +1,9 @@
+from .singleton import Singleton
 from website import db
 import pandas as pd
 import io
 
-
-class InternationalOfficeService:
+class InternationalOfficeService(metaclass=Singleton):
     
     def __init__(self, user_table, university_table, applications_table, university_departments_table):
         self.user_table = user_table

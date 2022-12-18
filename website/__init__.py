@@ -59,9 +59,9 @@ def create_app():
     todo_service = TodoService(User, Todo)
     course_service = CourseService(User, Course, BilkentCourses, University)
     university_service = UniversityService(University, UniversityDepartments)
-    applications_service = ApplicationsService(user_table=User, application_table=Applications, course_table=Course)
+    applications_service = ApplicationsService(user_table=User, application_table=Applications, university_table=University, course_table=Course)
     deadline_service = DeadlineService(deadlines_table=Deadlines)
-    pdf_service = PDFService(Applications, University, Course, BilkentCourses )
+    pdf_service = PDFService(Applications, University, Course, BilkentCourses, User)
     faq_service = FaqService(user_table=User, faq_table=Faq)
     administrator_service = AdministratorService(User)
     view_applications_service = ViewApplicationsService(User)
@@ -145,7 +145,8 @@ def create_app():
             role="Student",
             applications_service=applications_service,
             course_service=course_service,
-            university_service=university_service
+            university_service=university_service,
+            pdf_service=pdf_service
         ),
     )
     app.add_url_rule(
@@ -166,6 +167,7 @@ def create_app():
             role="Erasmus Coordinator",
             user_service=user_service,
             applications_service=applications_service,
+            pdf_service=pdf_service,
             deadline_service=deadline_service,
         ),
     )

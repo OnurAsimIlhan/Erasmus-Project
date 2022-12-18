@@ -1,4 +1,6 @@
-class RoleService():
+from .singleton import Singleton
+
+class RoleService(metaclass=Singleton):
     def __init__(self, role_table):
         self.role_table = role_table
     

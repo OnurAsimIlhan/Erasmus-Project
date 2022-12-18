@@ -1,7 +1,8 @@
-from website import db
+from .singleton import Singleton
 from website.models import User
+from website import db
 
-class UserService():
+class UserService(metaclass=Singleton):
     def __init__(self, user_table):
         self.user_table = user_table
         

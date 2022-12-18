@@ -1,6 +1,7 @@
+from .singleton import Singleton
 from website import db
 
-class UniversityService():
+class UniversityService(metaclass=Singleton):
     def __init__(self, university_table, university_departments_table):
         self.university_table = university_table
         self.university_departments_table = university_departments_table

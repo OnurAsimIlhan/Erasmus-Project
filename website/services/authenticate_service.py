@@ -1,4 +1,6 @@
-class AuthenticateService():
+from .singleton import Singleton
+
+class AuthenticateService(metaclass=Singleton):
     def __init__(self, user_table, role_service):
         self.user_table = user_table
         self.role_service = role_service
