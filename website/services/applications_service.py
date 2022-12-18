@@ -4,10 +4,11 @@ from website import db
 from io import BytesIO
 
 class ApplicationsService(metaclass=Singleton):
-    def __init__(self, user_table, application_table, university_table):
+    def __init__(self, user_table, application_table, university_table, course_table):
         self.user_table = user_table
         self.application_table = application_table
         self.university_table = university_table
+        self.course_table = course_table
     
     def getApplicationById(self, id: int):
         task = self.application_table.query.filter_by(application_id = id).first()
@@ -136,26 +137,31 @@ class ApplicationsService(metaclass=Singleton):
             
         status = applicant.application_status
         return status
-    
-    def addCourse(self, student_id: int, course_id: int):
+
+    def addCourse(self, student_id: int, course_name: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
 
-        current_selections = applicant.selected_courses
-        try: 
-            current_selections = current_selections.split()
-            current_selections.append(course_id)
-            current_selections = " ".join(current_selections) 
+        try:
+            courses = applicant.selected_courses.split(" ")
         except:
-            current_selections = course_id
-        
-        applicant.selected_courses = current_selections
+            courses = []
+            
+        if course_name not in courses:
+            courses.append(course_name)
+        applicant.selected_courses = " ".join(courses)
+
         db.session.commit()
         
-        applicant.application_status = "waiting preapproval approval"
-        
-    def getSelectedCourses(self, student_id: int):
+    def getCourses(self, student_id: int):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
-        return applicant.selected_courses
+
+        try:
+            courses = applicant.selected_courses.split(" ")
+            dataCourses = [self.course_table.query.filter_by(course_name=course).first() for course in courses]
+        except:
+            dataCourses = self.course_table.query.filter_by(course_name="").all()
+            
+        return dataCourses
 
     def download(self, student_id: int):
         application = self.application_table.query.filter_by(student_id=student_id).first()

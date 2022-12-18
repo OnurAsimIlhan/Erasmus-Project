@@ -68,9 +68,6 @@ class PDFService(metaclass=Singleton):
         matched_university_id = application.matched_university
         matched_university = self.university_table.query.filter_by(university_id=matched_university_id).first()
         
-        from datetime import date
-        today = date.today()
-        date = today.strftime("%d/%m/%Y")
         context = {
             "StudentName": current_user.name.split()[0],
             "StudentSurname": current_user.name.split()[1],
@@ -79,30 +76,19 @@ class PDFService(metaclass=Singleton):
             "MatchedUniversity": matched_university.name,
             "CoordinatorName": "",
             "signature": "",
-            "date": date,
         }
         
-        i = 1
-        for course_name in course_selections:
-            if i == 11:
+        for i, course in enumerate(course_selections):
+            if i == 10:
                 break
-            if course_name != None:
-                course = self.course_table.query.filter_by(course_name=course_name,university_id=matched_university_id).first()
-                bilkent_course = self.bilkent_course_table.query.filter_by(course_id=course.equivalent_bilkent_course).first()
-                context[f"CourseName{i}"] = course_name
-                context[f"CC{i}"] = course.course_id
-                context[f"Credit{i}"] = course.course_credit
-                context[f"BilkentCourse{i}"] = bilkent_course.course_name
-                context[f"CB{i}"] = bilkent_course.course_credit
-                context[f"Exemption{i}"] = ""
-            else:
-                context[f"CourseName{i}"] = ""
-                context[f"CC{i}"] = ""
-                context[f"Credit{i}"] = ""
-                context[f"BilkentCourse{i}"] = ""
-                context[f"CB{i}"] = ""
-                context[f"Exemption{i}"] = ""
-            i = i + 1
+        
+            bilkent_course = self.bilkent_course_table.query.filter_by(course_id=course.equivalent_bilkent_course).first()
+            context[f"CourseName{i+1}"] = course.course_name
+            context[f"CC{i+1}"] = course.course_id
+            context[f"Credit{i+1}"] = course.course_credit
+            context[f"BilkentCourse{i+1}"] = bilkent_course.course_name
+            context[f"CB{i+1}"] = bilkent_course.course_credit
+            context[f"Exemption{i+1}"] = ""
                 
         document.render(context)
         document.save("temp.docx")
@@ -120,10 +106,15 @@ class PDFService(metaclass=Singleton):
 
     def sign_preapproval_form(self, coordinator_id: int, student_id: int):
         document = DocxTemplate("forms/form_templates/pre_approval_form_template.docx")
+        
         username = self.user_table.query.filter_by(bilkent_id=coordinator_id).first().name
         path = f"forms/signatures/{username.split()[0].lower()}_{username.split()[1].lower()}_signature.png"
         
-        context = {"signature": InlineImage(document, path, width=Mm(100), height=Mm(7))}
+        from datetime import date
+        today = date.today()
+        date = today.strftime("%d/%m/%Y")
+        
+        context = {"signature": InlineImage(document, path, width=Mm(100), height=Mm(7)), "CoordinatorName": username, "date": date}
         
         document.render(context)
         
@@ -137,7 +128,7 @@ class PDFService(metaclass=Singleton):
         )
         
         application = self.application_table.query.filter_by(student_id=student_id).first()
-        application.preapproval_form = None
+        application.pre_approval_form = None
         db.session.commit()
         
         os.remove("temp.docx")
@@ -145,7 +136,7 @@ class PDFService(metaclass=Singleton):
     def get_preapproval_form(self, student_id: int):
         application = self.application_table.query.filter_by(student_id=student_id).first()
         if application.application_status == "waiting preapproval approval":
-            file = BytesIO(application.preapproval_form)
+            file = BytesIO(application.pre_approval_form)
         else:
             file = f"..\\forms\\signed_forms\\preapproval_form_{student_id}.pdf"
         
@@ -154,6 +145,6 @@ class PDFService(metaclass=Singleton):
     def upload_application_form(self, student_id: int, file):
         application = self.application_table.query.filter_by(student_id=student_id).first()
         
-        application.preapproval_form = file.read()
+        application.pre_approval_form = file.read()
         db.session.commit() 
         
