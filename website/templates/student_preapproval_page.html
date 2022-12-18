@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 {% extends 'main_page.html' %}
-
+{% block nav_content %}
+<li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/student_home">Home</a>
+  </li>
+<li class="nav-item">
+    <form action="" method="POST">
+      <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)"
+        name="logout" value="">
+        Logout
+      </button>
+    </form>
+</li>
+{% endblock %}
 {% block content %}
 <div style="margin:10px">
 
@@ -15,7 +27,6 @@
                         <tr>
                             <th scope="col">Course Name</th>
                             <th scope="col">Course Credit</th>
-                            <th scope="col">Course Syllabus</th>
                             <th scope="col">Course Approval Status</th>
                         </tr>
                     </thead>
@@ -24,7 +35,6 @@
                              <tr>
                                  <td>{{course.course_name}}</td>
                                  <td>{{course.course_id}}</td>
-                                 <td>{{course.approval_status}}</td>
                                  <td>{{course.is_elective}}</td>
                              </tr>
                         {% endfor %}

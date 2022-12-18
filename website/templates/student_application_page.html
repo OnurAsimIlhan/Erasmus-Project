@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 {% extends 'main_page.html' %}
-
+{% block nav_content %}
+<li class="nav-item">
+    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/student_home">Home</a>
+  </li>
+<li class="nav-item">
+    <form action="" method="POST">
+      <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)"
+        name="logout" value="">
+        Logout
+      </button>
+    </form>
+</li>
+{% endblock %}
 {% block content %}
 <div style="margin:10px">
 

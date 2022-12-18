@@ -81,8 +81,11 @@ class ApplicationsService(metaclass=Singleton):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
         matched_uni_id = applicant.matched_university
         uni = self.university_table.query.filter_by(university_id=matched_uni_id).first()
-        
-        return uni.name 
+        if uni == None:
+            uni_name = ""
+        else:
+            uni_name = uni.name
+        return uni_name
         
     def changeApplicationStatus(self, student_id: int, status: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
