@@ -22,6 +22,13 @@ class PreApprovalController(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
 
+        try:
+            if request.args["download"] == "preapproval":
+                preapproval_form = self.pdf_service.get_preapproval_form(student_id=current_user.bilkent_id)
+                return send_file(preapproval_form, as_attachment=True, download_name="preapproval_form_template.pdf")
+        except:
+            pass
+            
         universities = self.university_service.getAllUniversities()
         return render_template(
             "student_preapproval_page.html", user=current_user, universities=universities
