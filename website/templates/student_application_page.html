@@ -2,8 +2,23 @@
 {% extends 'main_page.html' %}
 
 {% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == "!cgpa" %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <h3> {{message}} </h3>
+                </div>
+            {% elif category == "success" %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <h3> {{message}} </h3>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 <div style="margin:10px">
-
+ 
     <div class="row justify-content-between" style="margin:0px; ">
 
         <div class="col-10"

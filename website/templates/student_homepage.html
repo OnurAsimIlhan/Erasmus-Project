@@ -9,21 +9,20 @@
 <body>
   {% extends 'main_page.html' %}
 
-
   {% block nav_content %}
-  <!-- LINKS ON ALL href's-->
-  <li class="nav-item">
-    <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/my_application.html">My Application</a>
-  </li>
+    <!-- LINKS ON ALL href's-->
+    <li class="nav-item">
+      <a class="nav-item nav-link" style="padding-top:15px" id="signUp" href="/my_application.html">My Application</a>
+    </li>
 
-  <li class="nav-item">
-    <form action="" method="POST">
-      <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)"
-        name="logout" value="">
-        Logout
-      </button>
-    </form>
-  </li>
+    <li class="nav-item">
+      <form action="" method="POST">
+        <button type="logout" class="logoutButton" style="padding-top:12px; background:none; color:rgb(193, 187, 187)"
+          name="logout" value="">
+          Logout
+        </button>
+      </form>
+    </li>
   {% endblock %}
 
 
