@@ -1,39 +1,82 @@
-<h1> Selected Courses </h1>
-{% for application in user.applications %}
-    {{application.selected_courses}}
-{% endfor %}
+<!DOCTYPE html>
+{% extends 'main_page.html' %}
 
-<h1> Available Courses </h1>
-        {% for application in user.applications %}
-        <tr>
-            {% for university in universities %}
-                {% if university.university_id == application.matched_university %}
-                    {% for course in university.courses %}
-                        {{course.course_name, course.department}} <br>
-                            <td><form action="" method="POST">
-                                <input type="radio" id="{{course.course_id}}" name="Choose" value = "{{course.course_id}}">
-                                <label for={{course.course_id}}>{{course.course_id}}</label><br>
-                    {% endfor %}
-                {% endif %}
+{% block content %}
+<div style="margin:10px">
+
+    <div class="row justify-content-between" style="margin:0px; ">
+
+        <div class="col-10"
+            style=" background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);color:white;">
+            <h2>Selected Courses</h2>
+            <div style="padding:10px">
+                <table class="table table-light table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course Name</th>
+                            <th scope="col">Course Credit</th>
+                            <th scope="col">Course Syllabus</th>
+                            <th scope="col">Course Approval Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for course in courses %}
+                             <tr>
+                                 <td>{{course.course_name}}</td>
+                                 <td>{{course.course_id}}</td>
+                                 <td>{{course.approval_status}}</td>
+                                 <td>{{course.is_elective}}</td>
+                             </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row justify-content-between" style="margin:0px; margin-top:50px">
+
+        <div class="col-4"
+            style="background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:black;margin-top:10px; padding:10px">
+            <h2 style="color: white;">Available Courses</h2>
+            <div style="padding:10px; margin:10px;background-color: white;">
+
+            {% for application in user.applications %}
+            <tr>
+                {% for university in universities %}
+                    {% if university.university_id == application.matched_university %}
+                        {% for course in university.courses %}
+                            {{course.course_name, course.department}} <br>
+                                <td><form action="" method="POST">
+                                    <input type="radio" id="{{course.course_name}}" name="Choose" value = "{{course.course_name}}">
+                                    <label for={{course.course_name}}>{{course.course_name}}</label><br>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                <p><input type=submit value=Select></p>
+                    </form></td>
+            </tr>
             {% endfor %}
-            <p><input type=submit value=Next></p>
-                </form></td>
-        </tr>
-        {% endfor %}
+                </div>
+        </div>
 
-<h1> Download Preapproval Form </h1>
-<td><form action="" method="POST">
-     <button type="submit" class="open" name="Download">
-         Download Preapproval Form
-     </button>
-</form></td>
+        <div class="col-5"
+                style="background:linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%); color:white;margin-top:10px; padding:10px">
+                    <h1> Download Preapplication Form </h1>
+                    <a href="http://127.0.0.1:5000/student_preapplication?download=True">
+                        Download
+                    </a>
 
+                    <h1> Upload Preapplication Form </h1>
+                    <div class="center">
+                        <form method="POST" action="/student_preapplication/" enctype="multipart/form-data">
+                            <input type="file" name="file">
+                            <button>Upload Signed Preapplication Form</button>
+                        </form>
+                    </div>
 
-<h1> Upload Preapproval Form </h1>
-<div class="center">
-    <form method="POST" action="/student_application/" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button>Upload Preapproval Form</button>
-    </form>
+        </div>
 </div>
-<br>
+</div>
+{% endblock %}
