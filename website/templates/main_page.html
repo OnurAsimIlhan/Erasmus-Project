@@ -59,21 +59,39 @@
 
 
   {% block content %}
+  <style>
+    .block {
+      margin: 10px;
+      background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);
+    }
 
-  <div class="row" style="margin:20px;   justify-content: space-between; ">
+    h1 {
+      background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #E9DEFA 0.89%, #BEF3F5 17.23%, #9DEDF0 42.04%, #7DE7EB 55.12%, #5CE1E6 71.54%, #33BBCF 100%)
+        /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+      ;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+  <div style="background-image:url(/static/bilkent2.jpg); height:500px; margin:20px; padding:10px">
 
-    <div class="" style="">
-      <h1 style="text-align:left; font-weight:bold">Bilkent Erasmus</h1>
-      <p style="text-align:left; line-height: 170%; width: 529px; margin-top:50px">Bilkent Computer
-        Engineering
-        Department has been actively involved in exchange programs and has established bilateral agreements with some of
-        the leading universities of the world. Students who are interested in studying abroad are encouraged to apply.
-      </p>
-    </div>
-    <div >
-      <img src="/static/pic1.png" alt="Recuit" width="300" height="400" >
+    <div class="row"
+      style="margin:10px;justify-content: space-between; background-color:rgb(40, 40, 40);padding:10px;width:480px">
+
+      <div class="" style="color:rgb(218, 218, 218)">
+        <h1 style="text-align:left; font-weight:bold">Bilkent Erasmus</h1>
+        <p style="text-align:left; line-height: 170%; width: 400px; margin-top:50px">Bilkent Computer
+          Engineering
+          Department has been actively involved in exchange programs and has established bilateral agreements with some
+          of
+          the leading universities of the world. Students who are interested in studying abroad are encouraged to apply.
+        </p>
+      </div>
+
     </div>
   </div>
+
 
 
 
@@ -81,18 +99,17 @@
 
   <div class="justify-content-between" style="display:flex; margin-right:20px; margin-left:20px">
     <div style="width:2px; background-color:none"></div>
-    <text style="font-weight:bold; font-size:20px">1000+ Student</text>
+    <text style="font-weight:bold; font-size:20px">1000+ Student<img style="width:44px;margin-left:12px" src="/static/graduation-hat.png"/></text>
     <div style="width:2px; background-color:black"></div>
-    <text style="font-weight:bold; font-size:20px">5+ Country</text>
+    <text style="font-weight:bold; font-size:20px">5+ Country<img style="width:40px;margin-left:10px" src="/static/countries.png"/> </text>
     <div style="width:2px; background-color:black"></div>
-    <text style="font-weight:bold; font-size:20px">10+ University</text>
+    <text style="font-weight:bold; font-size:20px">10+ University<img style="width:40px;margin-left:10px" src="/static/school.png"/></text>
     <div style="width:2px; background-color:none"></div>
   </div>
   <div style="height: 2px; background: rgb(61, 57, 57); margin:20px"> </div>
-  
-  <div
-    style="margin:20px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
-    <div style="padding:10px">
+
+  <div style="margin:20px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+    <div style="padding:20px">
       <h1 style="color:white">Partner Instutions</h1>
       <p style="color:rgb(218, 218, 218)">The exchange partners of the Bilkent CS Department include some of the best
         computer
@@ -101,49 +118,58 @@
         according the Times Higher Education Supplement. The following is a list of our Erasmus partners:
       </p>
     </div>
-    
+  
 
-      <div style="overflow: auto; white-space: nowrap; padding-bottom:20px; margin:10px">
-        {% for university in university_list %}
-        <div style="display:inline-block; margin-right:5px; background-color:rgb(218, 218, 218); border-radius:5px;filter: drop-shadow(0px 4px 4px rgba(255, 255, 255, 0.5));">
-          <!--
-            {{university.image_url}}  urli nereye koyacağımı bilemedim yanlışsa düzeltirsiniz
-          -->
-          <img style="border-radius:5px 5px 0px 0px; margin-bottom:5px" src={{university.image_url}}/>
-          <p style="text-align:center; font-weight:bold">{{university.name}}</p>
-        </div>
-        {% endfor %}
-        
+    <div style="overflow: auto; white-space: nowrap; padding-bottom:20px; margin:10px">
+      {% for university in university_list %}
+      <div style="display:inline-block; margin-right:5px; background-color:rgb(218, 218, 218); border-radius:5px;filter: drop-shadow(0px 4px 4px rgba(255, 255, 255, 0.5));">
+        <img style="border-radius:5px 5px 0px 0px; margin-bottom:5px;width:240px" src="{{university.image_url}}">
+        <p style="text-align:center; font-weight:bold">{{university.name}}</p>
       </div>
-      
-      
-      
-
-    
-  </div>
-
-  <div class="col-6" style="margin-left:20px">
-    <div class="row"
-      style="align-items:center; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
-      <img src="/static/accuracy.png" style="margin:50px; width:300px"/>
-      <p  style="color:white;">Application Assistant</p>
+      {% endfor %}
     </div>
   </div>
 
-  <div style=" margin:20px">
-    <div
-      style="width:600px; height:200px; background: linear-gradient(144.39deg, #FFFFFF -278.56%, #6D6D6D -78.47%, #0D0C15 91.61%);">
+  <div class="row justify-content-between" style="margin:10px;color:white ">
+    <div class="col block" style="padding-top:20px">
+
+      <img style="margin-top:20px;display: block;margin-left: auto; margin-right: auto;width:150px" src="/static/robot-assistant.png" />
+      <h1 style="margin-top:50px">Application Assistant</h1>
+      <p>After application  you can check every step to not miss any important dead lines!</p>
+
+    </div>
+    <div class="col block" style="padding-top:20px">
+
+      <img style="margin-top:20px;display: block;margin-left: auto; margin-right: auto;width:150px" src="/static/goal.png" />
+      <h1 style="margin-top:50px">Application Progress</h1>
+      <p>After application  you can check every step to not miss any important dead lines!</p>
+
+    </div>
+    <div class="col block" style="padding-top:20px">
+
+      <img style="margin-top:20px;display: block;margin-left: auto; margin-right: auto;width:150px" src="/static/calendar.png" />
+      <h1 style="margin-top:50px">Calendar</h1>
+      <p>After application  you can check every step to not miss any important dead lines!</p>
+
+    </div>
+    <div class="col block" style="padding-top:20px">  
+
+      <img style="margin-top:20px;display: block;margin-left: auto; margin-right: auto;width:150px" src="/static/file.png" />
+      <h1 style="margin-top:50px">Pdf Service</h1>
+      <p>After application  you can check every step to not miss any important dead lines!</p>
 
     </div>
   </div>
-
-
-
+  <div style="height: 2px; background: rgb(61, 57, 57); margin:20px"> </div>
+  <p style="text-align:center"><img style="width:20px" src="/static/copyright.png"/> 2022 Copyright: CS319 Group 2H </p>  
   {% endblock %}
 
 
-
-
+  
+  
 </body>
 
 </html>
+    
+
+      
