@@ -1,13 +1,9 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from flask.views import MethodView
-from website.dtos.faqCreateRequest import FaqCreateRequest
-from website.dtos.faqUpdateRequest import FaqUpdateRequest
-
-from website.services.faq_service import FaqService
-from website.services.user_service import UserService
 
 from website.services import AuthorizeService
+
 class FaqFormController(MethodView):
     decorators = [login_required]
 
@@ -18,11 +14,13 @@ class FaqFormController(MethodView):
 
     def get(self, department):
         if AuthorizeService.is_authorized(self):
+            faqs = self.faq_service.getFaqByDepartment(current_user.department)
             return render_template(
                 "faq_form.html", 
                 user = current_user, 
                 faq_service = self.faq_service, 
-                user_service=self.user_service)        
+                user_service=self.user_service,
+                faqs=faqs)        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))
@@ -39,8 +37,7 @@ class FaqFormController(MethodView):
                 user_department = request.view_args["department"]
 
                 if user_department != None:
-                    faq_update_request = FaqUpdateRequest(department=user_department, question=question, answer=answer)
-                    self.faq_service.updateFaq(int(faq_id), faq_update_request)
+                    self.faq_service.updateFaq(int(faq_id), department=user_department, question=question, answer=answer)
                     return redirect(url_for("faq_form", user=current_user, department=department))
                 else:
                     return redirect(url_for("your_are_not_authorized_page"))
@@ -54,8 +51,7 @@ class FaqFormController(MethodView):
                 answer = request.form.get('faq_create_answer')
                 user_department = request.view_args["department"]
                 if user_department != None:
-                    faq_update_request = FaqCreateRequest(department=user_department, question=question, answer=answer)
-                    self.faq_service.addFaq(user_department, faq_update_request)
+                    self.faq_service.updateFaq(int(faq_id), department=user_department, question=question, answer=answer)
                 return redirect(url_for("faq_form", user=current_user, department=department))
             
             else:

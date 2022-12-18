@@ -59,7 +59,7 @@
             <div class="input-field">
                 <select
                 name="deadline_type">
-                    {% for deadline in deadline_service.get_all_deadlines() %}
+                    {% for deadline in deadlines %}
                         <option value={{deadline.deadline_title}} selected>{{deadline.deadline_title}}</option>
                     {% endfor %}
                 </select>

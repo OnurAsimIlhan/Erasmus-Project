@@ -15,10 +15,12 @@ class ErasmusCoordinatorDeadlineUpdate(MethodView, AuthorizeService):
 
     def get(self):
         if AuthorizeService.is_authorized(self):
+            deadlines = self.deadline_service.get_all_deadlines()
             return render_template("erasmus_coordinator_deadline.html", 
                                     user = current_user, 
                                     deadline_service = self.deadline_service,
-                                    user_service = self.user_service)            
+                                    user_service = self.user_service,
+                                    deadlines = deadlines)             
         else:
             logout_user() 
             return redirect(url_for("main"))

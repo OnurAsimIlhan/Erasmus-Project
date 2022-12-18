@@ -1,9 +1,5 @@
 from .singleton import Singleton
 
-from website.dtos.faqCreateRequest import FaqCreateRequest
-from website.dtos.faqUpdateRequest import FaqUpdateRequest
-import datetime
-
 from website import db
 class FaqService(metaclass=Singleton):
     def __init__(self, user_table, faq_table):
@@ -28,29 +24,26 @@ class FaqService(metaclass=Singleton):
             questions.append(faq.answer)
         return faq
 
-    def addFaq(self, department: str, faq_create_request: FaqCreateRequest):
+    def addFaq(self, department: str, question: str, answer: str):
         faq = self.faq_table(
-            department=faq_create_request.department,
-            question=faq_create_request.question,
-            answer=faq_create_request.answer)
+            department=department,
+            question=question,
+            answer=answer
+        )
         db.session.add(faq)
         db.session.commit()
         return faq
     
     """
     Parametre olarak bir data transfer object (dto) alırsak yönetim daha rahat olur
-    Ayrıca response olarak da dto döndürülebilir ama iş yükü artmasın şimdilik
+    Ayrica response olarak da dto döndürülebilir ama iş yükü artmasın şimdilik
     """
-    def updateFaq(self, id: int, faq_update_request: FaqUpdateRequest):
+    def updateFaq(self, id: int, department: str, question: str, answer: str):
         faq = self.faq_table.query.filter_by(id=id).first()
 
-        print("in updatefaq, req", faq_update_request.question, faq_update_request.answer)
-        print("in updatefaq, faq", faq.question, faq.answer)
-        faq.department = faq_update_request.department
-        faq.question = faq_update_request.question
-        faq.answer = faq_update_request.answer
-        print("in updatefaq, faq", faq.question, faq.answer)
-        # faq.date = datetime.datetime.now
+        faq.department = department
+        faq.question = question
+        faq.answer = answer
         db.session.commit()
         return faq
 
