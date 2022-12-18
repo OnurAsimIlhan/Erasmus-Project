@@ -41,8 +41,9 @@ class DeadlineService():
         for deadline in deadlines:
             deadline_t = datetime.strptime(deadline.deadline, "%d/%m/%y %H.%M")
             deadline_s = datetime.strftime(deadline_t, "%Y-%m-%dT%H:%M")
-            deadline_list.append(deadline.deadline_title)
-            deadline_list.append(deadline_s)
+            if (datetime.now() < deadline_t):
+                deadline_list.append(deadline.deadline_title.replace("_", " ").rsplit(" ", 1)[0] + " due")
+                deadline_list.append(deadline_s)
         return deadline_list
     
     def update_deadline(self, deadline_title: str, deadline_str: str):

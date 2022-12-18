@@ -151,33 +151,9 @@
 
   	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css"/>
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"> </script>
-	<script>
-
-		// extract deadline items
-		var deadlineobj = {{deadline_list|tojson}};
-		var deadlineList = [];
-		for (var d in deadlineobj ) {
-			deadlineList.push(deadlineobj[d])
-		}
-		// deadline items are extracted: odd index -> title, even index -> date
-		// time now is stored in first 2 indices
-
-		document.addEventListener('DOMContentLoaded', function() {
-			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView: 'dayGridMonth'
-			});
-			
-			for (var i = 2; i < deadlineList.length;) {
-				calendar.addEvent({
-					title: deadlineList[i],
-					start: deadlineList[i - 1],
-					end: deadlineList[i + 1],
-				});
-				i += 2;
-			}
-			calendar.render();
-		});
+	<script type="text/javascript" src="/static/calendar.js"></script>
+	<script type="text/javascript">
+		window.addEventListener("load", consoleInit({{deadline_list|tojson}}));
 	</script>
   {% endblock %}
 </body>
