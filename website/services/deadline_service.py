@@ -42,7 +42,7 @@ class DeadlineService():
             deadline_t = datetime.strptime(deadline.deadline, "%d/%m/%y %H.%M")
             deadline_s = datetime.strftime(deadline_t, "%Y-%m-%dT%H:%M")
             if (datetime.now() < deadline_t):
-                deadline_list.append(deadline.deadline_title.replace("_", " ").rsplit(" ", 1)[0] + " due")
+                deadline_list.append(deadline.deadline_title.replace("_", " ").rsplit(" ", 1)[0] + " period")
                 deadline_list.append(deadline_s)
         return deadline_list
     
