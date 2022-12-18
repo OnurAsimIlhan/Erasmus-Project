@@ -49,7 +49,7 @@ class StudentApplication(MethodView, AuthorizeService):
         )
         
         if applicant.cgpa < 2.5:
-            flash("Your CGPA is not high enough to apply Erasmus dumbass", "!cgpa")
+            flash("Your CGPA is not high enough to apply Erasmus", "!cgpa")
             return render_template(
                 "student_application_page.html",
                 universities=universities,
