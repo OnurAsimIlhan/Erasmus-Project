@@ -15,6 +15,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
         self.applications_service = applications_service
         self.deadline_service = deadline_service
         self.pdf_service = pdf_service
+        self.deadline_list = self.deadline_service.get_all_deadlines_format_calendar()
 
     def get(self):
         if AuthorizeService.is_authorized(self):
@@ -27,7 +28,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
                 user = current_user, 
                 user_service = self.user_service,
                 applications = applications,
-                deadline_list = self.deadline_service.get_all_deadlines_format_calendar(),
+                deadline_list = self.deadline_list,
                 )        
         else:
             logout_user() 
@@ -68,7 +69,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
                 if status == "waiting learning agreement approval":
                     self.applications_service.changeApplicationStatus(student_id=application.student_id, status="ready for mobility")
                 applications = self.applications_service.getApplicationsByDepartment(current_user.department)
-                return render_template("erasmus_coordinator_home.html", user = current_user, applications=applications)
+                return render_template("erasmus_coordinator_home.html", user = current_user, applications=applications, deadline_list = self.deadline_list,)
             if "reject" in request.form:
                 application_id = request.form.get("reject")
                 application = self.applications_service.getApplicationById(id=application_id)
@@ -78,7 +79,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
                 if status == "waiting learning agreement approval":
                     self.applications_service.changeApplicationStatus(student_id=application.student_id, status="preapproval approved")
                 applications = self.applications_service.getApplicationsByDepartment(current_user.department)
-                return render_template("erasmus_coordinator_home.html", user = current_user, applications=applications)
+                return render_template("erasmus_coordinator_home.html", user = current_user, applications=applications, deadline_list = self.deadline_list,)
             
         else:
             logout_user() 

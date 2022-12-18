@@ -5,7 +5,6 @@ from docx2pdf import convert
 from docx.shared import Mm
 from io import BytesIO
 import pythoncom
-import shutil
 import os
 
 from website import db
@@ -74,8 +73,9 @@ class PDFService(metaclass=Singleton):
             "StudentID": current_user.bilkent_id,
             "StudentDepartment": current_user.department,
             "MatchedUniversity": matched_university.name,
-            "CoordinatorName": "",
-            "signature": "",
+            "CoordinatorName": "{{CoordinatorName}}",
+            "signature": "{{signature}}",
+            "date": "{{date}}"
         }
         
         for i, course in enumerate(course_selections):
@@ -91,21 +91,21 @@ class PDFService(metaclass=Singleton):
             context[f"Exemption{i+1}"] = ""
                 
         document.render(context)
-        document.save("temp.docx")
+        document.save(f"forms/unsigned_forms/unsigned_preapproval_form_{current_user.bilkent_id}.docx")
         pythoncom.CoInitialize()
         convert(
-            "temp.docx",
+            f"forms/unsigned_forms/unsigned_preapproval_form_{current_user.bilkent_id}.docx",
             "temp.pdf",
         )
 
         application = self.application_table.query.filter_by(student_id=current_user.bilkent_id).first()
         application.pre_approval_form = open("temp.pdf", "rb").read()
         db.session.commit()
-        os.remove("temp.docx")
+        
         os.remove("temp.pdf")
 
     def sign_preapproval_form(self, coordinator_id: int, student_id: int):
-        document = DocxTemplate("forms/form_templates/pre_approval_form_template.docx")
+        document = DocxTemplate(f"forms/unsigned_forms/unsigned_preapproval_form_{student_id}.docx")
         
         username = self.user_table.query.filter_by(bilkent_id=coordinator_id).first().name
         path = f"forms/signatures/{username.split()[0].lower()}_{username.split()[1].lower()}_signature.png"
