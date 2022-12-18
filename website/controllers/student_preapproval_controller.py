@@ -18,7 +18,8 @@ class PreApprovalController(MethodView, AuthorizeService):
             return redirect(url_for("your_are_not_authorized_page"))
 
         universities = self.university_service.getAllUniversities()
-        return render_template("student_preapproval_page.html", user=current_user, universities=universities)
+        courses = self.applications_service.getCourses(student_id=current_user.bilkent_id)
+        return render_template("student_preapproval_page.html", user=current_user, universities=universities, courses=courses)
     
     def post(self):
         if AuthorizeService.is_authorized(self) == False:
@@ -28,9 +29,10 @@ class PreApprovalController(MethodView, AuthorizeService):
         universities = self.university_service.getAllUniversities()
 
         if "Choose" in request.form:
-            course_id = request.form["Choose"]
-            self.applications_service.addCourse(student_id=current_user.bilkent_id, course_id=course_id)
-            return render_template("student_preapproval_page.html", user=current_user, universities=universities)
+            course_name = request.form["Choose"]
+            self.applications_service.addCourse(student_id=current_user.bilkent_id, course_name=course_name)
+            courses = self.applications_service.getCourses(student_id=current_user.bilkent_id)
+            return render_template("student_preapproval_page.html", user=current_user, universities=universities, courses=courses)
 
         #if "Download" in request.form:
          #   downFile = self.applications_service.download(student_id=current_user.bilkent_id)

@@ -2,13 +2,13 @@ from website import db
 from io import BytesIO
 
 class ApplicationsService():
-    def __init__(self, user_table, application_table):
+    def __init__(self, user_table, application_table, course_table):
         self.user_table = user_table
         self.application_table = application_table
+        self.course_table = course_table 
     
     def getApplicationById(self, id: int):
         task = self.application_table.query.filter_by(application_id = id).first()
-        print(task)
         return task
     
     def getApplicationByStudentId(self, student_id: int):
@@ -112,13 +112,31 @@ class ApplicationsService():
         
         status = applicant.application_status
         return status
-    
-    def addCourse(self, student_id: int, course_id: int):
+
+    def addCourse(self, student_id: int, course_name: str):
         applicant = self.application_table.query.filter_by(student_id=student_id).first()
 
-        applicant.selected_courses = applicant.selected_courses + ".." + course_id
+        try:
+            courses = applicant.selected_courses.split(" ")
+        except:
+            courses = []
+            
+        if course_name not in courses:
+            courses.append(course_name)
+        applicant.selected_courses = " ".join(courses)
 
         db.session.commit()
+        
+    def getCourses(self, student_id: int):
+        applicant = self.application_table.query.filter_by(student_id=student_id).first()
+
+        try:
+            courses = applicant.selected_courses.split(" ")
+            dataCourses = [self.course_table.query.filter_by(course_name=course).first() for course in courses]
+        except:
+            dataCourses = self.course_table.query.filter_by(course_name="").all()
+            
+        return dataCourses
 
     def download(self, student_id: int):
         application = self.application_table.query.filter_by(student_id=student_id).first()
