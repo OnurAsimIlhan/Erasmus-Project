@@ -29,7 +29,7 @@ class ErasmusCoordinatorHome(MethodView, AuthorizeService):
                 user_service = self.user_service,
                 applications = applications,
                 deadline_list = self.deadline_list,
-                )        
+            )        
         else:
             logout_user() 
             return redirect(url_for("your_are_not_authorized_page"))

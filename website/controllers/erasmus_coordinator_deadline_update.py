@@ -30,10 +30,11 @@ class ErasmusCoordinatorDeadlineUpdate(MethodView, AuthorizeService):
         if AuthorizeService.is_authorized(self):
             if "update" in request.form:
                 deadline = request.form.get('deadline')
+                force = request.form.get("force")
                 deadline_name = request.form.get('deadline_type')
                 if deadline.__len__() > 0:
                     deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M")
-                    if deadline < datetime.datetime.now():
+                    if (deadline < datetime.datetime.now() and force != "on"):
                         return redirect(url_for("erasmus_coordinator_update_deadline"))
                     else:
                         deadline_s = datetime.datetime.strftime(deadline, "%d/%m/%y %H.%M")

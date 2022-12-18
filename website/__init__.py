@@ -177,7 +177,10 @@ def create_app():
     app.add_url_rule(
         "/ec/courses/",
         view_func=ErasmusCoordinatorCoursesController.as_view(
-            "erasmus_coordinator_courses", role="Erasmus Coordinator", course_service=course_service
+            "erasmus_coordinator_courses", 
+            role="Erasmus Coordinator", 
+            course_service=course_service,
+            deadline_service = deadline_service,
         ),
     )
     app.add_url_rule(
@@ -218,6 +221,7 @@ def create_app():
             user_service=user_service,
             university_service=university_service,
             applications_service = applications_service,
+            deadline_service = deadline_service,
         ),
     )
     app.add_url_rule(

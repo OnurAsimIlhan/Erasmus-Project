@@ -118,18 +118,26 @@
                 padding: 0;
             }
         </style>
-       <div class="col-xl-4 col-lg-6 col-md-8 block" style="padding:20px;">
-        <div style="background-color:white; padding:5px">
-                {% include 'calendar.html' %}
-            </div>
-            <h1 style="margin-top:10px">Closing Deadlines</h1>
-            <!-- for loop -->
-            <div style="margin-top:10px;margin-left:20px;background-color:white">
-                Insert Deadline Here
-            </div>
+        <div class="col-xl-4 col-lg-6 col-md-8 block" style="padding:20px;">
+			<div style="background-color:white; padding:5px">
+				<div class="container">
+					<div id="calendar"></div>
+				</div>
+			</div>
+			<h1>Closing Deadlines</h1>
+			<!-- for loop -->
+				<div style="margin-top:10px;margin-left:20px;background-color:white">
+					Insert Deadline Here
+				</div>
 
-        </div>
+		</div>
     </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"> </script>
+	<script type="text/javascript" src="/static/calendar.js"></script>
+	<script type="text/javascript">
+		window.addEventListener("load", consoleInit({{deadline_list|tojson}}));
+	</script>
     {% endblock %}
 </body>
 

@@ -21,7 +21,7 @@ class CourseCoordinatorController(MethodView, AuthorizeService):
                 user=current_user,
                 getBilkentCourseName=self.course_service.getBilkentCourseName,
                 getUniversityName=self.course_service.getUniversityName,
-                deadline_list=self.deadline_service.get_all_deadlines_format_calendar(),
+                deadline_list=self.deadline_list,
             )
         else:
             logout_user()

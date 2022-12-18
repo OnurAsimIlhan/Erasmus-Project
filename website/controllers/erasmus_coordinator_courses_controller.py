@@ -6,17 +6,22 @@ from website.services import AuthorizeService
 class ErasmusCoordinatorCoursesController(MethodView, AuthorizeService):
     decorators = [login_required]
     
-    def __init__(self, role: str, course_service):
+    def __init__(self, role: str, course_service, deadline_service):
         AuthorizeService.__init__(self, role=role)
         self.course_service = course_service
+        self.deadline_service = deadline_service
+        self.deadline_list = self.deadline_service.get_all_deadlines_format_calendar()
    
 
     def get(self):
         if AuthorizeService.is_authorized(self):
-            return render_template("erasmus_coordinator_courses.html", 
-                                    user = current_user, 
-                                    getBilkentCourseName = self.course_service.getBilkentCourseName,
-                                    getUniversityName = self.course_service.getUniversityName)            
+            return render_template(
+                "erasmus_coordinator_courses.html", 
+                user = current_user, 
+                getBilkentCourseName = self.course_service.getBilkentCourseName,
+                getUniversityName = self.course_service.getUniversityName,
+                deadline_list = self.deadline_list
+            )            
         else:
             logout_user() 
             return redirect(url_for("main"))  # not authorized page eklenince değiştirilecek
