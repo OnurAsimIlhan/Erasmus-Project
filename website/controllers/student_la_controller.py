@@ -22,4 +22,3 @@ class LearningAggrementController(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
         
-        # To be added with the service functionalities

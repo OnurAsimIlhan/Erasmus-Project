@@ -106,7 +106,7 @@ def create_app():
         "/select_role/", view_func=RoleSelection.as_view("select_role", role_service=role_service)
     )
     app.add_url_rule(
-        "/main/", view_func=Main.as_view("main", university_service=university_service)
+        "/", view_func=Main.as_view("main", university_service=university_service)
     )
     app.add_url_rule("/faq/", view_func=FAQ.as_view("faq", faq_service=faq_service))
     app.add_url_rule(

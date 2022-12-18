@@ -41,6 +41,10 @@ class StudentApplication(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
         
+        if "logout" in request.form:
+            logout_user() 
+            return redirect(url_for("main")) 
+        
         applicant = self.applications_service.getApplicationByStudentId(current_user.bilkent_id)
         
         universities = self.university_service.getUniversitiesByDepartment(current_user.department)

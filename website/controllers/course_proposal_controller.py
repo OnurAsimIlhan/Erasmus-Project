@@ -24,6 +24,10 @@ class CourseProposalController(MethodView, AuthorizeService):
             logout_user()
             return redirect(url_for("your_are_not_authorized_page"))
 
+        if "logout" in request.form:
+            logout_user() 
+            return redirect(url_for("main")) 
+        
         equivalent_bilkent_course = request.form["equivalent_bilkent_course"]
         is_elective = 1 if request.form["is_elective"] == "Elective" else 0
         course_credit = request.form["course_credit"]
