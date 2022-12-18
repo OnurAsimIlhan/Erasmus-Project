@@ -147,4 +147,4 @@ class PDFService(metaclass=Singleton):
         
         application.pre_approval_form = file.read()
         db.session.commit() 
-        
+
