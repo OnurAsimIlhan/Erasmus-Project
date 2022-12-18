@@ -32,12 +32,12 @@
 <div class="row justify-content-center">
     <div class="block p-5" style="color:white">
         <h1>Request Course</h1>
-        <form action="/propose_course/" method="POST">
+        <form action="/propose_course/" method="POST" enctype="multipart/form-data">
             <label style="margin-top:4px" for="course_name">Course name:</label><br>
             <input type="text" id="course_name" name="course_name"><br>
             <label style="margin-top:4px" for="course_credit">Coures Credit:</label><br>
             <input type="text" id="course_credit" name="course_credit"><br>
-            <label style="margin-top:4px" for="equivalent_bilkent_course">Equivalent Course</label><br>
+            <label style="margin-top:4px" for="equivalent_bilkent_course">Equivalent Bilkent Course</label><br>
             <input type="text" id="equivalent_bilkent_course" name="equivalent_bilkent_course"><br>
             <label style="margin-top:4px" for="web_page">Link to Web Page</label><br>
             <input type="text" id="web_page" name="web_page"><br>
