@@ -48,16 +48,13 @@ class StudentApplication(MethodView, AuthorizeService):
         applicant = self.applications_service.getApplicationByStudentId(current_user.bilkent_id)
         
         universities = self.university_service.getUniversitiesByDepartment(current_user.department)
-        current_selections = self.applications_service.getUniversitySelections(
-            current_user.bilkent_id
-        )
         
         if applicant.cgpa < 2.5:
             flash("Your CGPA is not high enough to apply Erasmus", "!cgpa")
             return render_template(
                 "student_application_page.html",
                 universities=universities,
-                current_selections=current_selections,
+                current_selections=[],
             )
         
         try:
@@ -71,6 +68,10 @@ class StudentApplication(MethodView, AuthorizeService):
             self.applications_service.insertUniversitySelections(current_user.bilkent_id, selections)
         except:
             pass
+
+        current_selections = self.applications_service.getUniversitySelections(
+            current_user.bilkent_id
+        )
         
         if len(request.files) == 1:
             file = request.files["file"]

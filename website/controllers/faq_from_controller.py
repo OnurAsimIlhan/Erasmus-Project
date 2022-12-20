@@ -51,7 +51,7 @@ class FaqFormController(MethodView):
                 answer = request.form.get('faq_create_answer')
                 user_department = request.view_args["department"]
                 if user_department != None:
-                    self.faq_service.updateFaq(int(faq_id), department=user_department, question=question, answer=answer)
+                    self.faq_service.addFaq(department=user_department, question=question, answer=answer)
                 return redirect(url_for("faq_form", user=current_user, department=department))
             
             else:

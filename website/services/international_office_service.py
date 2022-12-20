@@ -47,11 +47,11 @@ class InternationalOfficeService(metaclass=Singleton):
             student = self.user_table.query.filter_by(bilkent_id=row["StudentID"]).first()
 
             university_list = []
-            university1 = self.university_table.query.filter_by(university_id = application.selected_university_1).first()
-            university2 = self.university_table.query.filter_by(university_id = application.selected_university_2).first()
-            university3 = self.university_table.query.filter_by(university_id = application.selected_university_3).first()
-            university4 = self.university_table.query.filter_by(university_id = application.selected_university_4).first()
-            university5 = self.university_table.query.filter_by(university_id = application.selected_university_5).first()
+            university1 = self.university_table.query.filter_by(name = application.selected_university_1).first()
+            university2 = self.university_table.query.filter_by(name = application.selected_university_2).first()
+            university3 = self.university_table.query.filter_by(name = application.selected_university_3).first()
+            university4 = self.university_table.query.filter_by(name = application.selected_university_4).first()
+            university5 = self.university_table.query.filter_by(name = application.selected_university_5).first()
             university_list.append(university1)
             university_list.append(university2)
             university_list.append(university3)
