@@ -21,13 +21,15 @@
 	<a class="nav-item nav-link" href="/ec/update_deadline">Deadlines</a>
 	<a class="nav-item nav-link" href="/ec/courses">View Course Proposals</a>
 	<a class="nav-item nav-link" href="/ec/wb_management/department={{user.department}}">Waiting List</a>
+	
 	<li class="nav-item">
 		<form action="" method="POST">
-			<button type="logout" class="logoutButton" style="padding-top:5px" name="logout" value="">
+			<button type="logout" class="logoutButton" style="padding-top:5px; margin-top:3px" name="logout" value="">
 				Logout
 			</button>
 		</form>
 	</li>
+	
 	{% endblock %}
 	{% block content%}
 	<style>
